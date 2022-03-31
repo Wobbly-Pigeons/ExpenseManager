@@ -11,7 +11,29 @@ public class RolesService {
 
     private RolesRepository rolesRepository;
 
-    public List<Roles> getRolesList(){
+    public List<Roles> getRolesList() {
         return rolesRepository.findAll();
+    }
+
+    public Roles addRole(Roles newRole) {
+        return rolesRepository.save(newRole);
+    }
+
+    public Roles getRolesById(Long id) {
+        return rolesRepository.getById(id);
+    }
+
+    public Roles updateRole(Roles updatedRole, Long id) {
+
+        Roles oldRole = rolesRepository.getById(id);
+
+        oldRole.setRole(updatedRole.getRole()); // Since the only updatable field is a String, is better performance to get
+        // a String instead an object Roles ????
+
+        return rolesRepository.save(oldRole);
+    }
+
+    public void deleteRole(Long id) {
+        rolesRepository.deleteById(id);
     }
 }
