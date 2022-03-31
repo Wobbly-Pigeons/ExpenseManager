@@ -1,7 +1,7 @@
 package wobbly.pigeons.expensemanager.service;
 
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Role;
+import wobbly.pigeons.expensemanager.model.Role;
 import wobbly.pigeons.expensemanager.repository.RoleRepository;
 
 import java.util.List;

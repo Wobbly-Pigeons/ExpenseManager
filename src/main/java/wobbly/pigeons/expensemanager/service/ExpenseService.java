@@ -3,11 +3,10 @@ package wobbly.pigeons.expensemanager.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Expense;
+import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repositories.ExpenseRepository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service

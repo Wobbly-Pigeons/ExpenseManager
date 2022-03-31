@@ -2,7 +2,7 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Manager;
+import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 
 import java.util.List;
