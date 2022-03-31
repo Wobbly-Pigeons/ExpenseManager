@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.*;
 
@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -19,8 +20,8 @@ public class Department {
     private long id;
     private String name;
     @OneToMany
-    private Employees employee;
+    private Collection<Employee> employee;
     @OneToOne
-    private Policy policy;
+    private DepartmentPolicy policy;
 
 }

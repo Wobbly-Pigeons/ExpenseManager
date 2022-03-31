@@ -1,29 +1,23 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
-
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Employees;
-import wobbly.pigeons.expensemanager.models.Expense;
-import wobbly.pigeons.expensemanager.repositories.EmployeesRepository;
+import wobbly.pigeons.expensemanager.model.Employee;
+import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repositories.ExpenseRepository;
+import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-public class ExpenseService<EmployeeRepository> {
+@RequiredArgsConstructor
+public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
-    private final EmployeesRepository employeesRepository;
-
-
+    private final EmployeeRepository employeesRepository;
 
     public Expense addExpense(Expense expense){
        return expenseRepository.save(expense);
@@ -54,7 +48,7 @@ public class ExpenseService<EmployeeRepository> {
         return expenseRepository.getExpenseBySubmissionDate(submissionDate);
     }
     public Collection<Expense> getByEmployeeId(Long employeeId) {
-        Employees employee = employeesRepository.findById(employeeId).orElseThrow();
+        Employee employee = employeesRepository.findById(employeeId).orElseThrow();
         return employee.getExpenses();
     }
 

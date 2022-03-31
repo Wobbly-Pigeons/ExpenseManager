@@ -14,6 +14,6 @@ public class UserController {
     private final ManagerService managerService;
 
     @GetMapping(value = "")
-    public
+    public String
 
 }

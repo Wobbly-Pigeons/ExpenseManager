@@ -1,19 +1,18 @@
-package wobbly.pigeons.expensemanager.controllers;
+package wobbly.pigeons.expensemanager.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import wobbly.pigeons.expensemanager.models.Expense;
-import wobbly.pigeons.expensemanager.services.ExpenseService;
-
+import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.service.ExpenseService;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 @RestController
 @RequestMapping(path ="api/v1/expenses")
+@RequiredArgsConstructor
 public class ExpenseController {
 
-    @Autowired
     private ExpenseService expenseService;
 
     @PutMapping("/{id}")

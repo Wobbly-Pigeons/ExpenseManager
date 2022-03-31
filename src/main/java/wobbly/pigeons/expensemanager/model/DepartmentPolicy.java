@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +10,5 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @AllArgsConstructor
-public class IndividualPolicy extends Policy {
+public class DepartmentPolicy extends Policy{
 }
