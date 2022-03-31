@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,6 @@ public class PolicyService {
 
     public IndividualPolicy updateIPolicy(IndividualPolicy updatedPolicy, Long id) {
         IndividualPolicy oldPolicy = updatedPolicy;
-        individualPolicyRepository.findby
         return individualPolicyRepository.save(oldPolicy);
     }
 

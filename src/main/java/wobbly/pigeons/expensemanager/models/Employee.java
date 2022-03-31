@@ -11,12 +11,12 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Inheritance
 @Entity
-public class Employees extends UserModel {
+public class Employee extends UserModel {
 
     @ManyToOne
-    private Managers managers;
+    private Manager manager;
 
     @ManyToOne
     @JoinColumn(name = "employee_role_id")
-    private Roles employeeRole;
+    private Role employeeRole;
 }

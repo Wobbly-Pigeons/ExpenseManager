@@ -1,47 +1,47 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Employees;
-import wobbly.pigeons.expensemanager.repositories.EmployeesRepository;
+import wobbly.pigeons.expensemanager.models.Employee;
+import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeesService {
+public class EmployeeService {
 
-    EmployeesRepository employeesRepository;
+    EmployeeRepository employeeRepository;
 
-    public List<Employees> getEmployeesList() {
-        return employeesRepository.findAll();
+    public List<Employee> getEmployeesList() {
+        return employeeRepository.findAll();
     }
 
-    public Employees addEmployee(Employees newEmployee) {
-        return employeesRepository.save(newEmployee);
+    public Employee addEmployee(Employee newEmployee) {
+        return employeeRepository.save(newEmployee);
     }
 
-    public Employees getEmployee(Long id) {
+    public Employee getEmployee(Long id) {
 
-        return employeesRepository.getById(id);
+        return employeeRepository.getById(id);
     }
 
-    public Employees updateEmployee(Employees updatedEmployee, Long id) {
+    public Employee updateEmployee(Employee updatedEmployee, Long id) {
 
-        Employees oldDataEmployee = employeesRepository.getById(id);
+        Employee oldDataEmployee = employeeRepository.getById(id);
 
         oldDataEmployee.setName(updatedEmployee.getName());
         oldDataEmployee.setEmail(updatedEmployee.getEmail());
-        oldDataEmployee.setManagers(updatedEmployee.getManagers());
+        oldDataEmployee.setManager(updatedEmployee.getManager());
         oldDataEmployee.setEmployeeRole((updatedEmployee.getEmployeeRole()));
         oldDataEmployee.setDob(updatedEmployee.getDob());
         oldDataEmployee.setPassword(updatedEmployee.getPassword());
         oldDataEmployee.setExpenses(updatedEmployee.getExpenses());
 
-        return employeesRepository.save(oldDataEmployee);
+        return employeeRepository.save(oldDataEmployee);
     }
 
     public void deleteEmployee(Long id) {
-        employeesRepository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 }

@@ -12,10 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Inheritance
 @Entity
-public class Managers extends Employees {
+public class Manager extends Employee {
 
     @OneToMany
-    private List<Employees> employees;
+    private List<Employee> employees;
 
     @ManyToOne
     @JoinColumn(name = "manager_role_id")

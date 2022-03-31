@@ -1,47 +1,47 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Managers;
-import wobbly.pigeons.expensemanager.repositories.ManagersRepository;
+import wobbly.pigeons.expensemanager.models.Manager;
+import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ManagersService {
+public class ManagerService {
 
-    private ManagersRepository managersRepository;
+    private ManagerRepository managerRepository;
 
-    public List<Managers> getManagersList() {
-        return managersRepository.findAll();
+    public List<Manager> getManagersList() {
+        return managerRepository.findAll();
     }
 
-    public Managers addManager(Managers newManager) {
-        return managersRepository.save(newManager);
+    public Manager addManager(Manager newManager) {
+        return managerRepository.save(newManager);
     }
 
-    public Managers getManager(Long id) {
-        return managersRepository.getById(id);
+    public Manager getManager(Long id) {
+        return managerRepository.getById(id);
     }
 
-    public Managers updateManager(Managers updatedManager, Long id) {
+    public Manager updateManager(Manager updatedManager, Long id) {
 
-        Managers oldDataManager = managersRepository.getById(id);
+        Manager oldDataManager = managerRepository.getById(id);
 
         oldDataManager.setName(updatedManager.getName());
         oldDataManager.setEmail(updatedManager.getEmail());
-        oldDataManager.setManagers(updatedManager.getManagers());
+        oldDataManager.setManager(updatedManager.getManager());
         oldDataManager.setEmployeeRole((updatedManager.getEmployeeRole()));
         oldDataManager.setDob(updatedManager.getDob());
         oldDataManager.setPassword(updatedManager.getPassword());
         oldDataManager.setExpenses(updatedManager.getExpenses());
 
-        return managersRepository.save(oldDataManager);
+        return managerRepository.save(oldDataManager);
 
     }
 
     public void deleteManager(Long id){
-        managersRepository.deleteById(id);
+        managerRepository.deleteById(id);
     }
 }

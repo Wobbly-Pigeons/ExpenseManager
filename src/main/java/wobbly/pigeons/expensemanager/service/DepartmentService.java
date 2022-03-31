@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

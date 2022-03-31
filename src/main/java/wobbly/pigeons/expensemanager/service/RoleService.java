@@ -1,39 +1,39 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Roles;
-import wobbly.pigeons.expensemanager.repositories.RolesRepository;
+import wobbly.pigeons.expensemanager.models.Role;
+import wobbly.pigeons.expensemanager.repository.RoleRepository;
 
 import java.util.List;
 
 @Service
-public class RolesService {
+public class RoleService {
 
-    private RolesRepository rolesRepository;
+    private RoleRepository roleRepository;
 
-    public List<Roles> getRolesList() {
-        return rolesRepository.findAll();
+    public List<Role> getRolesList() {
+        return roleRepository.findAll();
     }
 
-    public Roles addRole(Roles newRole) {
-        return rolesRepository.save(newRole);
+    public Role addRole(Role newRole) {
+        return roleRepository.save(newRole);
     }
 
-    public Roles getRolesById(Long id) {
-        return rolesRepository.getById(id);
+    public Role getRolesById(Long id) {
+        return roleRepository.getById(id);
     }
 
-    public Roles updateRole(Roles updatedRole, Long id) {
+    public Role updateRole(Role updatedRole, Long id) {
 
-        Roles oldRole = rolesRepository.getById(id);
+        Role oldRole = roleRepository.getById(id);
 
         oldRole.setRole(updatedRole.getRole()); // Since the only updatable field is a String, is better performance to get
         // a String instead an object Roles ????
 
-        return rolesRepository.save(oldRole);
+        return roleRepository.save(oldRole);
     }
 
     public void deleteRole(Long id) {
-        rolesRepository.deleteById(id);
+        roleRepository.deleteById(id);
     }
 }
