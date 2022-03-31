@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import wobbly.pigeons.expensemanager.model.Expense;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -15,18 +16,18 @@ public interface ExpenseRepository extends JpaRepository <Expense, Long> {
 
     @Query
             ("SELECT '*' FROM Expense e WHERE e.category = 'categoryName'")
-    public List<Object[]> getExpenseByCategory(@Param("categoryName") String categoryName);
+    public Collection<Expense> getExpenseByCategory(@Param("categoryName") String categoryName);
 
     @Query
             ("SELECT '*' FROM Expense e WHERE e.dateOfSubmission = 'submissionDate'")
-    public List<Object[]> getExpenseBySubmissionDate(@Param("submissionDate") LocalDateTime submissionDate);
+    public List<Expense> getExpenseBySubmissionDate(@Param("submissionDate") LocalDateTime submissionDate);
 
     @Query
             ("SELECT '*' FROM Expense e WHERE e.dateOfPurchase = 'purchaseDate'")
-    public List<Object[]> getExpenseByPurchaseDate(@Param("purchaseDate") LocalDateTime purchaseDate);
+    public List<Expense> getExpenseByPurchaseDate(@Param("purchaseDate") LocalDateTime purchaseDate);
 
     @Query
-            ("SELECT '*' FROM Employees u WHERE u.id = 'employeeId'")
-    public List<Object[]> getExpenseByEmployeeId(@Param("employeeId") Long employeeId);
+            ("SELECT '*' FROM Expense u WHERE u.user_id = 'employeeId'")
+    public List<Expense> getExpenseByEmployeeId(@Param("employeeId") Long employeeId);
 
 }

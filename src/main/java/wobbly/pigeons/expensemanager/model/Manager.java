@@ -19,5 +19,5 @@ public class Manager extends Employee {
 
     @ManyToOne
     @JoinColumn(name = "manager_role_id")
-    private Roles managerRole ;
+    private Role managerRole ;
 }

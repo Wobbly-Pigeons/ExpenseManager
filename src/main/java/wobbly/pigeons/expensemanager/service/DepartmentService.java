@@ -1,25 +1,24 @@
 package wobbly.pigeons.expensemanager.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.Department;
-import wobbly.pigeons.expensemanager.repositories.DepartmentRepository;
+import wobbly.pigeons.expensemanager.repository.DepartmentRepository;
 
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
-
-    public DepartmentService(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
 
     public void deleteDepartment(Long id) {
         this.departmentRepository.deleteById(id);
     }
 
-    public void addDepartment(Department department){
-        departmentRepository.save(department);
+    public Department addDepartment(Department department){
+       return departmentRepository.save(department);
     }
 
     public Department updateDepartment(Long id, Department newDepartmentDetails) {
@@ -38,5 +37,11 @@ public class DepartmentService {
 
     }
 
+    public List<Department> getDepartmentsList() {
+        return departmentRepository.findAll();
+    }
 
+    public Department getDepartment(Long id) {
+        return departmentRepository.getById(id);
+    }
 }

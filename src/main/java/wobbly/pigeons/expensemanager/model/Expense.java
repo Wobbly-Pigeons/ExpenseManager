@@ -21,7 +21,7 @@ public class Expense {
 
     public Expense(Byte[] receipt, ExpenseCategory category,
                    String localCurrency, LocalDateTime dateOfPurchase,
-                   long amount, boolean companyCC, RecieptStatuses currentStatus,
+                   long amount, boolean companyCC, ReceiptStatuses currentStatus,
                    String itemName, String itemDescription, UserModel user) {
         this.receipt = receipt;
         this.dateOfSubmission = LocalDateTime.now();
@@ -42,7 +42,7 @@ public class Expense {
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
     private LocalDateTime dateModified;
-    private RecieptStatuses currentStatus;
+    private ReceiptStatuses currentStatus;
     @ManyToOne
     private ExpenseCategory category;
     private String localCurrency;
@@ -53,6 +53,7 @@ public class Expense {
 
 
     @ManyToOne
+    @JoinColumn (name = "user_id")
     private UserModel user;
 
 

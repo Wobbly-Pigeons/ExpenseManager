@@ -10,10 +10,10 @@ import wobbly.pigeons.expensemanager.repository.IndividualPolicyRepository;
 @Service
 @AllArgsConstructor
 public class PolicyService {
+
     private final DepartmentPolicyRepository departmentPolicyRepository;
     private final IndividualPolicyRepository individualPolicyRepository;
 
-    //CRUD
     public IndividualPolicy findIPolicy(Long id) {
         return individualPolicyRepository.getById(id);
     }

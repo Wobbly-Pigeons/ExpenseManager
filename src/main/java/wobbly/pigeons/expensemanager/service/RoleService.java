@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.Role;
 import wobbly.pigeons.expensemanager.repository.RoleRepository;
@@ -7,9 +8,10 @@ import wobbly.pigeons.expensemanager.repository.RoleRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     public List<Role> getRolesList() {
         return roleRepository.findAll();
