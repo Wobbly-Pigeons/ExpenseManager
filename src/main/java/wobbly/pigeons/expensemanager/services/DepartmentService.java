@@ -1,9 +1,9 @@
 package wobbly.pigeons.expensemanager.services;
 
-
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.models.Department;
 import wobbly.pigeons.expensemanager.repositories.DepartmentRepository;
+
 
 @Service
 public class DepartmentService {
@@ -35,6 +35,7 @@ public class DepartmentService {
 
     public Department geDepartmentByName(String name) {
         return departmentRepository.findByName(name).orElseThrow();
+
     }
 
 

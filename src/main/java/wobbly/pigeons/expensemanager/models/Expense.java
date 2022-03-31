@@ -4,11 +4,10 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -16,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class Expense {
 
     @Id
@@ -55,9 +55,9 @@ public class Expense {
     private String itemName;
     private String itemDescription;
 
+
     @ManyToOne
     private UserModel user;
-
 
 
 }
