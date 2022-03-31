@@ -19,7 +19,7 @@ public class EmployeesController {
     }
 
     @PostMapping("/newEmployee")
-    public Employees addEmployee(@RequestParam Employees employee) {
+    public Employees addEmployee(@RequestBody Employees employee) {
         return employeesService.addEmployee(employee);
     }
 
@@ -29,7 +29,7 @@ public class EmployeesController {
     }
 
     @PutMapping("/{id}")
-    public Employees updateEmployee(@RequestParam Employees updatedEmployee, @PathVariable Long id) {
+    public Employees updateEmployee(@RequestBody Employees updatedEmployee, @PathVariable Long id) {
         return employeesService.updateEmployee(updatedEmployee, id);
     }
 
