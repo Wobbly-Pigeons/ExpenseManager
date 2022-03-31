@@ -32,6 +32,7 @@ public class PolicyService {
 
     public IndividualPolicy updateIPolicy(IndividualPolicy updatedPolicy, Long id) {
         IndividualPolicy oldPolicy = updatedPolicy;
+        individualPolicyRepository.findby
         return individualPolicyRepository.save(oldPolicy);
     }
 
