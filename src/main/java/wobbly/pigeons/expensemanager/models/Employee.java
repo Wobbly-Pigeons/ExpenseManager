@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Inheritance
 @Entity
-public class Roles {
+public class Employee extends UserModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id", nullable = false)
-    private Long id;
+    @ManyToOne
+    private Manager manager;
 
-    private String role;
-
+    @ManyToOne
+    @JoinColumn(name = "employee_role_id")
+    private Role employeeRole;
 }

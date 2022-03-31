@@ -5,18 +5,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Inheritance
 @Entity
-public class Employees extends UserModel {
+public class Manager extends Employee {
+
+    @OneToMany
+    private List<Employee> employees;
 
     @ManyToOne
-    private Managers managers;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_role_id")
-    private Roles employeeRole;
+    @JoinColumn(name = "manager_role_id")
+    private Roles managerRole ;
 }

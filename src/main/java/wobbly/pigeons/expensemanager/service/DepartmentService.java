@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.models.Department;
