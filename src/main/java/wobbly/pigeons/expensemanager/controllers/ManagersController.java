@@ -20,7 +20,7 @@ public class ManagersController {
     }
 
     @PostMapping("/newEmployee")
-    public Managers addEmployee(@RequestParam Managers newManager) {
+    public Managers addEmployee(@RequestBody Managers newManager) {
         return managersService.addManager(newManager);
     }
 
@@ -30,7 +30,7 @@ public class ManagersController {
     }
 
     @PutMapping("/{id}")
-    public Managers updateEmployee(@RequestParam Managers updatedManager, @PathVariable Long id) {
+    public Managers updateEmployee(@RequestBody Managers updatedManager, @PathVariable Long id) {
         return managersService.updateManager(updatedManager, id);
     }
 
