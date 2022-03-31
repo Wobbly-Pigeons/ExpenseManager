@@ -6,4 +6,5 @@ import wobbly.pigeons.expensemanager.models.Employees;
 
 @Repository
 public interface EmployeesRepository extends JpaRepository<Employees,Long> {
+
 }
