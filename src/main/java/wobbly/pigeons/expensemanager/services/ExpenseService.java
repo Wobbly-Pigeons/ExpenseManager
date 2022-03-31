@@ -26,14 +26,15 @@ public class ExpenseService {
     }
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
-//        oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
-//        oldExpense.setCurrentStatus(newExpenseDetails.getCurrentStatus());
-//        oldExpense.setCategory(newExpenseDetails.getCategory());
-//        oldExpense.setLocalCurrency(newExpenseDetails.getLocalCurrency());
-//        oldExpense.setAmount(newExpenseDetails.getAmount());
-//        oldExpense.setItemName(newExpenseDetails.getItemName());
-//        oldExpense.setItemDescription(newExpenseDetails.getItemDescription()));
-//        oldExpense.setCompanyCC(newExpenseDetails.isCompanyCC());
+        oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
+        oldExpense.setCurrentStatus(newExpenseDetails.getCurrentStatus());
+     oldExpense.setCategory(newExpenseDetails.getCategory());
+        oldExpense.setDateModified(LocalDateTime.now());
+        oldExpense.setLocalCurrency(newExpenseDetails.getLocalCurrency());
+       oldExpense.setAmount(newExpenseDetails.getAmount());
+       oldExpense.setItemName(newExpenseDetails.getItemName());
+       oldExpense.setItemDescription(newExpenseDetails.getItemDescription());
+       oldExpense.setCompanyCC(newExpenseDetails.isCompanyCC());
 
         return oldExpense;
     }
