@@ -34,7 +34,7 @@ public class Expense {
     private String itemDescription;
 
     @ManyToOne
-    private User user;
+    private UserModel user;
 
 
 
