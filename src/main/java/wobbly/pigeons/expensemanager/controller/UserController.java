@@ -6,14 +6,16 @@ import org.springframework.web.bind.annotation.RestController;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
-@RestController
+@RestController(value = "/api/v1/")
 @AllArgsConstructor
 public class UserController {
 
     private final EmployeeService employeeService;
     private final ManagerService managerService;
 
-    @GetMapping(value = "")
-    public String
+    @GetMapping(value = "/")
+    public String registration() {
+        return "register";
+    }
 
 }
