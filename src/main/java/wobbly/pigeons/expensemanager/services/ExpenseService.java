@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.models.Expense;
 import wobbly.pigeons.expensemanager.repositories.ExpenseRepository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,17 +24,37 @@ public class ExpenseService {
     public void addExpense(Expense expense){
         expenseRepository.save(expense);
     }
+    public Expense updateExpense(Long id, Expense newExpenseDetails) {
+        Expense oldExpense = expenseRepository.findById(id).orElseThrow();
+//        oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
+//        oldExpense.setCurrentStatus(newExpenseDetails.getCurrentStatus());
+//        oldExpense.setCategory(newExpenseDetails.getCategory());
+//        oldExpense.setLocalCurrency(newExpenseDetails.getLocalCurrency());
+//        oldExpense.setAmount(newExpenseDetails.getAmount());
+//        oldExpense.setItemName(newExpenseDetails.getItemName());
+//        oldExpense.setItemDescription(newExpenseDetails.getItemDescription()));
+//        oldExpense.setCompanyCC(newExpenseDetails.isCompanyCC());
 
-    //public List<Object[]> getByPurchaseDate(Date fromDate, Date tillDate) {
-        //return expenseRepository.getExpenseByDate(fromDate, tillDate);
+        return oldExpense;
+    }
 
-    //}
 
-    public List<Object[]> getbyCategory(String category) {
-        int categoryId = categoryRepository.getIdForCategory(category);
+    public List<Object[]> getByPurchaseDate(LocalDateTime purchaseDate) {
+        return expenseRepository.getExpenseByPurchaseDate(purchaseDate);
 
-        return expenseRepository.getExpenseByCategory(categoryId);
+    }
 
+    public List<Object[]> getBySubmissionDate(LocalDateTime submissionDate) {
+        return expenseRepository.getExpenseBySubmissionDate(submissionDate);
+    }
+    public List<Object[]> getByEmployeeId(Long employeeId) {
+        return expenseRepository.getExpenseByEmployeeId(employeeId);
+    }
+
+    public List<Object[]> getbyCategory(String categoryName) {
+        //int categoryId = categoryRepository.getIdForCategory(category);
+
+        return expenseRepository.getExpenseByCategory(categoryName);
     }
 
     public List<Expense> getAllExpenses() {
@@ -41,7 +63,11 @@ public class ExpenseService {
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();
-
-
     }
+
+    public void deleteExpense(Long id) {
+        this.expenseRepository.deleteById(id);
+    }
+
+
 }
