@@ -57,6 +57,7 @@ public class Expense {
 
 
     @ManyToOne
+    @JoinColumn (name = "user_id")
     private UserModel user;
 
 
