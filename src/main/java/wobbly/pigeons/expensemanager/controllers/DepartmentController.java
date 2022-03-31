@@ -19,7 +19,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Department addDepartment(Department department) {
+    public Department addDepartment(@RequestBody Department department) {
         return departmentService.addDepartment(department);
     }
 
@@ -29,7 +29,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestParam Department department) {
+    public Department updateDepartment(@PathVariable Long id, @RequestBody Department department) {
         return departmentService.updateDepartment(id, department);
     }
 
