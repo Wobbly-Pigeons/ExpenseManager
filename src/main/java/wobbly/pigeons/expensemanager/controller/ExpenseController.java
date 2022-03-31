@@ -1,17 +1,18 @@
-package wobbly.pigeons.expensemanager.controllers;
+package wobbly.pigeons.expensemanager.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import wobbly.pigeons.expensemanager.models.Expense;
-
+import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.service.ExpenseService;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
 @RequestMapping(path ="api/v1/expenses")
+@RequiredArgsConstructor
 public class ExpenseController {
 
-    @Autowired
     private ExpenseService expenseService;
 
     @PutMapping("/{id}")
@@ -35,27 +36,27 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-        public getExpensesById (@PathVariable long id){
+        public Expense getExpensesById (@PathVariable long id){
         return expenseService.getExpenseById(id);
     }
 
-    @GetMapping"/{purchaseDate}")
-        public getExpensesByPurchaseDate (@PathVariable LocalDateTime purchaseDate){
+    @GetMapping("/{purchaseDate}")
+        public List<Expense> getExpensesByPurchaseDate (@PathVariable LocalDateTime purchaseDate){
         return expenseService.getByPurchaseDate(purchaseDate);
     }
 
     @GetMapping("/{submissionDate}")
-        public getExpensesBySubmissionDate (@PathVariable LocalDateTime submissionDate){
+        public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDateTime submissionDate){
         return expenseService.getBySubmissionDate(submissionDate);
     }
 
-    @GetMapping("/{employeeId")
-        public getExpensesByEmployeeId (@PathVariable long employeeId){
+    @GetMapping("/{employeeId}")
+        public Collection<Expense> getExpensesByEmployeeId (@PathVariable long employeeId){
         return expenseService.getByEmployeeId(employeeId);
     }
 
     @GetMapping("/{category}")
-    public getExpensesByCategory (@PathVariable long category){
+    public Collection<Expense> getExpensesByCategory (@PathVariable String category){
         return expenseService.getByCategory(category);
     }
 

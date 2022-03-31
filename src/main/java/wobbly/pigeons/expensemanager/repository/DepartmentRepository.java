@@ -1,8 +1,8 @@
-package wobbly.pigeons.expensemanager.repositories;
+package wobbly.pigeons.expensemanager.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import wobbly.pigeons.expensemanager.models.Department;
+import wobbly.pigeons.expensemanager.model.Department;
 
 
 import java.util.Optional;

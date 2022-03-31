@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +13,12 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
     @Column(name = "Email")

@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Inheritance
 @Entity
-public class Managers extends Employees {
+public class Manager extends Employee {
 
     @OneToMany
-    private List<Employees> employees;
+    private List<Employee> employees;
 
     @ManyToOne
     @JoinColumn(name = "manager_role_id")
-    private Roles managerRole ;
+    private Role managerRole ;
 }
