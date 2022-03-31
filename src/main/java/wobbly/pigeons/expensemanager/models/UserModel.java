@@ -40,7 +40,7 @@ public abstract class UserModel {
 
     @ManyToMany
     @Column(name = "Expenses")
-    private Set<Expenses> expenses;
+    private Set<Expense> expenses;
 
 //    @Column(name = "Reputation")
 //    private String status;  later implementation

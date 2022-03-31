@@ -19,7 +19,7 @@ public class Department {
     private long id;
     private String name;
     @OneToMany
-    private Employee employee;
+    private Employees employee;
     @OneToOne
     private Policy policy;
 
