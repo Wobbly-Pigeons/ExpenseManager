@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @RequiredArgsConstructor
 @Entity
-public class Roles {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

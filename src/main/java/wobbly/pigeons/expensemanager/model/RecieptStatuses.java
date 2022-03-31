@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 public enum RecieptStatuses {
 

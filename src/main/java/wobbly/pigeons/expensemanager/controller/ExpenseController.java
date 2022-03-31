@@ -1,8 +1,8 @@
-package wobbly.pigeons.expensemanager.controllers;
+package wobbly.pigeons.expensemanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import wobbly.pigeons.expensemanager.models.Expense;
+import wobbly.pigeons.expensemanager.model.Expense;
 
 import java.time.LocalDateTime;
 import java.util.List;

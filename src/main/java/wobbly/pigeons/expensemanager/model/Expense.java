@@ -1,13 +1,9 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Getter

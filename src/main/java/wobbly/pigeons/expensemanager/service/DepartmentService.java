@@ -1,7 +1,7 @@
-package wobbly.pigeons.expensemanager.services;
+package wobbly.pigeons.expensemanager.service;
 
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.models.Department;
+import wobbly.pigeons.expensemanager.model.Department;
 import wobbly.pigeons.expensemanager.repositories.DepartmentRepository;
 
 

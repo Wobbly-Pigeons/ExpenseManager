@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.models;
+package wobbly.pigeons.expensemanager.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

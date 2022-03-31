@@ -1,8 +1,8 @@
-package wobbly.pigeons.expensemanager.controllers;
+package wobbly.pigeons.expensemanager.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import wobbly.pigeons.expensemanager.models.Department;
+import wobbly.pigeons.expensemanager.model.Department;
 import wobbly.pigeons.expensemanager.services.DepartmentService;
 
 import java.util.List;
