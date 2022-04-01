@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
-import wobbly.pigeons.expensemanager.repositories.ExpenseRepository;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
+import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Inheritance
 @Entity
-public class Employee extends UserModel {
+public class Employee extends User {
 
     @ManyToOne
     private Manager manager;

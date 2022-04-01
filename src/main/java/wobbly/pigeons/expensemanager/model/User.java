@@ -9,37 +9,38 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class UserModel {
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id", nullable = false)
-    private Long id;
+    protected Long id;
 
-    @Column(name = "Email")
+    @Column(name = "email")
     //@Email  Validator
     private String email;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "Name")
+    @Column(name = "name")
     private String name; // We could use a concat String for FirstN + LastN ??
 
-    @Column(name = "Date of Birth")
+    @Column(name = "date_of_birth")
     private Date dob;
 
     @ManyToMany
-    @Column(name = "Roles")
-    private Set<Roles> roles;
+    @Column(name = "roles")
+    private Set<Role> roles;
 
     @ManyToMany
-    @Column(name = "Expenses")
+    @Column(name = "expenses")
     private Set<Expense> expenses;
 
 //    @Column(name = "Reputation")
