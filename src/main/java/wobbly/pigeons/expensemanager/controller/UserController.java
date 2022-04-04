@@ -13,7 +13,7 @@ public class UserController {
     private final EmployeeService employeeService;
     private final ManagerService managerService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/registration")
     public String registration() {
         return "register";
     }
