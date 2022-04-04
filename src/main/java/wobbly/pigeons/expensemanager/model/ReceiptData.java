@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
-@Table(name = "receipts")
+//@Table(name = "receipt")
 public class ReceiptData {
 
     @Id

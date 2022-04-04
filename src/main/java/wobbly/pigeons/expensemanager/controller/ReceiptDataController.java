@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/receipts")
+@RequestMapping("/receipt")
 public class ReceiptDataController {
 
     @Autowired
