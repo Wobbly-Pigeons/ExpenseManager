@@ -7,6 +7,7 @@ import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ExpenseService {
 
     }
 
-    public List<Expense> getBySubmissionDate(LocalDateTime submissionDate) {
+    public List<Expense> getBySubmissionDate(LocalDate submissionDate) {
         return expenseRepository.getExpenseBySubmissionDate(submissionDate);
     }
     public Collection<Expense> getByEmployeeId(Long employeeId) {

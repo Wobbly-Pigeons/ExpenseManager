@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +48,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{submissionDate}")
-        public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDateTime submissionDate){
+        public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDate submissionDate){
         return expenseService.getBySubmissionDate(submissionDate);
     }
 
