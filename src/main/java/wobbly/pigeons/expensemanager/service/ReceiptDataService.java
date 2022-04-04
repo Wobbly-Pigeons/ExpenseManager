@@ -1,6 +1,5 @@
 package wobbly.pigeons.expensemanager.service;
 
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -9,13 +8,16 @@ import wobbly.pigeons.expensemanager.model.ReceiptData;
 import wobbly.pigeons.expensemanager.repository.ReceiptDataRepository;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 
 /**
  store(file): receives MultipartFile object, transform to ReceiptData object and save it to Database
- getFile(id): returns a ReceiptData object by provided Id
- getAllFiles(): returns all stored files as list of code>Receipt objects
+ getReceipt(id): returns a ReceiptData object by provided Id
+ getAllReceipts(): returns all stored files as list of code>Receipt objects
  **/
 
 @Service
@@ -23,20 +25,30 @@ public class ReceiptDataService {
 
     @Autowired
     private ReceiptDataRepository receiptDataRepository;
-    public ReceiptData store(@NotNull MultipartFile file) throws IOException {
+
+    public ReceiptData store( MultipartFile file) throws IOException {
 
         //getting automatically original name of the file
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        ReceiptData receiptData = new ReceiptData(fileName, file.getContentType(), file.getBytes());
+        ReceiptData receiptData = new ReceiptData(UUID.randomUUID().toString(), fileName, file.getContentType(), file.getBytes());
         return receiptDataRepository.save(receiptData);
     }
-    public ReceiptData getReceipt(String id) {
-        return receiptDataRepository.findById(Long.valueOf(id)).get();
-    }
+    public Optional<ReceiptData> getReceiptById(String id) {
+        return receiptDataRepository.findById(id);
 
-    public Stream<ReceiptData> getAllReceipts() {
-        return receiptDataRepository.findAll().stream();
+//        Optional<ReceiptData> optionalReceipt = receiptDataRepository.findById(id);
+//        if (optionalReceipt.isPresent()) {
+//            return optionalReceipt.get();
+//        } else {
+//            System.out.println("There is no receipt with given ID");
+//            return null;
+//        }
+
+    }
+    //should I make a List instead of stream?
+
+    public List<ReceiptData> getAllReceipts() {
+        return receiptDataRepository.findAll();
     }
 }
 
-}

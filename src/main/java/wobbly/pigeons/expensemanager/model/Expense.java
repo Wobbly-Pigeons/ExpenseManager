@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Expense {
 
     @Id
-    private long id;
+    private Long id;
 
     private Byte[] receipt;
 

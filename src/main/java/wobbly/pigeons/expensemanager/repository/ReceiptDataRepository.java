@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import wobbly.pigeons.expensemanager.model.ReceiptData;
 
 @Repository
-public interface ReceiptDataRepository extends JpaRepository <ReceiptData, Long> {
+public interface ReceiptDataRepository extends JpaRepository <ReceiptData, String> {
 }
