@@ -46,7 +46,6 @@ public class Expense {
     private LocalDateTime dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
-    @ManyToOne
     private ExpenseCategory category;
     private String localCurrency;
     private long amount;

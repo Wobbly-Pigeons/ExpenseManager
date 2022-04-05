@@ -43,23 +43,23 @@ public class ExpenseController {
     }
 
     @GetMapping("/{purchaseDate}")
-        public List<Expense> getExpensesByPurchaseDate (@PathVariable LocalDateTime purchaseDate){
-        return expenseService.getByPurchaseDate(purchaseDate);
+        public List<Expense> getExpensesByPurchaseDate (@PathVariable LocalDate purchaseDate){
+        return expenseService.getExpensesByPurchaseDate(purchaseDate);
     }
 
     @GetMapping("/{submissionDate}")
         public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDate submissionDate){
-        return expenseService.getBySubmissionDate(submissionDate);
+        return expenseService.getExpensesBySubmissionDate(submissionDate);
     }
 
     @GetMapping("/{employeeId}")
         public Collection<Expense> getExpensesByEmployeeId (@PathVariable long employeeId){
-        return expenseService.getByEmployeeId(employeeId);
+        return expenseService.getExpensesByEmployeeId(employeeId);
     }
 
     @GetMapping("/{category}")
     public Collection<Expense> getExpensesByCategory (@PathVariable String category){
-        return expenseService.getByCategory(category);
+        return expenseService.getExpensesByCategory(category);
     }
 
         }

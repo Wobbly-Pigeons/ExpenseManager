@@ -14,21 +14,4 @@ import java.util.List;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-
-    @Query
-            ("SELECT '*' FROM Expense e WHERE e.category = 'categoryName'")
-    Collection<Expense> getExpenseByCategory(@Param("categoryName") String categoryName);
-
-    @Query
-            ("SELECT '*' FROM Expense e WHERE e.dateOfSubmission = 'submissionDate'")
-    List<Expense> getExpenseBySubmissionDate(@Param("submissionDate") LocalDate submissionDate);
-
-    @Query
-            ("SELECT '*' FROM Expense e WHERE e.dateOfPurchase = 'purchaseDate'")
-    List<Expense> getExpenseByPurchaseDate(@Param("purchaseDate") LocalDateTime purchaseDate);
-
-    @Query
-            ("FROM Expense u WHERE u.user = 'employeeId'")
-    List<Expense> getExpenseByEmployeeId(@Param("employeeId") Long employeeId);
-
 }

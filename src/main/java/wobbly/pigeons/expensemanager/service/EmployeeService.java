@@ -1,17 +1,25 @@
 package wobbly.pigeons.expensemanager.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.Employee;
+import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeService {
 
+
     EmployeeRepository employeeRepository;
+
 
     public List<Employee> getEmployeesList() {
         return employeeRepository.findAll();
@@ -44,4 +52,7 @@ public class EmployeeService {
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
+
+
+
 }
