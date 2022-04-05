@@ -1,11 +1,11 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 import java.util.Set;
 
@@ -29,11 +29,25 @@ public abstract class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "name")
+    @Transient
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private String name; // We could use a concat String for FirstN + LastN ??
 
+    @Transient
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private Integer age;
+
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
     @Column(name = "date_of_birth")
-    private Date dob;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dob;
 
     @ManyToMany
     @Column(name = "roles")
@@ -42,6 +56,17 @@ public abstract class User {
     @ManyToMany
     @Column(name = "expenses")
     private Set<Expense> expenses;
+
+    public User(String email, String password, String name, LocalDate dob) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.dob = dob;
+    }
+
+    public Integer getAge() {
+        return Period.between(dob, LocalDate.now()).getYears();
+    }
 
 //    @Column(name = "Reputation")
 //    private String status;  later implementation

@@ -11,8 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import wobbly.pigeons.expensemanager.security.filters.CustomAuthenticationFilter;
 import wobbly.pigeons.expensemanager.security.filters.CustomAuthorizationFilter;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @AllArgsConstructor
@@ -40,8 +43,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure (HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests().antMatchers("/**").permitAll();
+        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
+        http
+            .formLogin()
+            .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/courses", true)
+                .passwordParameter("password")
+                .usernameParameter("username")
+//            .and()
+//                .authorizeRequests().antMatchers().hasAuthority("Manager")
+            .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login");
     }
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

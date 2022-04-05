@@ -30,22 +30,12 @@ public class MyUserDetailsService implements UserDetailsService {
                 employee = managerService.findByEmail(email);
             }
 
-            boolean enabled = true;
-            boolean accountNonExpired = true;
-            boolean credentialsNonExpired = true;
-            boolean accountNonLocked = true;
-
-
             List<GrantedAuthority> authorities = new ArrayList<>();
             for(Role role : employee.getRoles()) {authorities.add(new SimpleGrantedAuthority(role.getRole()));}
 
             return new org.springframework.security.core.userdetails.User(
                     employee.getEmail(),
                     employee.getPassword(),
-                    enabled,
-                    accountNonExpired,
-                    credentialsNonExpired,
-                    accountNonLocked,
                     authorities);
 
         } catch (Exception e) {
