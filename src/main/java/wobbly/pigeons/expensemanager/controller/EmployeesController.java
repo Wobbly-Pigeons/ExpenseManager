@@ -1,14 +1,17 @@
 package wobbly.pigeons.expensemanager.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/api/v1/Employees")
+@RequestMapping(value = "/api/v1/employees")
+@RequiredArgsConstructor
 public class EmployeesController {
 
     private EmployeeService employeeService;
@@ -19,8 +22,8 @@ public class EmployeesController {
     }
 
     @PostMapping("/newEmployee")
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
+    public Employee addEmployee(@RequestBody UserDTO userDTO) {
+        return employeeService.addEmployee(userDTO);
     }
 
     @GetMapping("/{id}")

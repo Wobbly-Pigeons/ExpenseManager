@@ -3,6 +3,7 @@ package wobbly.pigeons.expensemanager.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,9 @@ import java.time.LocalDateTime;
 public class Expense {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
+    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
+    private long id;
 
     private Byte[] receipt;
 
@@ -24,7 +27,7 @@ public class Expense {
                    long amount, boolean companyCC, ReceiptStatuses currentStatus,
                    String itemName, String itemDescription, User user) {
         this.receipt = receipt;
-        this.dateOfSubmission = LocalDateTime.now();
+        this.dateOfSubmission = LocalDate.now();
         this.dateOfStatusChange = LocalDateTime.now();
         this.dateOfPurchase = dateOfPurchase;
         this.dateModified = LocalDateTime.now();
@@ -38,12 +41,11 @@ public class Expense {
         this.user = user;
     }
 
-    private LocalDateTime dateOfSubmission;
+    private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
-    @ManyToOne
     private ExpenseCategory category;
     private String localCurrency;
     private long amount;
