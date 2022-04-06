@@ -20,7 +20,10 @@ public class ExpenseService {
     private final EmployeeRepository employeesRepository;
 
     public Expense addExpense(Expense expense){
-       return expenseRepository.save(expense);
+
+
+
+        return expenseRepository.save(expense);
     }
     
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
