@@ -21,7 +21,6 @@ public class ExpenseService {
 
     private final EmployeeRepository employeesRepository;
 
-
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
