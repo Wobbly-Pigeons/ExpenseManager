@@ -6,4 +6,5 @@ import wobbly.pigeons.expensemanager.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
+    Employee findByEmail(String email);
 }
