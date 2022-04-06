@@ -1,19 +1,17 @@
 package wobbly.pigeons.expensemanager.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
-import javax.servlet.http.Cookie;
 
 @Controller(value = "/api/v1/")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final EmployeeService employeeService;

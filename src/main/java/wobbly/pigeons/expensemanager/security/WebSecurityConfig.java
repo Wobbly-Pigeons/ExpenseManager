@@ -20,9 +20,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import wobbly.pigeons.expensemanager.security.filters.CustomAuthenticationFilter;
-import wobbly.pigeons.expensemanager.security.filters.CustomAuthorizationFilter;
-
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -37,11 +34,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (HttpSecurity http) throws Exception {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
-        http
+        http.authorizeRequests()
             .formLogin()
             .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/courses", true)
+                .defaultSuccessUrl("/landingpage", true)
                 .passwordParameter("password")
                 .usernameParameter("username")
 //            .and()
