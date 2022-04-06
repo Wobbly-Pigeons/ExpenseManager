@@ -53,6 +53,7 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-
-
+    public Employee findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
 }

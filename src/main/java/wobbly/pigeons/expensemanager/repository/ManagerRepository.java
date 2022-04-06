@@ -6,4 +6,5 @@ import wobbly.pigeons.expensemanager.model.Manager;
 
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager,Long> {
+    Manager findByEmail(String email);
 }

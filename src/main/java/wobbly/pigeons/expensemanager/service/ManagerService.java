@@ -2,6 +2,7 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 
@@ -43,5 +44,9 @@ public class ManagerService {
 
     public void deleteManager(Long id){
         managerRepository.deleteById(id);
+    }
+
+    public Manager findByEmail(String email) {
+        return managerRepository.findByEmail(email);
     }
 }

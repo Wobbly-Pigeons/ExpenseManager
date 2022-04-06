@@ -17,12 +17,7 @@ public class Employee extends User {
     @ManyToOne
     private Manager manager;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_role_id")
-    private Role employeeRole;
-
-    public Employee(String name, String email, String password, LocalDate dob) {
-        super(name,email,password,dob);
-
+    public Employee(String email, String password, String name, LocalDate dob) {
+        super(email, password, name, dob);
     }
 }
