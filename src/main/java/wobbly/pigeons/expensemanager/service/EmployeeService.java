@@ -1,7 +1,9 @@
 package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 
@@ -11,10 +13,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeService {
 
-    EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Employee> getEmployeesList() {
         return employeeRepository.findAll();
+    }
+
+    public Employee newEmployee(UserDTO userDTO) {
+        Employee newEmployee = new Employee(
+                userDTO.getEmail(),
+                bCryptPasswordEncoder.encode(userDTO.getPassword()),
+                userDTO.getFirstName() + " " + userDTO.getLastName(),
+                userDTO.getDob()
+        );
+        return employeeRepository.save(newEmployee);
     }
 
     public Employee addEmployee(Employee newEmployee) {
@@ -30,10 +43,9 @@ public class EmployeeService {
 
         Employee oldDataEmployee = employeeRepository.getById(id);
 
-        oldDataEmployee.setName(updatedEmployee.getName());
+        //oldDataEmployee.setName(updatedEmployee.getName());
         oldDataEmployee.setEmail(updatedEmployee.getEmail());
         oldDataEmployee.setManager(updatedEmployee.getManager());
-        oldDataEmployee.setEmployeeRole((updatedEmployee.getEmployeeRole()));
         oldDataEmployee.setDob(updatedEmployee.getDob());
         oldDataEmployee.setPassword(updatedEmployee.getPassword());
         oldDataEmployee.setExpenses(updatedEmployee.getExpenses());

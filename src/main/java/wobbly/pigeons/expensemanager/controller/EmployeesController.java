@@ -23,7 +23,7 @@ public class EmployeesController {
 
     @PostMapping("/newEmployee")
     public Employee addEmployee(@RequestBody UserDTO userDTO) {
-        return employeeService.addEmployee(userDTO);
+        return employeeService.newEmployee(userDTO);
     }
 
     @GetMapping("/{id}")

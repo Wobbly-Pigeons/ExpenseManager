@@ -7,15 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import wobbly.pigeons.expensemanager.model.Employee;
+import wobbly.pigeons.expensemanager.service.EmployeeService;
 
 
 @SpringBootApplication
-@RequiredArgsConstructor
 public class ExpenseManagerApplication {
-
-
-    private final EmployeeService employeeService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -26,11 +23,11 @@ public class ExpenseManagerApplication {
         SpringApplication.run(ExpenseManagerApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner loadData(EmployeeService employeeService) {
-        return (args) -> {
-            Employee e1 = new Employee();
-        };
-    }
+//    @Bean
+//    public CommandLineRunner loadData(EmployeeService employeeService) {
+//        return (args) -> {
+//            Employee e1 = new Employee();
+//        };
+//    }
 
 }

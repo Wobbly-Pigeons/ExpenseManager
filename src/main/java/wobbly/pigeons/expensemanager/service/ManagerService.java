@@ -30,10 +30,9 @@ public class ManagerService {
 
         Manager oldDataManager = managerRepository.getById(id);
 
-        oldDataManager.setName(updatedManager.getName());
+//        oldDataManager.setName(updatedManager.getName());
         oldDataManager.setEmail(updatedManager.getEmail());
         oldDataManager.setManager(updatedManager.getManager());
-        oldDataManager.setEmployeeRole((updatedManager.getEmployeeRole()));
         oldDataManager.setDob(updatedManager.getDob());
         oldDataManager.setPassword(updatedManager.getPassword());
         oldDataManager.setExpenses(updatedManager.getExpenses());
