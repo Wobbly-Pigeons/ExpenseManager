@@ -1,21 +1,14 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.*;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class ExpenseCategory {
+public enum ExpenseCategory {
 
-    @Id
-    private long id;
-
-    private String name;
+    FOOD,
+    TRAVEL,
+    COMMODITY,
+    EVENT,
+    EXTRA
 
 }

@@ -1,19 +1,17 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User {
 
@@ -33,7 +31,7 @@ public abstract class User {
     private String name; // We could use a concat String for FirstN + LastN ??
 
     @Column(name = "date_of_birth")
-    private Date dob;
+    private LocalDate dob;
 
     @ManyToMany
     @Column(name = "roles")
@@ -42,6 +40,13 @@ public abstract class User {
     @ManyToMany
     @Column(name = "expenses")
     private Set<Expense> expenses;
+
+    public User(String name, String email, String password, LocalDate dob) {
+        this.name =name;
+        this.email = email;
+        this.password = password;
+        this.dob = dob;
+    }
 
 //    @Column(name = "Reputation")
 //    private String status;  later implementation

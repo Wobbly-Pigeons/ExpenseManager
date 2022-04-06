@@ -1,14 +1,15 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance
 @Entity
 public class Employee extends User {
@@ -19,4 +20,9 @@ public class Employee extends User {
     @ManyToOne
     @JoinColumn(name = "employee_role_id")
     private Role employeeRole;
+
+    public Employee(String name, String email, String password, LocalDate dob) {
+        super(name,email,password,dob);
+
+    }
 }
