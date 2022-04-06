@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User {
 
@@ -67,7 +67,6 @@ public abstract class User {
     public Integer getAge() {
         return Period.between(dob, LocalDate.now()).getYears();
     }
-
 //    @Column(name = "Reputation")
 //    private String status;  later implementation
 

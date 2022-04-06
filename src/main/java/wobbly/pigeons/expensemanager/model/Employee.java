@@ -1,8 +1,6 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +8,8 @@ import java.util.Date;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance
 @Entity
 public class Employee extends User {
