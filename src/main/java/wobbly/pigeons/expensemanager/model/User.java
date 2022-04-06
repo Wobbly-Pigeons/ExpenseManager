@@ -29,9 +29,9 @@ public abstract class User {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+//    @Transient
+//    @Getter(AccessLevel.NONE)
+//    @Setter(AccessLevel.NONE)
     private String name; // We could use a concat String for FirstN + LastN ??
 
     @Transient

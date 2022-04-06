@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.service;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -48,9 +49,9 @@ class EmployeeServiceTest {
         LocalDate dob1 = LocalDate.of(1987, 2, 11);
 
         Employee otherEmployee = new Employee(
-                "Bob",
-                "bob@email.com",
+                "bob@gmail.com",
                 "1234",
+                "Bob",
                 LocalDate.of(1987, 2, 11));
 
         employeeRepository.save(otherEmployee);

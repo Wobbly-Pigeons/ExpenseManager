@@ -34,10 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (HttpSecurity http) throws Exception {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
-        http.authorizeRequests()
+        http
             .formLogin()
             .loginPage("/login")
-                .permitAll()
+//                .permitAll()
                 .defaultSuccessUrl("/landingpage", true)
                 .passwordParameter("password")
                 .usernameParameter("username")
