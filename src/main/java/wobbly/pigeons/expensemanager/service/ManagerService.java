@@ -2,6 +2,7 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ManagerService {
 
-    private ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
     public List<Manager> getManagersList() {
         return managerRepository.findAll();

@@ -6,4 +6,5 @@ import wobbly.pigeons.expensemanager.model.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findByRole(String Role);
 }

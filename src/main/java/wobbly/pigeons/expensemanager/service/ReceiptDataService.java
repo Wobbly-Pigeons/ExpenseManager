@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,10 +22,10 @@ import java.util.stream.Stream;
  **/
 
 @Service
+@RequiredArgsConstructor
 public class ReceiptDataService {
 
-    @Autowired
-    private ReceiptDataRepository receiptDataRepository;
+    private final ReceiptDataRepository receiptDataRepository;
 
     public ReceiptData store( MultipartFile file) throws IOException {
 

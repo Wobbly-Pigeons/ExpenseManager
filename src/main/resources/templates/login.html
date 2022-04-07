@@ -45,21 +45,24 @@
                         password.</div>
                 </div>
 
-                <!-- logout message -->
+                <!-- logout message
                 <div th:if="${param.logout}">
                     <div class="alert alert-info">You have been logged out.</div>
-                </div>
+                </div> -->
 
                 <div class = "form-group">
                     <label for ="username"> Username </label> :
                     <input type="text" class = "form-control" id ="username" name = "username"
-                           placeholder="Enter Email ID" autofocus="autofocus">
+                           placeholder="Enter Your Email" autofocus="autofocus">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>: <input type="password"
                                                                    id="password" name="password" class="form-control"
                                                                    placeholder="Enter Password" />
+                </div>
+
+                <div>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </div>
 

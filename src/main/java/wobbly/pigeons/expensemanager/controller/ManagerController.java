@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.Manager;
@@ -9,9 +10,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value ="/api/v1/Managers")
+@RequiredArgsConstructor
 public class ManagerController {
 
-    private ManagerService managerService;
+    private final ManagerService managerService;
 
     @GetMapping
     public List<Manager> getEmployeesList() {
