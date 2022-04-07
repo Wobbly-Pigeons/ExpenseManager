@@ -24,10 +24,9 @@ public class ExpenseManagerApplication {
   public CommandLineRunner loadData(RoleRepository roleRepository) {
     return (args) -> {
       roleRepository.save(new Role("ROLE_EMPLOYEE"));
+      roleRepository.save(new Role("ROLE_MANAGER"));
       roleRepository.save(new Role("ROLE_ADMIN"));
       roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
-      roleRepository.save(new Role("ROLE_TEACHER"));
-      roleRepository.save(new Role("ROLE_STUDENT"));
     };
         }
 
