@@ -18,7 +18,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
-    private long id;
+    private Long id;
 
     private Byte[] receipt;
 
@@ -59,4 +59,8 @@ public class Expense {
     private User user;
 
 
+    public Expense(long amount, User user) {
+        this.amount = amount;
+        this.user = user;
+    }
 }

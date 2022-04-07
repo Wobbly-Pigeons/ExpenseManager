@@ -39,14 +39,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
         http
             .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
-                .antMatchers("/api/**").hasRole("//TODO")
+                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee", "api/v1/expenses").permitAll()
+//                .antMatchers("/api/**").hasRole("//TODO")
                 .anyRequest()
-                .authenticated()
-            .and()
+                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/landingpage", true)
+                .defaultSuccessUrl("/index", true)
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .permitAll()
@@ -58,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login");
+//        http.csrf().disable()
+//                .authorizeRequests().antMatchers("/**").permitAll();
     }
 
 
