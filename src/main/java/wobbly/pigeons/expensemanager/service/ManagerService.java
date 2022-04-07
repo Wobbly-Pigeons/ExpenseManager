@@ -2,6 +2,8 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 
@@ -11,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ManagerService {
 
-    private ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
     public List<Manager> getManagersList() {
         return managerRepository.findAll();
@@ -29,10 +31,9 @@ public class ManagerService {
 
         Manager oldDataManager = managerRepository.getById(id);
 
-        oldDataManager.setName(updatedManager.getName());
+//        oldDataManager.setName(updatedManager.getName());
         oldDataManager.setEmail(updatedManager.getEmail());
         oldDataManager.setManager(updatedManager.getManager());
-        oldDataManager.setEmployeeRole((updatedManager.getEmployeeRole()));
         oldDataManager.setDob(updatedManager.getDob());
         oldDataManager.setPassword(updatedManager.getPassword());
         oldDataManager.setExpenses(updatedManager.getExpenses());
@@ -43,5 +44,9 @@ public class ManagerService {
 
     public void deleteManager(Long id){
         managerRepository.deleteById(id);
+    }
+
+    public Manager findByEmail(String email) {
+        return managerRepository.findByEmail(email);
     }
 }

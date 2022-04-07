@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -17,7 +19,7 @@ public class Manager extends Employee {
     @OneToMany
     private List<Employee> employees;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_role_id")
-    private Role managerRole ;
+    public Manager(String email, String password, String name, LocalDate dob) {
+        super(email, password, name, dob);
+    }
 }

@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Entity
 public class Role {
 
@@ -19,4 +18,10 @@ public class Role {
 
     private String role;
 
+    public Role(String role) {
+        this.role = role;
+    }
+
+    public Role() {
+    }
 }
