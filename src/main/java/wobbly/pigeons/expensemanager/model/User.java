@@ -7,7 +7,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Getter
@@ -49,11 +52,11 @@ public abstract class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     @Column(name = "roles")
     private Set<Role> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     @Column(name = "expenses")
     private Set<Expense> expenses;
 
@@ -62,6 +65,8 @@ public abstract class User {
         this.password = password;
         this.name = name;
         this.dob = dob;
+        this.roles = new HashSet<>();
+        this.expenses = new HashSet<>();
     }
 
     public Integer getAge() {

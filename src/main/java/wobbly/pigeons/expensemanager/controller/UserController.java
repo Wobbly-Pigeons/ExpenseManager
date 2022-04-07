@@ -28,9 +28,9 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping(value = "/login")
-    public String login(Model model) {
-        return "redirect:/api/v1/landingpage.html";
+    @GetMapping(value = "/landingpage")
+    public String getIndex() {
+        return "landingpage";
     }
 
 }

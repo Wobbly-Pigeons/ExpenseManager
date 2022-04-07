@@ -5,8 +5,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
+import wobbly.pigeons.expensemanager.model.Role;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
+import wobbly.pigeons.expensemanager.repository.RoleRepository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 @Service
@@ -15,18 +20,22 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
 
     public List<Employee> getEmployeesList() {
         return employeeRepository.findAll();
     }
 
     public Employee newEmployee(UserDTO userDTO) {
+        Role initialRole = roleRepository.findByRole("ROLE_EMPLOYEE");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Employee newEmployee = new Employee(
                 userDTO.getEmail(),
                 bCryptPasswordEncoder.encode(userDTO.getPassword()),
                 userDTO.getFirstName() + " " + userDTO.getLastName(),
-                userDTO.getDob()
+                LocalDate.parse(userDTO.getDob(), formatter)
         );
+        newEmployee.getRoles().add(initialRole);
         return employeeRepository.save(newEmployee);
     }
 

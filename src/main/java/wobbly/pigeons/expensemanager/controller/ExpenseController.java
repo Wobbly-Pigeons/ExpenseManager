@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpenseController {
 
-    private ExpenseService expenseService;
+    private final ExpenseService expenseService;
 
     @PutMapping("/{id}")
     public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){

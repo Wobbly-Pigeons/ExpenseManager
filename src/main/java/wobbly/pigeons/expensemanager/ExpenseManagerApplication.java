@@ -1,15 +1,12 @@
 package wobbly.pigeons.expensemanager;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import wobbly.pigeons.expensemanager.model.Employee;
-import wobbly.pigeons.expensemanager.service.EmployeeService;
-
+import wobbly.pigeons.expensemanager.model.Role;
+import wobbly.pigeons.expensemanager.repository.RoleRepository;
 
 @SpringBootApplication
 public class ExpenseManagerApplication {
@@ -23,11 +20,15 @@ public class ExpenseManagerApplication {
         SpringApplication.run(ExpenseManagerApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner loadData(EmployeeService employeeService) {
-//        return (args) -> {
-//            Employee e1 = new Employee();
-//        };
-//    }
+  @Bean
+  public CommandLineRunner loadData(RoleRepository roleRepository) {
+    return (args) -> {
+      roleRepository.save(new Role("ROLE_EMPLOYEE"));
+      roleRepository.save(new Role("ROLE_ADMIN"));
+      roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
+      roleRepository.save(new Role("ROLE_TEACHER"));
+      roleRepository.save(new Role("ROLE_STUDENT"));
+    };
+        }
 
 }
