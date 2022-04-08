@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 
@@ -95,10 +95,23 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping(value = "/new_expense")
-    public String newExpenseForm(Model model) {
+    //below is just for test purposes, delete later?
+    @GetMapping(value = "/newexp")
+    public String newExpense(Model model) {
         model.addAttribute("ExpenseDTO", new ExpenseDTO());
         return "expense_form";
     }
 
+    //below is the real one
+@GetMapping(value = "/new_expense")
+public String newExpenseForm(Model model) {
+    model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
+    return "expense_submission";
+}
+//rename this path because it should not contain verb
+    @GetMapping(value = "/edit_expense")
+    public String editExpenseForm(Model model) {
+        model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
+        return "expense_edit";
+}
 }

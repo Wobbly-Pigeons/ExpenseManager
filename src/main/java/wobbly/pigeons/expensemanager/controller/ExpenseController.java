@@ -3,6 +3,7 @@ package wobbly.pigeons.expensemanager.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 
@@ -24,8 +25,8 @@ public class ExpenseController {
         }
 
     @PostMapping
-    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
-        return expenseService.addExpense(expenseDTO);
+    public Expense addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2){
+        return expenseService.addExpense(expenseDTO2);
         }
 
     @DeleteMapping("/{id}")

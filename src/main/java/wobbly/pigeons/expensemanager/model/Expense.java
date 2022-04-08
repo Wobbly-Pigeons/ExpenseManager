@@ -15,16 +15,9 @@ import java.time.LocalDateTime;
 
 public class Expense {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
-    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
-    private Long id;
-
-    private Byte[] receipt;
-
     public Expense(Byte[] receipt, ExpenseCategory category,
                    String localCurrency, LocalDateTime dateOfPurchase,
-                   long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
                    String itemName, String itemDescription, User user) {
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
@@ -39,8 +32,14 @@ public class Expense {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.user = user;
+        this.convertedAmount = convertedAmount;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
+    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
+    private Long id;
+    private Byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
@@ -49,6 +48,7 @@ public class Expense {
     private ExpenseCategory category;
     private String localCurrency;
     private long amount;
+    private Double convertedAmount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;

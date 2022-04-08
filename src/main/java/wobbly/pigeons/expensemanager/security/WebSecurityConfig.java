@@ -36,32 +36,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure (HttpSecurity http) throws Exception {
-        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
-        http
-            .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee", "api/v1/expenses").permitAll()
+//        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
+//        http
+//            .authorizeRequests()
+//                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
 //                .antMatchers("/api/**").hasRole("//TODO")
-                .anyRequest()
-                .permitAll()
 //                .anyRequest()
 //                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/index", true)
-                .passwordParameter("password")
-                .usernameParameter("username")
-                .permitAll()
-            .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
-//        http.csrf().disable()
-//                .authorizeRequests().antMatchers("/**").permitAll();
+//            .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/landingpage", true)
+//                .passwordParameter("password")
+//                .usernameParameter("username")
+//                .permitAll()
+//            .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+//                .clearAuthentication(true)
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessUrl("/login");
+        http.csrf().disable()
+                .authorizeRequests().antMatchers("/**").permitAll();
     }
 
 
