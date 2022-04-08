@@ -35,30 +35,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //TODO implement roles/authorities
 
     @Override
-    protected void configure (HttpSecurity http) throws Exception {
-        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
-        http
-            .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
-                .antMatchers("/api/**").hasRole("//TODO")
-                .anyRequest()
-                .authenticated()
-            .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/landingpage", true)
-                .passwordParameter("password")
-                .usernameParameter("username")
-                .permitAll()
-            .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
-    }
+
+   protected void configure (HttpSecurity http) throws Exception {
+//        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
+//        http
+//            .authorizeRequests()
+//                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
+//                .antMatchers("/api/**").hasRole("//TODO")
+//                .anyRequest()
+//                .authenticated()
+//            .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/landingpage", true)
+//                .passwordParameter("password")
+//                .usernameParameter("username")
+//                .permitAll()
+//            .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+//                .clearAuthentication(true)
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
+//
+//                .logoutSuccessUrl("/login");
+               http.csrf().disable()
+               .authorizeRequests().antMatchers("/**").permitAll();
+
+}
 
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

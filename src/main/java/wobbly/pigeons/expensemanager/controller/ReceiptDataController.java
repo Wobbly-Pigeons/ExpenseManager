@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/receipt")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ReceiptDataController {
 
