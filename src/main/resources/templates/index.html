@@ -9,12 +9,14 @@
 
 </head>
 <body>
-<div th:insert="fragments/navfragment :: nav"></div>
+<div th: th:replace="~{fragments/navigation :: header}"></div>
+
+<!--<div th:insert="fragments/navfragment :: nav"></div>-->
 
 <div> hello!</div>
 
 <div class="container my-2">
-  <h1 th:text="${currentusername}"> 's Landing Page </h1>
+  <h1 th:text="${currentusername}"> 's Wobbly Expenses </h1>
 
   <a th:href = "@{/new_expense}" class="btn btn-primary btn-sm mb-3"> Add new Expense </a>
 
@@ -81,6 +83,7 @@
     </div>
   </div>
 </div>
+<div th: th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>
