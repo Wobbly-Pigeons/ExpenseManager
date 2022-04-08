@@ -2,6 +2,7 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
@@ -18,15 +19,16 @@ import java.util.List;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
-
     private final EmployeeRepository employeesRepository;
 
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
 
-    public Expense addExpense(Expense expense) {
-        return expenseRepository.save(expense);
+    public Expense addExpense(ExpenseDTO expenseDTO) {
+        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
+        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
+        return expenseRepository.save(newExpense);
     }
 
     public Expense getExpenseById(long id) {
