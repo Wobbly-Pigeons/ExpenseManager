@@ -12,6 +12,7 @@ import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
@@ -81,7 +82,8 @@ public class MainController {
         Page<Expense> page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, currentUser);
         List<Expense> listExpenses = page.getContent();
 
-        model.addAttribute("currentusername", currentUser.getName());
+        model.addAttribute("currentUsername", currentUser.getName());
+        model.addAttribute("manager", false);
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -99,6 +101,41 @@ public class MainController {
     public String newExpenseForm(Model model) {
         model.addAttribute("ExpenseDTO", new ExpenseDTO());
         return "expense_form";
+    }
+
+    @GetMapping(value = "/expense_management")
+    public String listExpensesForManager(Model model, Principal principal) {
+        return findPaginatedExpensesByManager(1, "dateModified", "asc", model, principal);
+    }
+
+  @GetMapping
+  public String findPaginatedExpensesByManager(
+      @PathVariable(value = "pageNo") int pageNo,
+      @RequestParam("sortField") String sortField,
+      @RequestParam("sortDir") String sortDir,
+      Model model,
+      Principal principal) {
+    int pageSize = 5;
+
+    Manager currentUser = managerService.findByEmail(principal.getName());
+
+    Page<Expense> page = managerService.findPaginatedExpensesByUser(
+            pageNo, pageSize, sortField, sortDir, currentUser);
+    List<Expense> listExpenses = page.getContent();
+
+    model.addAttribute("currentUsername", currentUser.getName());
+    model.addAttribute("manager", true);
+
+    model.addAttribute("currentPage", pageNo);
+    model.addAttribute("totalPages", page.getTotalPages());
+    model.addAttribute("totalItems", page.getTotalElements());
+
+    model.addAttribute("sortField", sortField);
+    model.addAttribute("sortDir", sortDir);
+    model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+    model.addAttribute("listExpenses", listExpenses);
+    return "index";
     }
 
 }

@@ -22,8 +22,8 @@ import static javax.persistence.FetchType.EAGER;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_generator", allocationSize = 1)
     protected Long id;
 
     @Column(name = "email")
