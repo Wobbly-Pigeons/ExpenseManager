@@ -54,7 +54,15 @@ class EmployeeServiceTest {
                 "Bob",
                 LocalDate.of(1987, 2, 11));
 
-        employeeRepository.save(otherEmployee);
+        Employee save = employeeRepository.save(otherEmployee);
+
+        List<Employee> all = employeeRepository.findAll();
+
+        for (Employee employee : all) {
+            System.out.println(employee.getName() + " "+ employee.getId());
+        }
+
+        System.out.println( save.getId());
 
         assertThat(employeeRepository.getById(1L).getPassword()).isEqualTo("1234");
 

@@ -31,7 +31,7 @@ public class ManagerService {
 
         Manager oldDataManager = managerRepository.getById(id);
 
-//        oldDataManager.setName(updatedManager.getName());
+        oldDataManager.setName(updatedManager.getName());
         oldDataManager.setEmail(updatedManager.getEmail());
         oldDataManager.setManager(updatedManager.getManager());
         oldDataManager.setDob(updatedManager.getDob());
