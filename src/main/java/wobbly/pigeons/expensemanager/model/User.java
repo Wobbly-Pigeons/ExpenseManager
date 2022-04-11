@@ -57,9 +57,9 @@ public abstract class User {
     @Column(name = "roles")
     private Set<Role> roles;
 
-    @ManyToMany(fetch = EAGER)
+    @OneToMany(fetch = EAGER,mappedBy = "user", cascade = CascadeType.MERGE)
     @Column(name = "expenses")
-    private Set<Expense> expenses;
+    private Set<Expense> expenses = new HashSet<>();
 
     public User(String email, String password, String name, LocalDate dob) {
         this.email = email;

@@ -21,7 +21,7 @@ import java.security.Principal;
 import java.util.List;
 
 
-@Controller(value = "/api/v1/")
+@Controller
 @RequiredArgsConstructor
 public class MainController {
 
@@ -45,14 +45,9 @@ public class MainController {
         return "login";
     }
 
-//    @GetMapping(value = "/index")
-//    public String getIndex(Model model) {
-//        return "index";
-//    }
-
     /**
      * This is the landing page for our users after they log in.
-     * It will show a short list of their 5 most recently updated (by themselves or otherwise) expenses,
+     * It will show a short page of their 5 most recently updated (by themselves or otherwise) expenses,
      * and will show a quick summary showing their remaining budget
      * @param model
      * @return department list page

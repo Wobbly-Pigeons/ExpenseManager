@@ -88,5 +88,11 @@ public class EmployeeService {
 //        int start = (int) pageable.getOffset();
 //        int end = Math.min((start + pageable.getPageSize()), currentUserExpenses.size());
 //        return new PageImpl<>(currentUserExpenses.subList(start, end), pageable, currentUserExpenses.size());
+
+
+    }
+    public void addExpenseToUser(Employee emp, Expense expense) {
+        emp.getExpenses().add(expense);
+        expense.setUser(emp);
     }
 }
