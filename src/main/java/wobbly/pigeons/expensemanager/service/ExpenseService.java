@@ -34,7 +34,7 @@ public class ExpenseService {
     public Expense addExpense(ExpenseDTO2 expenseDTO2) {
         Employee employee = employeesRepository.findById(expenseDTO2.getUser_id()).orElseThrow();
         Expense newExpense = new Expense(expenseDTO2.getAmount(), employee);
-        Double convertedAmount = converterRestClient.getConversionAmount(newExpense.getLocalCurrency(), "EUR", newExpense.getAmount());
+        Double convertedAmount = converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount());
         newExpense.setConvertedAmount(convertedAmount);
         return expenseRepository.save(newExpense);
     }

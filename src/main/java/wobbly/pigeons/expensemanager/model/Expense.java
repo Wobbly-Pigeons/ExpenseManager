@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.model;
 
+import antlr.collections.List;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class Expense {
         this.dateModified = LocalDateTime.now();
         this.currentStatus = currentStatus;
         this.category = category;
-        this.localCurrency = localCurrency;
+        this.localCurrency = CurrenciesAllowed.valueOf(localCurrency);
         this.amount = amount;
         this.companyCC = companyCC;
         this.itemName = itemName;
@@ -46,12 +47,14 @@ public class Expense {
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
-    private String localCurrency;
+    private CurrenciesAllowed localCurrency;
     private long amount;
     private Double convertedAmount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
+    private String comment;
+    private Boolean hasViolated;
 
 
     @ManyToOne

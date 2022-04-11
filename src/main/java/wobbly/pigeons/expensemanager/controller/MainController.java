@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
@@ -106,6 +108,8 @@ public class MainController {
 @GetMapping(value = "/new_expense")
 public String newExpenseForm(Model model) {
     model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
+    model.addAttribute("expenseCategoryList", ExpenseCategory.values());
+    model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
     return "expense_submission";
 }
 //rename this path because it should not contain verb
