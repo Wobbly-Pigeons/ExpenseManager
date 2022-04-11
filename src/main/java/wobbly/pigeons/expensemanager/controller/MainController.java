@@ -94,14 +94,10 @@ public class MainController {
         return "index";
     }
 
-/*    //below is just for test purposes, delete later?
-    @GetMapping(value = "/newexp")
-    public String newExpense(Model model) {
-        model.addAttribute("ExpenseDTO", new ExpenseDTO());
-        return "expense_form";
-    }*/
 
-    //below is the real one
+
+    //Below, combined in expense controller
+/*    //below is the real one
 @GetMapping(value = "/new_expense")
 public String newExpenseForm(Model model) {
     model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
@@ -109,12 +105,16 @@ public String newExpenseForm(Model model) {
     model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
     //AGA I THINK U PUT THE VISUALS/GOOGLE THING HERE
     return "expense_submission";
-}
+}*/
 
+
+    //put below in Expense controller
+/*
 @GetMapping("/submitted")
 public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
     return "thank_you_for_submitting";
 }
+*/
 
 
 //rename this path because it should not contain verb

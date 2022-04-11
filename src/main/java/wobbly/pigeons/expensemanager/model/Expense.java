@@ -19,7 +19,7 @@ public class Expense {
     public Expense(Byte[] receipt, ExpenseCategory category,
                    String localCurrency, LocalDateTime dateOfPurchase,
                    long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
-                   String itemName, String itemDescription, User user) {
+                   String itemName, String itemDescription,  String comment, Boolean hasViolated, User user) {
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
         this.dateOfStatusChange = LocalDateTime.now();
@@ -34,6 +34,8 @@ public class Expense {
         this.itemDescription = itemDescription;
         this.user = user;
         this.convertedAmount = convertedAmount;
+        this.comment = comment;
+        this.hasViolated = hasViolated;
     }
 
     @Id

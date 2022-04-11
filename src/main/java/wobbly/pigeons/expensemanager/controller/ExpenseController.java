@@ -2,10 +2,13 @@ package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 
 import java.time.LocalDate;
@@ -24,10 +27,31 @@ public class ExpenseController {
         return expenseService.updateExpense(id, newExpense);
         }
 
-    @PostMapping
-    public Expense addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2){
-        return expenseService.addExpense(expenseDTO2);
+       // ______________________________________________________________________________
+
+    //  old method from MainController
+    @GetMapping(value = "/new_expense")
+    public String newExpenseForm(Model model) {
+        model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
+        model.addAttribute("expenseCategoryList", ExpenseCategory.values());
+        model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
+        //AGA I THINK U PUT THE VISUALS/GOOGLE THING HERE
+        return "expense_submission";
+    }
+
+    @PostMapping ("/new_expense")
+    public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2){
+        //   expenseService.addExpense(expenseDTO2);
+        //the above line made for a 500 error... will need to fix!
+        return "thank_you_for_submitting";
         }
+
+//    @GetMapping("/submitted")
+//    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
+//        return "thank_you_for_submitting";
+//    }
+    // ______________________________________________________________________________
+
 
     @DeleteMapping("/{id}")
     public void deleteExpenseById(@PathVariable long id){
