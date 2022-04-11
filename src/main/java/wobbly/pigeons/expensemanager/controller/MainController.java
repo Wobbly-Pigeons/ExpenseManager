@@ -110,8 +110,11 @@ public String newExpenseForm(Model model) {
     model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
     model.addAttribute("expenseCategoryList", ExpenseCategory.values());
     model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
+    //AGA I THINK U PUT THE VISUALS/GOOGLE THING HERE
     return "expense_submission";
 }
+
+
 //rename this path because it should not contain verb
     @GetMapping(value = "/edit_expense")
     public String editExpenseForm(Model model) {
