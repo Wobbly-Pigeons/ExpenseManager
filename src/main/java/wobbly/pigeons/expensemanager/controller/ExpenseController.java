@@ -1,6 +1,7 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
@@ -12,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@RestController
-@RequestMapping(path ="api/v1/expenses")
+@Controller(value ="/expenses")
 @RequiredArgsConstructor
 public class ExpenseController {
 
