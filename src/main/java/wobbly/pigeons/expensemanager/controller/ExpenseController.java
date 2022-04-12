@@ -1,15 +1,20 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +23,8 @@ import java.util.List;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+    private final ExpenseRepository expenseRepository;
+
 
     @PutMapping(value = "/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
@@ -40,6 +47,23 @@ public class ExpenseController {
     public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
         return expenseService.addExpense(expenseDTO);
         }
+
+
+    //uploading receipt
+    @PostMapping
+    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
+
+        if (file.isEmpty()){
+            attributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/";
+        }
+        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        attributes.addFlashAttribute
+                ("message", "Thanks for uploading the file " + fileName);
+        return "redirect:/";
+
+    }
 
     @DeleteMapping("/{id}")
     public void deleteExpenseById(@PathVariable long id){

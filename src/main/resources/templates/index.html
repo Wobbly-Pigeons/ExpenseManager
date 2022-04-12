@@ -9,10 +9,14 @@
 
 </head>
 <body>
+<div th: th:replace="~{fragments/navigation :: header}"></div>
+
+<!--<div th:insert="fragments/navfragment :: nav"></div>-->
 
 <div> hello!</div>
 
 <div class="container my-2">
+
   <h1 th:text="${currentUsername}"> 's Landing Page </h1>
 
   <!--
@@ -84,6 +88,7 @@
     </div>
   </div>
 </div>
+<div th: th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

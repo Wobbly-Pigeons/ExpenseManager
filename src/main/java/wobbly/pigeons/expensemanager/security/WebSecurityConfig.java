@@ -54,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authorizeRequests().antMatchers("/**").permitAll();
     }
 
-
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
 //        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);

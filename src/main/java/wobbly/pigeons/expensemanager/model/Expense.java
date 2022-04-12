@@ -22,11 +22,14 @@ public class Expense {
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
     private Long id;
 
-    private Byte[] receipt;
 
-    public Expense(Byte[] receipt, ExpenseCategory category,
+    //LOB is datatype for storing large object data.
+    @Lob
+    private byte[] receipt;
+
+    public Expense(byte[] receipt, ExpenseCategory category,
                    String localCurrency, LocalDateTime dateOfPurchase,
-                   long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   long amount,Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
                    String itemName, String itemDescription, User user) {
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
@@ -41,6 +44,7 @@ public class Expense {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.user = user;
+        this.convertedAmount = convertedAmount;
     }
 
     private LocalDate dateOfSubmission;
@@ -51,6 +55,7 @@ public class Expense {
     private ExpenseCategory category;
     private String localCurrency;
     private long amount;
+    private Double convertedAmount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
@@ -62,6 +67,10 @@ public class Expense {
     @JoinColumn (name = "user_id")
     private User user;
 
+    public Expense(byte[] receipt, long amount, User user) {
+        this.receipt = receipt;
+        this.amount = amount;
+        this.user = user;
 
     public Expense(long amount, ReceiptStatuses status) {
         this.amount = amount;
