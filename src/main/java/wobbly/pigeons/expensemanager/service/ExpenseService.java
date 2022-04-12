@@ -2,10 +2,15 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,16 +23,31 @@ import java.util.List;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
-
     private final EmployeeRepository employeesRepository;
+    private final ConverterRestClient converterRestClient;
+
+
 
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
 
-    public Expense addExpense(Expense expense) {
-        return expenseRepository.save(expense);
+    public Expense addExpense(ExpenseDTO2 expenseDTO2, MultipartFile file) {
+        Employee employee = employeesRepository.findById(expenseDTO2.getUser_id()).orElseThrow();
+
+        Expense newExpense = new Expense(expenseDTO2.getReceipt(), expenseDTO2.getAmount(), employee);
+        Double convertedAmount = converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount());
+        newExpense.setConvertedAmount(convertedAmount);
+        //RECEIPT UpLOADING AGA :)
+
+        return expenseRepository.save(newExpense);
+
+    public Expense addExpense(ExpenseDTO expenseDTO) {
+        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
+        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
+        return expenseRepository.save(newExpense);
     }
+
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();
@@ -101,4 +121,16 @@ public class ExpenseService {
     }
 
 
+    public void approveExpense(Long id) {
+        expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
+    }
+
+    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        if(status.equals("deny")) {
+            expense.setCurrentStatus(ReceiptStatuses.REJECTED);
+        } else if (status.equals("nmi")) {
+            expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
+        }
+    }
 }

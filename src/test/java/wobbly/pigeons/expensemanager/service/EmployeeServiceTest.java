@@ -13,6 +13,7 @@ import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -217,10 +218,10 @@ class EmployeeServiceTest {
 
         //When
         Employee byId = employeeRepository.getById(1L);
-        Set<Expense> expenses1 = byId.getExpenses();
+        Collection<Expense> expenses1 = byId.getExpenses();
 
         Employee byId2 = employeeRepository.getById(2L);
-        Set<Expense> expenses2 = byId2.getExpenses();
+        Collection<Expense> expenses2 = byId2.getExpenses();
 
         //Then
         assertThat(expenses1.size()).isEqualTo(2);
