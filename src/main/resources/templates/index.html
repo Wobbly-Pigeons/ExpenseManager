@@ -22,23 +22,23 @@
     <thead>
     <tr>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=amount&sortDir=' + ${reverseSortDir}}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=amount,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Amount</a>
       </th>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=currentStatus&sortDir=' + ${reverseSortDir}}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=currentStatus,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Current Status</a>
       </th>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=dateModified&sortDir=' + ${reverseSortDir}}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=dateModified,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Date Modified</a>
       </th>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=doctorOfPurchase&sortDir=' + ${reverseSortDir}}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=dateOfPurchase,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Date Of Purchase</a>
       </th>
       <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=receipt&sortDir=' + ${reverseSortDir}}">
+        <a rel="stylesheet" th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Receipt</a>
       </th>
       <th> Actions </th>
@@ -52,10 +52,10 @@
       <td th:text="${expense.getDateOfPurchase()}"></td>
       <td th:media="${expense.getReceipt()}"></td>
       <td>
-        <a th:if="!${manager}" th:href="@{/expenses/{id}(id=${expense.getId})}" class="btn btn-primary">Update</a>
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='approve')}" class="btn btn-success">Approve</a>
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='deny')}" class="btn btn-danger">Deny</a>
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='nmi')}" class="btn btn-warning">Needs Info</a>
+        <a th:if="!${manager}" th:href="@{/expenses/{id}(id=${expense.getId})}" class="btn btn-primary btn-sm">Update</a>
+        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='approve')}" class="btn btn-success btn-sm">Approve</a>
+        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='deny')}" class="btn btn-danger btn-sm">Deny</a>
+        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='nmi')}" class="btn btn-warning btn-sm">Needs Info</a>
       </td>
     </tr>
     </tbody>
@@ -68,17 +68,17 @@
       </div>
       <div class = "col-sm-1">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<a th:if="${currentPage != i}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${i},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					</span>
       </div>
       <div class = "col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${currentPage + 1},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">Next</a>
         <span th:unless="${currentPage < totalPages}">Next</span>
       </div>
 
       <div class="col-sm-1">
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${totalPages},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">Last</a>
         <span th:unless="${currentPage < totalPages}">Last</span>
       </div>
     </div>

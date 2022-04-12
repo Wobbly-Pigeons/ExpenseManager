@@ -57,7 +57,7 @@ public abstract class User {
     @Column(name = "roles")
     private Set<Role> roles;
 
-    @OneToMany(fetch = EAGER,mappedBy = "user", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = EAGER, cascade = CascadeType.MERGE)
     @Column(name = "expenses")
     private Set<Expense> expenses = new HashSet<>();
 

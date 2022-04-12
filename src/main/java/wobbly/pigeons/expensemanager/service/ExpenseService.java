@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 
@@ -103,4 +104,16 @@ public class ExpenseService {
     }
 
 
+    public void approveExpense(Long id) {
+        expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
+    }
+
+    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        if(status.equals("deny")) {
+            expense.setCurrentStatus(ReceiptStatuses.REJECTED);
+        } else if (status.equals("nmi")) {
+            expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
+        }
+    }
 }
