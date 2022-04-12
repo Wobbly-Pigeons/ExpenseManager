@@ -1,7 +1,7 @@
 package wobbly.pigeons.expensemanager.model.DTO;
 
 import lombok.Data;
-import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
+//import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 
 @Data
@@ -15,7 +15,7 @@ public class ExpenseDTO2 {
 //    private LocalDateTime dateModified;
 //    private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
-    private CurrenciesAllowed localCurrency;
+//    private CurrenciesAllowed localCurrency;
     private long amount;
     private long convertedAmount;
     private boolean companyCC;
