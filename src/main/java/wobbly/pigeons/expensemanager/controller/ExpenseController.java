@@ -5,22 +5,39 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
-import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Controller(value ="/expenses")
+
+@Controller(value = "/expenses")
+
 @RequiredArgsConstructor
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+    private final ExpenseRepository expenseRepository;
+
+
+    @PutMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
+        expenseService.commentAndReturnExpenseToEmployee(id, status);
+        return "redirect:/expense_management";
+    }
+
+    @GetMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status, Model model) {
+        model.addAttribute("status", status);
+        return "comment_expense_management_form";
+    }
 
     @PutMapping("/{id}")
     public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
@@ -40,11 +57,33 @@ public class ExpenseController {
     }
 
     @PostMapping ("/new_expense")
-    public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2){
+    public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2) {
         //   expenseService.addExpense(expenseDTO2);
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
+    }
+
+    @PostMapping
+    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
+        return expenseService.addExpense(expenseDTO);
         }
+
+
+    //uploading receipt
+    @PostMapping
+    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
+
+        if (file.isEmpty()){
+            attributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/";
+        }
+        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+        attributes.addFlashAttribute
+                ("message", "Thanks for uploading the file " + fileName);
+        return "redirect:/";
+
+    }
 
 //    @GetMapping("/submitted")
 //    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {

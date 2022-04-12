@@ -2,10 +2,13 @@ package wobbly.pigeons.expensemanager.model;
 
 import antlr.collections.List;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Getter
@@ -13,13 +16,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class Expense {
 
-    public Expense(Byte[] receipt, ExpenseCategory category,
-                   String localCurrency, LocalDateTime dateOfPurchase,
-                   long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
-                   String itemName, String itemDescription,  String comment, Boolean hasViolated, User user) {
+
+    public Expense(byte[] receipt, ExpenseCategory category,
+                String localCurrency, LocalDateTime dateOfPurchase,
+        long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
+                String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
+
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
         this.dateOfStatusChange = LocalDateTime.now();
@@ -42,7 +46,8 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
     private Long id;
-    private Byte[] receipt;
+    @Lob
+    private byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
@@ -59,13 +64,29 @@ public class Expense {
     private Boolean hasViolated;
 
 
-    @ManyToOne
+
+    @ManyToOne(fetch = EAGER)
+    @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn (name = "user_id")
     private User user;
 
+    public Expense(byte[] receipt, long amount, User user) {
+        this.receipt = receipt;
+        this.amount = amount;
+        this.user = user;
+    }
+
+    public Expense(long amount, ReceiptStatuses status) {
+        this.amount = amount;
+        this.currentStatus = status;
+    }
 
     public Expense(long amount, User user) {
         this.amount = amount;
         this.user = user;
+    }
+
+    public Expense(long amount, Employee employee) {
+
     }
 }
