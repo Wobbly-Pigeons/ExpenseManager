@@ -24,6 +24,7 @@ public class ExpenseController {
 
     @PostMapping
     public Expense addExpense (@RequestBody Expense newExpense){
+        expenseService.checkExpenseInPolicy(newExpense);
         return expenseService.addExpense(newExpense);
         }
 

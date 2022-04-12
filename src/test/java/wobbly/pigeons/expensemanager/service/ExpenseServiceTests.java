@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,6 +13,7 @@ import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,8 @@ class ExpenseServiceTests {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    // 3 expenses
 
     @Test
     void getExpensesList() {
@@ -274,4 +278,129 @@ class ExpenseServiceTests {
         assertThat(purchaseDateList.size()).isEqualTo(2);
 
     }
+
+    @Test
+    void getCurrentMonthExpensesBySubmissionDate() {
+
+        //Given
+        Byte[] receiptByte = {123, 124, 12, 42};
+        ExpenseCategory food = null;
+        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
+        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
+        Employee thisEmployee = new Employee();
+        thisEmployee.setId(1L);
+        thisEmployee.setName("Miguel");
+
+        Expense exp1 = new Expense(
+                receiptByte, //Receipt
+                food,       // Category
+                "USD",      // Local Currency
+                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
+                13L,        // Amount
+                true,       // CC from company
+                currentStatus, //Status of the expense
+                "American Lunch", // name of the item
+                "Some description here", //Description
+                thisEmployee // Employee
+        );
+
+        Expense exp2 = new Expense(
+                receiptByte,
+                travel,     // Category
+                "USD",      // Local Currency
+                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
+                24L,        // Amount
+                true,       // CC from company
+                currentStatus, //Status of the expense
+                "American Lunch", // name of the item
+                "Some description here", //Description
+                thisEmployee // Employee
+        );
+        expenseRepository.save(exp1);
+        expenseRepository.save(exp2);
+
+        LocalDate startDate = LocalDate.of(2022, 4, 1);
+        LocalDate endDate = LocalDate.of(2022, 4, 30);
+
+
+        //when
+        List<Expense> all = expenseRepository.findAll();
+        List<Expense> withSubmissionDate = new ArrayList<Expense>();
+
+        for (Expense expense : all) {
+            if (expense.getDateOfSubmission().isBefore(endDate) &&
+                    expense.getDateOfSubmission().isAfter(startDate)) {
+                withSubmissionDate.add(expense);
+            }
+        }
+
+        assertThat(withSubmissionDate.size()).isEqualTo(2);
+
+    }
+
+    @Test
+    void getTotalAmountByCurrentMonthSubmissionDate() {
+
+        //Given
+        Byte[] receiptByte = {123, 124, 12, 42};
+        ExpenseCategory food = null;
+        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
+        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
+        Employee thisEmployee = new Employee();
+        thisEmployee.setId(1L);
+        thisEmployee.setName("Miguel");
+
+        Expense exp1 = new Expense(
+                receiptByte, //Receipt
+                food,       // Category
+                "USD",      // Local Currency
+                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
+                25L,        // Amount
+                true,       // CC from company
+                currentStatus, //Status of the expense
+                "American Lunch", // name of the item
+                "Some description here", //Description
+                thisEmployee // Employee
+        );
+
+        Expense exp2 = new Expense(
+                receiptByte,
+                travel,     // Category
+                "USD",      // Local Currency
+                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
+                50L,        // Amount
+                true,       // CC from company
+                currentStatus, //Status of the expense
+                "American Lunch", // name of the item
+                "Some description here", //Description
+                thisEmployee // Employee
+        );
+        expenseRepository.save(exp1);
+        expenseRepository.save(exp2);
+
+        LocalDate startDate = LocalDate.of(2022, 4, 1);
+        LocalDate endDate = LocalDate.of(2022, 4, 30);
+
+        //when
+        List<Expense> all = expenseRepository.findAll();
+        long totalAmount = 0;
+
+        for (Expense expense : all) {
+            if (expense.getDateOfSubmission().isBefore(endDate) &&
+                    expense.getDateOfSubmission().isAfter(startDate)) {
+                totalAmount += expense.getAmount();
+            }
+        }
+
+        Assertions.assertEquals(totalAmount, 75);
+
+    }
+
+
+    @Test
+    void getDepartmentBudgetAndCheckExpense() {
+
+    }
+
+
 }

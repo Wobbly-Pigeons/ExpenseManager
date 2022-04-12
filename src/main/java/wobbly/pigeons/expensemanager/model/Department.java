@@ -20,13 +20,22 @@ public class Department {
     private String name;
     @OneToMany
     private Collection<Employee> employee;
-    @OneToOne
-    private DepartmentPolicy policy;
+//    @OneToOne
+//    private DepartmentPolicy policy;
+    @Setter(AccessLevel.NONE)
+    private Long departmentBudget;
 
-    public Department(String name, List<Employee> employeesList, DepartmentPolicy departmentPolicy){
+    public Department(String name, List<Employee> employeesList){
         this.name = name;
         this.employee = employeesList;
-        this.policy = departmentPolicy;
+//        this.policy = departmentPolicy;
+    }
+
+    public Long getBudgetFromPolicy(){
+
+        DepartmentPolicy departmentPolicy = new DepartmentPolicy();
+
+        return departmentPolicy.getBudgetMonthly();
     }
 
 }

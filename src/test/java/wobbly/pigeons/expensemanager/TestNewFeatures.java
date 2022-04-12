@@ -9,5 +9,11 @@ import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 public class TestNewFeatures {
 
 
+    @Test
+    void roundLongNumber(){
+
+    }
+
+
 
 }

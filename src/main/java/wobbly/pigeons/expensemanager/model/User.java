@@ -52,6 +52,9 @@ public abstract class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
+    @ManyToOne
+    private Department department;
+
     @ManyToMany(fetch = EAGER)
     @Column(name = "roles")
     private Set<Role> roles;

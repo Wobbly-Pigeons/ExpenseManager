@@ -9,9 +9,11 @@ import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -100,5 +102,64 @@ public class ExpenseService {
         return expensesByCategory;
     }
 
+    public Long sumOfAmountInMonthExpensesByCategory(String categoryName, LocalDate startDate, LocalDate endDate) {
 
+        List<Expense> expensesByCategory = getExpensesByCategory(categoryName);
+        long amountByCategory = 0;
+
+
+        for (Expense expense : expensesByCategory) {
+            if (expense.getDateOfSubmission().isBefore(startDate)
+                    && expense.getDateOfSubmission().isAfter(endDate)) {
+                amountByCategory += expense.getAmount();
+            }
+        }
+        return amountByCategory;
+    }
+
+    public Long sumOfAmountInMonthExpensesByDepartment(String departmentName, LocalDate startDate, LocalDate endDate) {
+        List<Expense> expensesByDepartment = expenseRepository.findAll();
+        long amountByDepartment = 0L;
+
+        for (Expense expense : expensesByDepartment) {
+            if (expense.getUser().getDepartment().toString().equalsIgnoreCase(departmentName)) {
+                if (expense.getDateOfSubmission().isBefore(startDate)
+                        && expense.getDateOfSubmission().isAfter(endDate)) {
+                    amountByDepartment += expense.getAmount();
+                }
+            }
+        }
+        return amountByDepartment;
+    }
+
+    public Long totalAmountOfExpensesCurrentMonthByEmployeeId(Long employeeId, LocalDate startDate, LocalDate endDate) {
+
+        Set<Expense> expenses = employeesRepository.getById(employeeId).getExpenses();
+        long totalAmountOfExpensesCurrentMonth = 0;
+
+        for (Expense expense : expenses) {
+            if (expense.getDateOfSubmission().isBefore(endDate) &&
+            expense.getDateOfSubmission().isAfter(startDate)){
+                totalAmountOfExpensesCurrentMonth += expense.getAmount();
+            }
+        }
+        return totalAmountOfExpensesCurrentMonth;
+    }
+
+    public void checkExpenseInPolicy(Expense newExpense) {
+
+//        TemporalField field =
+//        LocalDate currentMonth = LocalDate.now();
+//        currentMonth.range()
+
+        Long departmentBudget = newExpense.getUser().getDepartment().getDepartmentBudget();
+        Long departmentBudgetUsed = sumOfAmountInMonthExpensesByDepartment(
+                newExpense.getUser().getDepartment().toString(), startDate,  endDate);
+
+
+        if (newExpense.getAmount() >= departmentBudget) {
+            //TODO
+        }
+
+    }
 }

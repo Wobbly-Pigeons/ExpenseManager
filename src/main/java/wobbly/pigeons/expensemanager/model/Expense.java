@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
+//@EntityListeners(PolicyListeners.class)
 public class Expense {
 
     @Id
@@ -52,6 +52,9 @@ public class Expense {
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
+
+    private Long departmentPolicyBudget;
+    private Long individualPolicyBudget;
 
 
     @ManyToOne
