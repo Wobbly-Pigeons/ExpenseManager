@@ -55,7 +55,6 @@ public class MainController {
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
-        String manager = "index";
         return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
     }
 
@@ -77,19 +76,18 @@ public class MainController {
 
         if(index.equals("index")) {
             currentUser = employeeService.findByEmail(principal.getName());
-
+            model.addAttribute("manager", false);
             page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Employee) currentUser);
             listExpenses = page.getContent();
 
         } else if (index.equals("expense_management")) {
             currentUser = managerService.findByEmail(principal.getName());
-            model.addAttribute("manager", false);
-            model.addAttribute("typeOfDash", "expense_management");
-
+            model.addAttribute("manager", true);
             page = managerService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Manager) currentUser);
             listExpenses = page.getContent();
         }
 
+        model.addAttribute("typeOfDash", index);
         model.addAttribute("currentUsername", currentUser.getName());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

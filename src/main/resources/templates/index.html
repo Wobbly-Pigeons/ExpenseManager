@@ -36,7 +36,7 @@
           Date Of Purchase</a>
       </th>
       <th>
-        <a rel="stylesheet" th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Receipt</a>
       </th>
       <th> Actions </th>
@@ -50,14 +50,19 @@
       <td th:text="${expense.getDateOfPurchase()}"></td>
       <td th:media="${expense.getReceipt()}"></td>
       <td>
-        <!-- th:href="@{/expenses/{id}(id=${expense.getId})}" -->
-        <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmModal">Update</button>
-
+        <!--
+        th:href="@{/expenses/{id}(id=${expense.getId})}"
+        data-target="#confirmModal"
+        th:attr="data-target='#confirmModal'+${expense.getId()}"
+        -->
+        <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"
+                th:attr="data-target='#confirmModal', data-status='approve',
+                data-link'@{http://}'>Update</button>
 
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='approve')}" class="btn btn-success btn-sm">Approve</a>
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='deny')}" class="btn btn-danger btn-sm">Deny</a>
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='nmi')}" class="btn btn-warning btn-sm">Needs Info</a>
-        <div class="modal fade" id="confirmModal">
+        <div class="modal fade" th:attr="id='confirmModal'">
           <div class="modal-dialog">
             <div class="modal-content">
 
@@ -67,12 +72,13 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <a th:href="@{/}"><button
+                <a th:href="@{/expenses/{id}/{status}(id=${expense.getId},status=${status})}"><button
                         type="button" class="btn btn-success">Yes</button></a>
               </div>
             </div>
           </div>
         </div>
+
       </td>
     </tr>
     </tbody>
@@ -104,6 +110,14 @@
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+<script>
+  $('#confirmModal').on('show.bs.modal', function (e) {
+    let button =$(event.relatedTarget)
+    let status = button.data('status')
+    let modal = $(this)
+    modal.attr('href', )
+  });
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
