@@ -1,7 +1,10 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 
@@ -10,12 +13,23 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@RestController
-@RequestMapping(path ="api/v1/expenses")
+@Controller(value = "/expenses")
 @RequiredArgsConstructor
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+
+    @PutMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
+        expenseService.commentAndReturnExpenseToEmployee(id, status);
+        return "redirect:/expense_management";
+    }
+
+    @GetMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status, Model model) {
+        model.addAttribute("status", status);
+        return "comment_expense_management_form";
+    }
 
     @PutMapping("/{id}")
     public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
@@ -23,8 +37,8 @@ public class ExpenseController {
         }
 
     @PostMapping
-    public Expense addExpense (@RequestBody Expense newExpense){
-        return expenseService.addExpense(newExpense);
+    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
+        return expenseService.addExpense(expenseDTO);
         }
 
     @DeleteMapping("/{id}")
