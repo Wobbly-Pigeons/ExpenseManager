@@ -31,8 +31,15 @@ private String comment;
 <div align="center">
 <h1>Expense Submission Form</h1>
 <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
-<form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post">
-    <p>Receipt Image: <input type="text" th:field="*{receipt}" /></p>
+<form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
+<!--    <p>Receipt Image: <input type="text" th:field="*{receipt}" />-->
+<!--        //EXTRA HTML-->
+    <table>
+        <tr><td>Receipt to upload:</td><td><input type="file" th:field="*{receipt} " /></td></tr>
+<!--        name="file"-->
+        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+    </table>
+    </p>
     <p>Category: <select th:field="*{category}" />
         <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
         </select></p>

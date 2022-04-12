@@ -25,12 +25,6 @@ public class ExpenseService {
     private final EmployeeRepository employeesRepository;
     private final ConverterRestClient converterRestClient;
 
-
-
-    private final ConverterRestClient converterRestClient;
-
-
-
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }

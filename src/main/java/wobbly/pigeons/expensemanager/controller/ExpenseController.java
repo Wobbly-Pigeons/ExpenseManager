@@ -48,11 +48,12 @@ public class ExpenseController {
 
     //  old method from MainController
     @GetMapping(value = "/new_expense")
-    public String newExpenseForm(Model model) {
+    public String newExpenseForm(Model model, MultipartFile file, RedirectAttributes attributes) {
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
         model.addAttribute("expenseCategoryList", ExpenseCategory.values());
         model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
-        //AGA I THINK U PUT THE VISUALS/GOOGLE THING HERE
+       // model.addAttribute("receipt", )
+        uploadReceipt(file, attributes);
         return "expense_submission";
     }
 
@@ -63,26 +64,24 @@ public class ExpenseController {
         return "thank_you_for_submitting";
     }
 
-    @PostMapping
-    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
-        return expenseService.addExpense(expenseDTO);
-        }
+//    @PostMapping
+//    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
+//        return expenseService.addExpense(expenseDTO);
+//        }
 
 
     //uploading receipt
     @PostMapping
-    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
-
-        if (file.isEmpty()){
+    public String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
+        if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/";
+            // return "redirect:/";
+        } else {
+            attributes.addFlashAttribute
+                    ("message", "Thanks for uploading the file " + file.getOriginalFilename());
+
         }
-        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        attributes.addFlashAttribute
-                ("message", "Thanks for uploading the file " + fileName);
         return "redirect:/";
-
     }
 
 //    @GetMapping("/submitted")

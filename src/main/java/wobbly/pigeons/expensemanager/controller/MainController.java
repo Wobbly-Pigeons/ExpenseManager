@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -116,11 +117,7 @@ public class MainController {
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
         return "expense_edit";
 }
-    @GetMapping(value = "/new_expense")
-    public String newExpenseForm(Model model) {
-        model.addAttribute("ExpenseDTO", new ExpenseDTO());
-        return "expense_form";
-    }
+
 
     @GetMapping(value = "/expense_management")
     public String listExpensesForManager(Model model, Principal principal) {
