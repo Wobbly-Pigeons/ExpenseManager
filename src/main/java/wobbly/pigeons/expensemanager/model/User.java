@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,8 @@ import static javax.persistence.FetchType.EAGER;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_generator", allocationSize = 1)
     protected Long id;
 
     @Column(name = "email")
@@ -32,9 +33,10 @@ public abstract class User {
     @Column(name = "password")
     private String password;
 
-//    @Transient
+
 //    @Getter(AccessLevel.NONE)
 //    @Setter(AccessLevel.NONE)
+//    @Transient
     private String name; // We could use a concat String for FirstN + LastN ??
 
     @Transient
@@ -59,9 +61,9 @@ public abstract class User {
     @Column(name = "roles")
     private Set<Role> roles;
 
-    @ManyToMany(fetch = EAGER)
+    @OneToMany(fetch = EAGER, cascade = CascadeType.MERGE)
     @Column(name = "expenses")
-    private Set<Expense> expenses;
+    private Set<Expense> expenses = new HashSet<>();
 
     public User(String email, String password, String name, LocalDate dob) {
         this.email = email;

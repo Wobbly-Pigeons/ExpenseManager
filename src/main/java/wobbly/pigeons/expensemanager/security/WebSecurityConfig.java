@@ -1,6 +1,6 @@
 package wobbly.pigeons.expensemanager.security;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,22 +26,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //TODO implement roles/authorities
 
     @Override
-    protected void configure (HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
         http
-            .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
-                .antMatchers("/api/**").hasRole("//TODO")
+                .authorizeRequests()
+                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee", "api/v1/expenses").permitAll()
+//                .antMatchers("/api/**").hasRole("//TODO")
                 .anyRequest()
-                .authenticated()
-            .and()
+                .permitAll()
+//                .anyRequest()
+//                .authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/landingpage", true)
+                .defaultSuccessUrl("/index", true)
                 .passwordParameter("password")
                 .usernameParameter("username")
                 .permitAll()
-            .and()
+                .and()
                 .logout()
                 .logoutUrl("/logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
@@ -48,11 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login");
+//        http.csrf().disable()
+//                .authorizeRequests().antMatchers("/**").permitAll();
     }
 
-
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.authenticationProvider(daoAuthenticationProvider());
+//        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
 //    public void configure2(AuthenticationManagerBuilder auth2) throws Exception {
@@ -66,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);

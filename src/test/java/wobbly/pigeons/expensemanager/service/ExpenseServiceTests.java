@@ -2,14 +2,19 @@ package wobbly.pigeons.expensemanager.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
+import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -24,46 +29,41 @@ class ExpenseServiceTests {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+    @MockBean
+    private EmployeeRepository employeesRepository;
+    @MockBean
+    private ConverterRestClient converterRestClient;
+    @MockBean
+            private ManagerService managerService;
+    @MockBean
+            private EmployeeService employeeService;
 
-    // 3 expenses
+
+    // 4 employees
+    @Transient
+    Employee employee1 = new Employee("Aga@mail.com", "456abc", "Aga",
+            LocalDate.of(1989, 2, 1));
+    @Transient
+    Employee employee2 = new Employee("Andrew@mail.com", "098abc", "Andrew",
+            LocalDate.of(1989, 2, 2));
+    Employee employee3 = new Employee("Miguel@mail.com", "123abc", "Miguel",
+            LocalDate.of(1989, 2, 3));
+    Employee employee4 = new Employee("Angela@mail.com", "789abc", "Angela",
+            LocalDate.of(1989, 2, 4));
+
+    // 4 expenses
+    @Transient
+    Expense exp1 = new Expense(11,employee1);
+    @Transient
+    Expense exp2 = new Expense(22,employee2);
+    Expense exp3 = new Expense(33,employee3);
+    Expense exp4 = new Expense(44,employee4);
+
 
     @Test
     void getExpensesList() {
 
         //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = null;
-        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
 
@@ -86,52 +86,6 @@ class ExpenseServiceTests {
     void getExpenseByCategory() {
 
         //Given data
-        //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = ExpenseCategory.FOOD;
-        ExpenseCategory travel = ExpenseCategory.TRAVEL;
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-        Expense exp3 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 14, 30), //Date of purchase
-                23L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
         expenseRepository.save(exp3);
@@ -151,39 +105,6 @@ class ExpenseServiceTests {
     @Test
     void getExpenseBySubmissionDate() {
         //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = null;
-        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
 
@@ -209,51 +130,6 @@ class ExpenseServiceTests {
     @Test
     void getExpenseByPurchaseDate() {
         //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = null;
-        ExpenseCategory travel = null;
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-        Expense exp3 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 14, 30), //Date of purchase
-                23L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
         expenseRepository.save(exp3);
@@ -283,39 +159,6 @@ class ExpenseServiceTests {
     void getCurrentMonthExpensesBySubmissionDate() {
 
         //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = null;
-        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
 
@@ -342,65 +185,35 @@ class ExpenseServiceTests {
     void getTotalAmountByCurrentMonthSubmissionDate() {
 
         //Given
-        Byte[] receiptByte = {123, 124, 12, 42};
-        ExpenseCategory food = null;
-        ExpenseCategory travel = null; //is making trouble with this ExpenseCategory Object
-        ReceiptStatuses currentStatus = ReceiptStatuses.INCOMPLETE;
-        Employee thisEmployee = new Employee();
-        thisEmployee.setId(1L);
-        thisEmployee.setName("Miguel");
-
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                25L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                50L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                thisEmployee // Employee
-        );
+        employeesRepository.save(employee1);
+        employeesRepository.save(employee2);
         expenseRepository.save(exp1);
         expenseRepository.save(exp2);
 
         LocalDate startDate = LocalDate.of(2022, 4, 1);
         LocalDate endDate = LocalDate.of(2022, 4, 30);
 
+        LocalDate initial = LocalDate.now();
+        LocalDate start = initial.withDayOfMonth(1);
+        LocalDate end = initial.withDayOfMonth(initial.getMonth().length(initial.isLeapYear()));
+
+
         //when
         List<Expense> all = expenseRepository.findAll();
         long totalAmount = 0;
 
         for (Expense expense : all) {
-            if (expense.getDateOfSubmission().isBefore(endDate) &&
-                    expense.getDateOfSubmission().isAfter(startDate)) {
+            if (expense.getDateOfSubmission().isBefore(end) &&
+                    expense.getDateOfSubmission().isAfter(start)) {
                 totalAmount += expense.getAmount();
             }
         }
 
-        Assertions.assertEquals(totalAmount, 75);
+
+        Assertions.assertEquals(totalAmount, 33);
 
     }
 
-
-    @Test
-    void getDepartmentBudgetAndCheckExpense() {
-
-    }
 
 
 }

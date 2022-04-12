@@ -1,11 +1,12 @@
 package wobbly.pigeons.expensemanager.util;
 
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
-
+@Configuration
 public class ConverterRestClient {
 
     private final WebClient webClient;
