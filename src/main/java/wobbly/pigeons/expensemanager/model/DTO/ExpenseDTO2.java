@@ -23,8 +23,7 @@ public class ExpenseDTO2 {
     private String itemDescription;
     private String comment;
     private boolean hasViolated;
-
-
-
-
 }
+
+
+

@@ -3,7 +3,6 @@ package wobbly.pigeons.expensemanager.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -28,9 +27,14 @@ public class ExpenseService {
 
 
 
+    private final ConverterRestClient converterRestClient;
+
+
+
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
+
 
     public Expense addExpense(ExpenseDTO2 expenseDTO2, MultipartFile file) {
         Employee employee = employeesRepository.findById(expenseDTO2.getUser_id()).orElseThrow();
@@ -40,11 +44,6 @@ public class ExpenseService {
         newExpense.setConvertedAmount(convertedAmount);
         //RECEIPT UpLOADING AGA :)
 
-        return expenseRepository.save(newExpense);
-
-    public Expense addExpense(ExpenseDTO expenseDTO) {
-        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
-        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
         return expenseRepository.save(newExpense);
     }
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello, Employee! Please submit your expense here.</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<!--private Byte[] receipt;
+private LocalDate dateOfSubmission;
+private LocalDateTime dateOfStatusChange;
+private LocalDateTime dateOfPurchase;
+private LocalDateTime dateModified;
+private ReceiptStatuses currentStatus;
+private ExpenseCategory category;
+private String localCurrency;
+private long amount;
+private boolean companyCC;
+private String itemName;
+private String itemDescription;
+this.convertedAmount = convertedAmount;
+private String comment;
+    private Boolean hasViolated;
+    //TODO make sure the comment, hasviolated, etc are in the manager form
+-->
+
+<body>
+<div align="center">
+<h1>Expense Submission Form</h1>
+<h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
+<form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post">
+    <p>Receipt Image: <input type="text" th:field="*{receipt}" /></p>
+    <p>Category: <select th:field="*{category}" />
+        <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
+        </select></p>
+    <p>Local Currency: <select th:field="*{localCurrency}" />
+        <option th:each="c : ${currenciesAllowedList}" th:value="${c}" th:text="${c}"/>
+        </select></p>
+    <p>Amount: <input type="text" th:field="*{amount}" /></p>
+    <p>Used Company Credit Card?: <input type="text" th:field="*{companyCC}" />
+        </p>
+    <p>Item name: <input type="text" th:field="*{itemName}" /></p>
+    <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
+
+    <p><input type="submit" value="Submit" />
+        <input type="reset" value="Reset" /></p>
+
+
+</form>
+</div>
+</body>
+</html>

@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure (HttpSecurity http) throws Exception {
+
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
         http
             .authorizeRequests()
@@ -56,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login");
 //        http.csrf().disable()
 //                .authorizeRequests().antMatchers("/**").permitAll();
+
     }
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
