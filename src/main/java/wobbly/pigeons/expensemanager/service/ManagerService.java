@@ -38,14 +38,12 @@ public class ManagerService {
   public Manager updateManager(Manager updatedManager, Long id) {
 
     Manager oldDataManager = managerRepository.getById(id);
-
-    //        oldDataManager.setName(updatedManager.getName());
-    oldDataManager.setEmail(updatedManager.getEmail());
-    oldDataManager.setManager(updatedManager.getManager());
-    oldDataManager.setDob(updatedManager.getDob());
-    oldDataManager.setPassword(updatedManager.getPassword());
-    oldDataManager.setExpenses(updatedManager.getExpenses());
-
+        oldDataManager.setName(updatedManager.getName());
+        oldDataManager.setEmail(updatedManager.getEmail());
+        oldDataManager.setManager(updatedManager.getManager());
+        oldDataManager.setDob(updatedManager.getDob());
+        oldDataManager.setPassword(updatedManager.getPassword());
+        oldDataManager.setExpenses(updatedManager.getExpenses());
     return managerRepository.save(oldDataManager);
   }
 

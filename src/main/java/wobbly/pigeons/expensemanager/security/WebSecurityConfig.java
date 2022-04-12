@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import  org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -58,6 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(daoAuthenticationProvider());
 //        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
+
+//    public void configure2(AuthenticationManagerBuilder auth2) throws Exception {
+//        auth2.inMemoryAuthentication().withUser("SAdmin").password("123ABC").roles("ADMIN");
+//    }
 
     @Bean
     @Override
