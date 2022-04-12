@@ -119,30 +119,4 @@ public class MainController {
     public String listExpensesForManager(Model model, Principal principal) {
         return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
     }
-
-//  @GetMapping(path = "/expense_management/page/{pageNo}")
-//  public String findPaginatedExpensesByManager(
-//      @PathVariable(value = "pageNo") int pageNo,
-//      @RequestParam("sortField") String sortField,
-//      @RequestParam("sortDir") String sortDir,
-//      Model model,
-//      Principal principal) {
-//    int pageSize = 5;
-//
-//
-//
-//    model.addAttribute("currentUsername", currentUser.getName());
-//
-//    model.addAttribute("currentPage", pageNo);
-//    model.addAttribute("totalPages", page.getTotalPages());
-//    model.addAttribute("totalItems", page.getTotalElements());
-//
-//    model.addAttribute("sortField", sortField);
-//    model.addAttribute("sortDir", sortDir);
-//    model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-//
-//    model.addAttribute("listExpenses", listExpenses);
-//    return "index";
-//    }
-
 }
