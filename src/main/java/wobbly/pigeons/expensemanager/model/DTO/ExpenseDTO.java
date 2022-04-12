@@ -6,4 +6,5 @@ import lombok.Data;
 public class ExpenseDTO {
     private long amount;
     private long user_id;
+    private byte[] receipt;
 }
