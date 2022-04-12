@@ -1,10 +1,13 @@
 package wobbly.pigeons.expensemanager.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Getter
@@ -12,7 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class Expense {
 
     @Id
@@ -57,17 +59,24 @@ public class Expense {
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
+    private String comment;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = EAGER)
+    @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn (name = "user_id")
     private User user;
-
 
     public Expense(byte[] receipt, long amount, User user) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
 
+    public Expense(long amount, ReceiptStatuses status) {
+        this.amount = amount;
+        this.currentStatus = status;
+    }
+
+    public Expense(long amount, Employee employee) {
     }
 }

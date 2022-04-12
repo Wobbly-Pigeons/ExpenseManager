@@ -7,6 +7,7 @@ import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
@@ -41,6 +42,10 @@ public class ExpenseService {
 
         return expenseRepository.save(newExpense);
 
+    public Expense addExpense(ExpenseDTO expenseDTO) {
+        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
+        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
+        return expenseRepository.save(newExpense);
     }
 
 
@@ -116,4 +121,16 @@ public class ExpenseService {
     }
 
 
+    public void approveExpense(Long id) {
+        expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
+    }
+
+    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        if(status.equals("deny")) {
+            expense.setCurrentStatus(ReceiptStatuses.REJECTED);
+        } else if (status.equals("nmi")) {
+            expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
+        }
+    }
 }

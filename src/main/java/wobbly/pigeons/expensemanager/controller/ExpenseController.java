@@ -5,6 +5,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
@@ -15,14 +18,25 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-@RestController
-@RequestMapping(path ="api/v1/expenses")
+@Controller(value = "/expenses")
 @RequiredArgsConstructor
 public class ExpenseController {
 
     private final ExpenseService expenseService;
     private final ExpenseRepository expenseRepository;
 
+
+    @PutMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
+        expenseService.commentAndReturnExpenseToEmployee(id, status);
+        return "redirect:/expense_management";
+    }
+
+    @GetMapping(value = "/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status, Model model) {
+        model.addAttribute("status", status);
+        return "comment_expense_management_form";
+    }
 
     @PutMapping("/{id}")
     public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){

@@ -12,6 +12,8 @@ import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
+import wobbly.pigeons.expensemanager.model.Manager;
+import wobbly.pigeons.expensemanager.model.User;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
@@ -19,8 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 
-
-@Controller(value = "/api/v1/")
+@Controller
 @RequiredArgsConstructor
 public class MainController {
 
@@ -44,44 +45,56 @@ public class MainController {
         return "login";
     }
 
-//    @GetMapping(value = "/index")
-//    public String getIndex(Model model) {
-//        return "index";
-//    }
-
     /**
      * This is the landing page for our users after they log in.
-     * It will show a short list of their 5 most recently updated (by themselves or otherwise) expenses,
+     * It will show a short page of their 5 most recently updated (by themselves or otherwise) expenses,
      * and will show a quick summary showing their remaining budget
      * @param model
      * @return department list page
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
-        return findPaginatedUserIndex(1, "dateModified", "asc", model, principal);
+        String manager = "index";
+        return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
     }
 
-    /**
-     * @param pageNo
-     * @param sortField
-     * @param sortDir
-     * @param model
-     * @return department list
-     */
-    @GetMapping(path = "/index/page/{pageNo}")
-    public String findPaginatedUserIndex(@PathVariable(value = "pageNo") int pageNo,
-                                          @RequestParam("sortField") String sortField,
-                                          @RequestParam("sortDir") String sortDir,
-                                          Model model,
-                                         Principal principal) {
+  /**
+   * @param pageNo
+   * @param sortField
+   * @param sortDir
+   * @param model
+   * @return expenses list
+   */
+  @GetMapping(path = "/{index}/page/{pageNo}")
+  public String findPaginatedUserIndex(
+      @PathVariable(value = "pageNo") int pageNo,
+      @PathVariable(value = "index") String index,
+      @RequestParam("sortField") String sortField,
+      @RequestParam("sortDir") String sortDir,
+      Model model,
+      Principal principal) {
         int pageSize = 5;
+        User currentUser = null;
+        Page<Expense> page = null;
+        List<Expense> listExpenses = null;
 
-        Employee currentUser = employeeService.findByEmail(principal.getName());
+        if(index.equals("index")) {
+            currentUser = employeeService.findByEmail(principal.getName());
 
-        Page<Expense> page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, currentUser);
-        List<Expense> listExpenses = page.getContent();
+            page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Employee) currentUser);
+            listExpenses = page.getContent();
 
-        model.addAttribute("currentusername", currentUser.getName());
+        } else if (index.equals("expense_management")) {
+            currentUser = managerService.findByEmail(principal.getName());
+            model.addAttribute("manager", false);
+            model.addAttribute("typeOfDash", "expense_management");
+
+            page = managerService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Manager) currentUser);
+            listExpenses = page.getContent();
+        }
+
+
+        model.addAttribute("currentUsername", currentUser.getName());
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -101,4 +114,8 @@ public class MainController {
         return "expense_form";
     }
 
+    @GetMapping(value = "/expense_management")
+    public String listExpensesForManager(Model model, Principal principal) {
+        return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
+    }
 }
