@@ -44,9 +44,7 @@ public class ExpenseController {
         return expenseService.updateExpense(id, newExpense);
         }
 
-       // ______________________________________________________________________________
 
-    //  old method from MainController
     @GetMapping(value = "/new_expense")
     public String newExpenseForm(Model model) {
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
@@ -63,10 +61,6 @@ public class ExpenseController {
         return "thank_you_for_submitting";
     }
 
-    @PostMapping
-    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
-        return expenseService.addExpense(expenseDTO);
-        }
 
 
     //uploading receipt
@@ -79,8 +73,7 @@ public class ExpenseController {
         }
         //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        attributes.addFlashAttribute
-                ("message", "Thanks for uploading the file " + fileName);
+//        attributes.addFlashAttribute("message", "Thanks for uploading the file " + fileName);
         return "redirect:/";
 
     }

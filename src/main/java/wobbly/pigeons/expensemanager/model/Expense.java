@@ -89,4 +89,7 @@ public class Expense {
     public Expense(long amount, Employee employee) {
 
     }
+
+    public Expense(Byte[] receiptByte, ExpenseCategory food, String usd, LocalDateTime of, long l, boolean b, ReceiptStatuses currentStatus, String american_lunch, String some_description_here, Employee newEmployee) {
+    }
 }

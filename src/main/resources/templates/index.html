@@ -5,58 +5,21 @@
   <title>Expense Manager Login</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </head>
 <body>
-<<<<<<< HEAD
-<div th:insert="fragments/navfragment :: nav"></div>
-=======
-<div th: th:replace="~{fragments/navigation :: header}"></div>
-
-<!--<div th:insert="fragments/navfragment :: nav"></div>-->
->>>>>>> apr12
-
-<div> hello!</div>
+<div th:replace="~{fragments/navigation :: header}"></div>
 
 <div class="container my-2">
-<<<<<<< HEAD
-  <h1 th:text="${currentusername}"> 's Landing Page </h1>
-
-  <a th:href = "@{/new_expense}" class="btn btn-primary btn-sm mb-3"> Add new Expense </a>
-
-=======
 
   <h1 th:text="${currentUsername}"> 's Landing Page </h1>
 
   <!--
   th:utext="((${error_code} == '404') ? '<a href=&quot;http://localhost:8080/home&quot;>Home</a>' : '<a href=&quot;http://localhost:8080/login&quot;>Login</a>')"
   -->
->>>>>>> apr12
   <table border="1" class = "table table-striped table-responsive-md">
     <thead>
     <tr>
       <th>
-<<<<<<< HEAD
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
-          First Name</a>
-      </th>
-      <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
-          Last Name</a>
-      </th>
-      <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
-          Email</a>
-      </th>
-      <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=doctorRole&sortDir=' + ${reverseSortDir}}">
-          Role</a>
-      </th>
-      <th>
-        <a th:href="@{'/page/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir}}">
-          Department</a>
-=======
         <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=amount,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Amount</a>
       </th>
@@ -73,9 +36,8 @@
           Date Of Purchase</a>
       </th>
       <th>
-        <a rel="stylesheet" th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
+        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
           Receipt</a>
->>>>>>> apr12
       </th>
       <th> Actions </th>
     </tr>
@@ -86,23 +48,26 @@
       <td th:text="${expense.getCurrentStatus()}"></td>
       <td th:text="${expense.getDateModified()}"></td>
       <td th:text="${expense.getDateOfPurchase()}"></td>
-<<<<<<< HEAD
-      <td th:text="${expense.getReceipt()}"></td>
-      <td> <a th:href="@{/api/v1/expenses/{id}(id=${expense.getId})}" class="btn btn-primary">Update</a>
-      </td>
-      -->
-=======
       <td th:media="${expense.getReceipt()}"></td>
       <td>
-        <a th:if="!${manager}" th:href="@{/expenses/{id}(id=${expense.getId})}" class="btn btn-primary btn-sm">Update</a>
+        <!--
+        th:href="@{/expenses/{id}(id=${expense.getId})}"
+        data-target="#confirmModal"
+        th:attr="data-target='#confirmModal'+${expense.getId()}"
+        -->
+        <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"
+                th:attr="data-target='#confirmModal', data-status='approve',
+                data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'">Update</button>
+
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='approve')}" class="btn btn-success btn-sm">Approve</a>
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='deny')}" class="btn btn-danger btn-sm">Deny</a>
         <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='nmi')}" class="btn btn-warning btn-sm">Needs Info</a>
+
       </td>
->>>>>>> apr12
     </tr>
     </tbody>
   </table>
+
 
   <div th:if = "${totalPages > 1}">
     <div class = "row col-sm-10">
@@ -111,38 +76,52 @@
       </div>
       <div class = "col-sm-1">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-<<<<<<< HEAD
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-=======
 						<a th:if="${currentPage != i}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${i},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">[[${i}]]</a>
->>>>>>> apr12
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					</span>
       </div>
       <div class = "col-sm-1">
-<<<<<<< HEAD
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-=======
         <a th:if="${currentPage < totalPages}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${currentPage + 1},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">Next</a>
->>>>>>> apr12
         <span th:unless="${currentPage < totalPages}">Next</span>
       </div>
 
       <div class="col-sm-1">
-<<<<<<< HEAD
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-=======
         <a th:if="${currentPage < totalPages}" th:href="@{http://localhost:8094/{typeOfDash}/page/{i}(i=${totalPages},sortField=${sortField},sortDir=${sortDir},typeOfDash=${typeOfDash})}">Last</a>
->>>>>>> apr12
         <span th:unless="${currentPage < totalPages}">Last</span>
       </div>
     </div>
   </div>
-</div>
-<<<<<<< HEAD
-=======
-<div th: th:replace="~{fragments/footer :: footer}"></div>
->>>>>>> apr12
+  <div class="modal fade" th:attr="id='confirmModal'">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <div class="modal-header">
+          <h4 class="modal-title">Are you sure?</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <a href="http://localhost:8094/expenses/" id="confirm"><button
+                  type="button" class="btn btn-success">Yes</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+  $('#confirmModal').on('show.bs.modal', function (e) {
+    let button =$(e.relatedTarget);
+    let status = button.data('status');
+    let expenseId = button.data('expense-id')
+    let href = button.data('link');
+    let modal = $(this);
+    modal.find('a').attr('href', href + expenseId + '/' + status);
+  });
+</script>
 </body>
 </html>

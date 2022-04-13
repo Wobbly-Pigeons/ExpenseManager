@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -54,8 +55,6 @@ public class MainController {
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
-
-        String manager = "index";
         return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
     }
 
@@ -67,13 +66,9 @@ public class MainController {
    * @return expenses list
    */
   @GetMapping(path = "/{index}/page/{pageNo}")
-  public String findPaginatedUserIndex(
-      @PathVariable(value = "pageNo") int pageNo,
-      @PathVariable(value = "index") String index,
-      @RequestParam("sortField") String sortField,
-      @RequestParam("sortDir") String sortDir,
-      Model model,
-      Principal principal) {
+  public String findPaginatedUserIndex(@PathVariable(value = "pageNo") int pageNo, @PathVariable(value = "index") String index,
+      @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,
+      Model model, Principal principal) {
         int pageSize = 5;
         User currentUser = null;
         Page<Expense> page = null;
@@ -81,20 +76,18 @@ public class MainController {
 
         if(index.equals("index")) {
             currentUser = employeeService.findByEmail(principal.getName());
-
+            model.addAttribute("manager", false);
             page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Employee) currentUser);
             listExpenses = page.getContent();
 
         } else if (index.equals("expense_management")) {
             currentUser = managerService.findByEmail(principal.getName());
-            model.addAttribute("manager", false);
-            model.addAttribute("typeOfDash", "expense_management");
-
+            model.addAttribute("manager", true);
             page = managerService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Manager) currentUser);
             listExpenses = page.getContent();
         }
 
-
+        model.addAttribute("typeOfDash", index);
         model.addAttribute("currentUsername", currentUser.getName());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -108,19 +101,12 @@ public class MainController {
         return "index";
     }
 
-
-
 //rename this path because it should not contain verb
     @GetMapping(value = "/edit_expense")
     public String editExpenseForm(Model model) {
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
         return "expense_edit";
 }
-    @GetMapping(value = "/new_expense")
-    public String newExpenseForm(Model model) {
-        model.addAttribute("ExpenseDTO", new ExpenseDTO());
-        return "expense_form";
-    }
 
     @GetMapping(value = "/expense_management")
     public String listExpensesForManager(Model model, Principal principal) {
