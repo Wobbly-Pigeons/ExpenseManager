@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login");
 //        http.csrf().disable()
 //                .authorizeRequests().antMatchers("/**").permitAll();
+
     }
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

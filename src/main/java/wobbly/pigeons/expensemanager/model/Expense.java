@@ -1,5 +1,6 @@
 package wobbly.pigeons.expensemanager.model;
 
+import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
@@ -17,20 +18,12 @@ import static javax.persistence.FetchType.EAGER;
 @ToString
 public class Expense {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
-    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
-    private Long id;
-
-
-    //LOB is datatype for storing large object data.
-    @Lob
-    private byte[] receipt;
 
     public Expense(byte[] receipt, ExpenseCategory category,
-                   String localCurrency, LocalDateTime dateOfPurchase,
-                   long amount,Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
-                   String itemName, String itemDescription, User user) {
+                String localCurrency, LocalDateTime dateOfPurchase,
+        long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
+                String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
+
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
         this.dateOfStatusChange = LocalDateTime.now();
@@ -38,28 +31,38 @@ public class Expense {
         this.dateModified = LocalDateTime.now();
         this.currentStatus = currentStatus;
         this.category = category;
-        this.localCurrency = localCurrency;
+        this.localCurrency = CurrenciesAllowed.valueOf(localCurrency);
         this.amount = amount;
         this.companyCC = companyCC;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.user = user;
         this.convertedAmount = convertedAmount;
+        this.comment = comment;
+        this.hasViolated = hasViolated;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "expense_generator")
+    @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
+    private Long id;
+    @Lob
+    private byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
-    private String localCurrency;
+    private CurrenciesAllowed localCurrency;
     private long amount;
     private Double convertedAmount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
     private String comment;
+    private Boolean hasViolated;
+
 
     private Long departmentPolicyBudget;
     private Long individualPolicyBudget;
@@ -75,16 +78,29 @@ public class Expense {
         this.amount = amount;
         this.user = user;
     }
+
     public Expense(long amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
 
     }
 
+    public Expense(long amount, User user) {
+        this.amount = amount;
+        this.user = user;
+    }
+
     public Expense(long amount, Employee employee) {
+
         this.user = employee;
         this.amount = amount;
         this.dateOfSubmission = LocalDate.now();
+
+
+
+    }
+
+    public Expense(Byte[] receiptByte, ExpenseCategory food, String usd, LocalDateTime of, long l, boolean b, ReceiptStatuses currentStatus, String american_lunch, String some_description_here, Employee newEmployee) {
 
     }
 }

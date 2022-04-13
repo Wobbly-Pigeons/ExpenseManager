@@ -1,16 +1,23 @@
 package wobbly.pigeons.expensemanager.util;
 
 
+
 import org.springframework.context.annotation.Configuration;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
 
-@Configuration
+
+
+@Component
 public class ConverterRestClient {
 
     private final WebClient webClient;
     private String myAPIkey = "9d2cc16424081f3851cfd3ae";
+
 
     public ConverterRestClient(){
         webClient = WebClient.builder()

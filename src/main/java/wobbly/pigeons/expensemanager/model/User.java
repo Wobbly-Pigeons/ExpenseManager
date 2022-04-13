@@ -55,6 +55,7 @@ public abstract class User {
     private LocalDate dob;
 
     @ManyToOne
+    @Transient
     private Department department;
 
     @ManyToMany(fetch = EAGER)

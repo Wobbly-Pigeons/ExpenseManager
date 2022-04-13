@@ -198,7 +198,5 @@ class EmployeeServiceTest {
             assertThat(expense.getItemName()).isEqualTo("American Lunch");
             System.out.println(expense.getAmount());
         }
-
-
     }
 }

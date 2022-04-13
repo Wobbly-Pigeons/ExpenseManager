@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -18,7 +19,6 @@ import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 
@@ -47,6 +47,7 @@ public class MainController {
         return "login";
     }
 
+
     /**
      * This is the landing page for our users after they log in.
      * It will show a short page of their 5 most recently updated (by themselves or otherwise) expenses,
@@ -68,13 +69,9 @@ public class MainController {
    * @return expenses list
    */
   @GetMapping(path = "/{index}/page/{pageNo}")
-  public String findPaginatedUserIndex(
-      @PathVariable(value = "pageNo") int pageNo,
-      @PathVariable(value = "index") String index,
-      @RequestParam("sortField") String sortField,
-      @RequestParam("sortDir") String sortDir,
-      Model model,
-      Principal principal) {
+  public String findPaginatedUserIndex(@PathVariable(value = "pageNo") int pageNo, @PathVariable(value = "index") String index,
+      @RequestParam("sortField") String sortField, @RequestParam("sortDir") String sortDir,
+      Model model, Principal principal) {
         int pageSize = 5;
         User currentUser = null;
         Page<Expense> page = null;
@@ -96,18 +93,22 @@ public class MainController {
         }
 
 
-      assert currentUser != null;
-      model.addAttribute("currentUsername", currentUser.getName());
-//        model.addAttribute("currentUserDepartment",currentUser.getDepartment());
-//        model.addAttribute("currentUserId",currentUser.getId());
 
-//        model.addAttribute("currentMonthAmountExpense",
-//                expenseService.totalAmountOfExpensesCurrentMonthByEmployeeId(currentUser.getId()));
-//
+      assert currentUser != null;
+
+        model.addAttribute("currentUserDepartment",currentUser.getDepartment());
+        model.addAttribute("currentUserId",currentUser.getId());
+
+        model.addAttribute("currentMonthAmountExpense",
+                expenseService.totalAmountOfExpensesCurrentMonthByEmployeeId(currentUser));
+
 //        model.addAttribute("currentBudgetLimit",
 //                expenseService.controlBudgetLimitForCurrentMonth(currentUser.getId()));
 
 
+
+
+        model.addAttribute("currentUsername", currentUser.getName());
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -121,14 +122,16 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping(value = "/new_expense")
-    public String newExpenseForm(Model model) {
-        model.addAttribute("ExpenseDTO", new ExpenseDTO());
-        return "expense_form";
-    }
+//rename this path because it should not contain verb
+    @GetMapping(value = "/edit_expense")
+    public String editExpenseForm(Model model) {
+        model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
+        return "expense_edit";
+}
 
     @GetMapping(value = "/expense_management")
     public String listExpensesForManager(Model model, Principal principal) {
         return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
     }
 }
+

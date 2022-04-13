@@ -47,6 +47,9 @@ public class ExpenseManagerApplication {
               bCryptPasswordEncoder.encode("hello"),
               "henry",
               LocalDate.of(1957, 2, 3));
+      Department newDepartment = new Department();
+      newDepartment.setName("IT");
+
       Employee e2 =
           new Employee(
               "test2@gmail.com",
@@ -59,7 +62,10 @@ public class ExpenseManagerApplication {
               bCryptPasswordEncoder.encode("holler"),
               "hannibal",
               LocalDate.of(1985, 6, 8));
-      List.of(e1, e2, e3).forEach(employee -> employee.getRoles().add(roleRepository.getById(1L)));
+      List.of(e1, e2, e3).forEach(employee -> {
+        employee.getRoles().add(roleRepository.getById(1L));
+      employee.setDepartment(newDepartment);
+      });
       employeeRepository.saveAll(List.of(e1, e2, e3));
       Manager m1 =
           new Manager(
@@ -88,7 +94,7 @@ public class ExpenseManagerApplication {
       Expense expense4 = new Expense(91, ReceiptStatuses.INCOMPLETE);
       Expense expense5 = new Expense(51, ReceiptStatuses.SUBMITTEDANDPENDING);
       Expense expense6 = new Expense(73, ReceiptStatuses.INCOMPLETE);
-//      List.of(expense, expense2, expense3, expense4, expense5, expense6).forEach(expense1 -> employeeService.addExpenseToUser(e1, expense));
+      List.of(expense, expense2, expense3, expense4, expense5, expense6).forEach(expense1 -> employeeService.addExpenseToUser(e1, expense));
       employeeService.addExpenseToUser(e1, expense);
       employeeService.addExpenseToUser(e1, expense2);
         employeeService.addExpenseToUser(e1, expense3);

@@ -3,16 +3,13 @@ package wobbly.pigeons.expensemanager.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO;
+import wobbly.pigeons.expensemanager.model.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
-import wobbly.pigeons.expensemanager.model.Employee;
-import wobbly.pigeons.expensemanager.model.Expense;
-import wobbly.pigeons.expensemanager.model.IndividualPolicy;
-import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalField;
@@ -29,8 +26,6 @@ public class ExpenseService {
     private final EmployeeRepository employeesRepository;
     private final ConverterRestClient converterRestClient;
 
-
-
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
@@ -45,11 +40,22 @@ public class ExpenseService {
 
         return expenseRepository.save(newExpense);
     }
-    public Expense addExpense(ExpenseDTO expenseDTO) {
-        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
-        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
-        return expenseRepository.save(newExpense);
-    }
+
+//    public Expense addExpense(ExpenseDTO expenseDTO) {
+//        Employee employee = employeesRepository.findById(expenseDTO.getUser_id()).orElseThrow();
+//        Expense newExpense = new Expense(expenseDTO.getAmount(), employee);
+//        return expenseRepository.save(newExpense);
+//    }
+
+    public Expense addExpense(ExpenseDTO2 expenseDTO2, Employee employee){
+    Expense newExpense = new Expense(expenseDTO2.getReceipt(), expenseDTO2.getAmount(), employee);
+    Double convertedAmount =
+        converterRestClient.getConversionAmount(
+            newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount());
+    newExpense.setConvertedAmount(convertedAmount);
+    return expenseRepository.save(newExpense);
+        }
+
 
 
     public Expense getExpenseById(long id) {
@@ -162,13 +168,13 @@ public class ExpenseService {
         return amountByDepartment;
     }
 
-    public Long totalAmountOfExpensesCurrentMonthByEmployeeId(Long employeeId) {
+    public Long totalAmountOfExpensesCurrentMonthByEmployeeId(User currentUser) {
 
         LocalDate initial = LocalDate.now();
         LocalDate start = initial.withDayOfMonth(1);
         LocalDate end = initial.withDayOfMonth(initial.getMonth().length(initial.isLeapYear()));
 
-        Set<Expense> expenses = employeesRepository.getById(employeeId).getExpenses();
+        Set<Expense> expenses = currentUser.getExpenses();
         long totalAmountOfExpensesCurrentMonth = 0;
 
         for (Expense expense : expenses) {
@@ -180,15 +186,14 @@ public class ExpenseService {
         return totalAmountOfExpensesCurrentMonth;
     }
 
-    public Long controlBudgetLimitForCurrentMonth(Long employeeId){
+    public Long controlBudgetLimitForCurrentMonth(User currentUser){
 
         Long totalAmountOfExpensesCurrentMonth =
-                totalAmountOfExpensesCurrentMonthByEmployeeId(employeeId);
+                totalAmountOfExpensesCurrentMonthByEmployeeId(currentUser);
 
-        Employee getEmployeeById = employeesRepository.getById(employeeId);
 
         IndividualPolicy individualPolicy = new IndividualPolicy(employeesRepository);
-        Long individualBudget = individualPolicy.getIndividualBudget(getEmployeeById.getDepartment().toString());
+        Long individualBudget = individualPolicy.getIndividualBudget(currentUser.getDepartment().toString());
 
         return individualBudget - totalAmountOfExpensesCurrentMonth;
     }
