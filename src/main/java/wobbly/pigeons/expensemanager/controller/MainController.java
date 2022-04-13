@@ -112,5 +112,11 @@ public class MainController {
     public String listExpensesForManager(Model model, Principal principal) {
         return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
     }
+
+    @GetMapping(value = "/receipt/{id}")
+    public String showReceipt(Model model) {
+
+      return "receipt";
+    }
 }
 
