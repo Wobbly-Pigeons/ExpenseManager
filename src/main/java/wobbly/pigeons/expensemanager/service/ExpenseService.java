@@ -28,14 +28,9 @@ public class ExpenseService {
     private final EmployeeRepository employeesRepository;
     private final ConverterRestClient converterRestClient;
     private final ManagerRepository managerRepository;
-
-
-
-
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
-
 
     public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
         Employee employee = employeesRepository.findByEmail(principal.getName());
@@ -53,10 +48,6 @@ public class ExpenseService {
         newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
         newExpense.setDateModified(LocalDateTime.now());
         newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
-
-        return expenseRepository.save(newExpense);
-    }
-
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();

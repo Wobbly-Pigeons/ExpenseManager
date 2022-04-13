@@ -50,9 +50,7 @@ public class ExpenseController {
         return expenseService.updateExpense(id, newExpense);
         }
 
-       // ______________________________________________________________________________
 
-    //  old method from MainController
     @GetMapping(value = "/new_expense")
     public String newExpenseForm(Model model) {
 
@@ -69,13 +67,6 @@ public class ExpenseController {
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
     }
-
-//    @PostMapping
-//    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
-//        return expenseService.addExpense(expenseDTO);
-//        }
-
-
     //uploading receipt
 //    @PostMapping("/spock")
 //    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
@@ -90,6 +81,7 @@ public class ExpenseController {
 //
 //        }
 //    }
+
 
 //    @GetMapping("/submitted")
 //    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
