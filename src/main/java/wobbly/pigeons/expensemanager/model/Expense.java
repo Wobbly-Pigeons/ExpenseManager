@@ -47,6 +47,8 @@ public class Expense {
     private Long id;
     @Lob
     private byte[] receipt;
+    //This will contain the logical path to the file in some external storage.
+    private String receiptLocation;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;
@@ -82,6 +84,11 @@ public class Expense {
     public Expense(Double amount, User user) {
         this.amount = amount;
         this.user = user;
+    }
+
+    public Expense(String receiptLocation) {
+        this.receiptLocation = receiptLocation;
+
     }
 
     public Expense(long amount, Employee employee) {

@@ -1,9 +1,15 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -61,26 +67,33 @@ public class ExpenseController {
         return "expense_submission";
     }
 
+    @GetMapping("/receipt/{Id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    //Resource is an interface in Spring used to load the resources i/e files
+    Resource dowloadReceipt(@PathVariable long receiptId){
+        byte[] receipt = expenseRepository.findById(receiptId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                .getReceipt();
+        // wrapping the stored file bytes in a ByteArrayResource which let us download
+        return new ByteArrayResource(receipt);
+    }
+
     @PostMapping ("/new_expense")
     public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
            expenseService.addExpense(expenseDTO2, principal);
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
     }
+
+
     //uploading receipt
-//    @PostMapping("/spock")
-//    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
-//
-//        if (file.isEmpty()) {
-//            attributes.addFlashAttribute("message", "Please select a file to upload");
-//           // return "redirect:/";
-//        } else {
-//            attributes.addFlashAttribute
-//                    ("message", "Thanks for uploading the file " + file.getOriginalFilename());
-//            return "redirect:/";
-//
-//        }
-//    }
+    @PostMapping()
+    Long uploadReceipt(@RequestParam MultipartFile file) throws Exception {
+        return expenseService.save(file.getBytes(), file.getOriginalFilename());
+    }
+    @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    FileSystemResource downloadImage(@PathVariable Long imageId) throws Exception {
+        return expenseService.find(imageId);
+    }
 
 
 //    @GetMapping("/submitted")

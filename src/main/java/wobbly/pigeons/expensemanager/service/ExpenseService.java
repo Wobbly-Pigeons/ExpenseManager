@@ -1,14 +1,18 @@
 package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.repository.FileSystemRepository;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
@@ -26,6 +30,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final EmployeeRepository employeesRepository;
+    private final FileSystemRepository fileSystemRepository;
     private final ConverterRestClient converterRestClient;
     private final ManagerRepository managerRepository;
     public List<Expense> getAllExpenses() {
@@ -34,7 +39,7 @@ public class ExpenseService {
 
     public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
         Employee employee = employeesRepository.findByEmail(principal.getName());
-        if(employee == null) {
+        if (employee == null) {
             employee = managerRepository.findByEmail(principal.getName());
         }
 
@@ -47,11 +52,30 @@ public class ExpenseService {
         newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
         newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
         newExpense.setDateModified(LocalDateTime.now());
-        newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+        newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(),
+                "EUR", newExpense.getAmount()));
+        return expenseRepository.save(newExpense);
+    }
+
+    public Long save(byte[] receipt, String receiptName) throws Exception {
+        String location = fileSystemRepository.save(receipt, receiptName);
+
+        return expenseRepository.save(new Expense(location))
+                .getId();
+    }
+
+    public FileSystemResource find(Long imageId) {
+        Expense receiptFromExpense = expenseRepository
+                .findById(imageId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return fileSystemRepository.findInFileSystem(receiptFromExpense.getReceiptLocation());
+    }
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();
     }
+
 
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
