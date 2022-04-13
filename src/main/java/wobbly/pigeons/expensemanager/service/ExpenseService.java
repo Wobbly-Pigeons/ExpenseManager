@@ -32,22 +32,26 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
-        Employee employee = employeesRepository.findByEmail(principal.getName());
-        if(employee == null) {
-            employee = managerRepository.findByEmail(principal.getName());
-        }
+  public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
+    Employee employee = employeesRepository.findByEmail(principal.getName());
+    if (employee == null) {
+      employee = managerRepository.findByEmail(principal.getName());
+    }
 
-        Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
-        newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
-        newExpense.setItemName(expenseDTO2.getItemName());
-        newExpense.setItemDescription(expenseDTO2.getItemDescription());
-        newExpense.setComment(expenseDTO2.getComment());
-        newExpense.setCategory(expenseDTO2.getCategory());
-        newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
-        newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
-        newExpense.setDateModified(LocalDateTime.now());
-        newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+    Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
+    newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
+    newExpense.setItemName(expenseDTO2.getItemName());
+    newExpense.setItemDescription(expenseDTO2.getItemDescription());
+    newExpense.setComment(expenseDTO2.getComment());
+    newExpense.setCategory(expenseDTO2.getCategory());
+    newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
+    newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
+    newExpense.setDateModified(LocalDateTime.now());
+    newExpense.setAmount(converterRestClient.getConversionAmount(
+            newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+
+    return expenseRepository.save(newExpense);
+    }
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();

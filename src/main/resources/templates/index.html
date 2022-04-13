@@ -50,25 +50,25 @@
       <td th:text="${expense.getDateOfPurchase()}"></td>
       <td th:media="${expense.getReceipt()}"></td>
       <td>
-        <!--
-        th:href="@{/expenses/{id}(id=${expense.getId})}"
-        data-target="#confirmModal"
-        th:attr="data-target='#confirmModal'+${expense.getId()}"
-        -->
+
         <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"
-                th:attr="data-target='#confirmModal', data-status='approve',
+                th:attr="data-target='#confirmModal', data-status='update',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'">Update</button>
 
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='approve')}" class="btn btn-success btn-sm">Approve</a>
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='deny')}" class="btn btn-danger btn-sm">Deny</a>
-        <a th:if="${manager}" th:href="@{/expenses/{id}/{status}(id=${expense.getId},status='nmi')}" class="btn btn-warning btn-sm">Needs Info</a>
+        <a th:if="${manager}" data-toggle="modal"
+           th:attr="data-target='#confirmModal', data-status='approve',
+                data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-success btn-sm">Approve</a>
+        <a th:if="${manager}" data-toggle="modal"
+           th:attr="data-target='#confirmModal', data-status='deny',
+                data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-danger btn-sm">Deny</a>
+        <a th:if="${manager}" data-toggle="modal"
+           th:attr="data-target='#confirmModal', data-status='nmi',
+                data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-warning btn-sm">Needs Info</a>
 
       </td>
     </tr>
     </tbody>
   </table>
-
-
   <div th:if = "${totalPages > 1}">
     <div class = "row col-sm-10">
       <div class = "col-sm-2">
@@ -91,24 +91,10 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" th:attr="id='confirmModal'">
-    <div class="modal-dialog">
-      <div class="modal-content">
 
-        <div class="modal-header">
-          <h4 class="modal-title">Are you sure?</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <a href="http://localhost:8094/expenses/" id="confirm"><button
-                  type="button" class="btn btn-success">Yes</button></a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div th:replace="~{fragments/modal.html}"></div>
+
 </div>
-<div th: th:replace="~{fragments/footer :: footer}"></div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

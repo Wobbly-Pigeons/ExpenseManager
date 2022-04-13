@@ -28,10 +28,6 @@ import java.util.List;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
-    private final ExpenseRepository expenseRepository;
-    private final EmployeeService employeeService;
-    private final ManagerService managerService;
-
 
     @PutMapping(value = "/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
@@ -67,28 +63,6 @@ public class ExpenseController {
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
     }
-    //uploading receipt
-//    @PostMapping("/spock")
-//    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
-//
-//        if (file.isEmpty()) {
-//            attributes.addFlashAttribute("message", "Please select a file to upload");
-//           // return "redirect:/";
-//        } else {
-//            attributes.addFlashAttribute
-//                    ("message", "Thanks for uploading the file " + file.getOriginalFilename());
-//            return "redirect:/";
-//
-//        }
-//    }
-
-
-//    @GetMapping("/submitted")
-//    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
-//        return "thank_you_for_submitting";
-//    }
-    // ______________________________________________________________________________
-
 
     @DeleteMapping("/{id}")
     public void deleteExpenseById(@PathVariable long id){

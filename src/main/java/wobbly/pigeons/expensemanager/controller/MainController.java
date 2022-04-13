@@ -51,11 +51,16 @@ public class MainController {
      * It will show a short page of their 5 most recently updated (by themselves or otherwise) expenses,
      * and will show a quick summary showing their remaining budget
      * @param model
-     * @return department list page
+     * @return page
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
         return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
+    }
+
+    @GetMapping(value = "/expense_management")
+    public String listExpensesForManager(Model model, Principal principal) {
+        return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
     }
 
   /**
@@ -108,10 +113,7 @@ public class MainController {
         return "expense_edit";
 }
 
-    @GetMapping(value = "/expense_management")
-    public String listExpensesForManager(Model model, Principal principal) {
-        return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
-    }
+
 
     @GetMapping(value = "/receipt/{id}")
     public String showReceipt(Model model) {

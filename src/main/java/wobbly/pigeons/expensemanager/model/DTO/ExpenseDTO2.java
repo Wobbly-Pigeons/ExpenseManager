@@ -20,6 +20,7 @@ public class ExpenseDTO2 {
     private ExpenseCategory category;
     private CurrenciesAllowed localCurrency;
     private Double amount;
+    private Double convertedAmount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
