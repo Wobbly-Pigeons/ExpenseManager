@@ -27,22 +27,25 @@ public class ExpenseService {
 
 
 
-    private final ConverterRestClient converterRestClient;
-
-
 
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
 
 
-    public Expense addExpense(ExpenseDTO2 expenseDTO2, MultipartFile file) {
+    public Expense addExpense(ExpenseDTO2 expenseDTO2) {
         Employee employee = employeesRepository.findById(expenseDTO2.getUser_id()).orElseThrow();
 
         Expense newExpense = new Expense(expenseDTO2.getReceipt(), expenseDTO2.getAmount(), employee);
+        newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
+        newExpense.setItemName(expenseDTO2.getItemName());
+        newExpense.setItemDescription(expenseDTO2.getItemDescription());
+        newExpense.setComment(expenseDTO2.getComment());
+        newExpense.setCategory(expenseDTO2.getCategory());
+        newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
+        newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
         Double convertedAmount = converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount());
         newExpense.setConvertedAmount(convertedAmount);
-        //RECEIPT UpLOADING AGA :)
 
         return expenseRepository.save(newExpense);
     }

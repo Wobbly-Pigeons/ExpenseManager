@@ -63,26 +63,25 @@ public class ExpenseController {
         return "thank_you_for_submitting";
     }
 
-    @PostMapping
-    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
-        return expenseService.addExpense(expenseDTO);
-        }
+//    @PostMapping
+//    public Expense addExpense (@ModelAttribute ExpenseDTO expenseDTO){
+//        return expenseService.addExpense(expenseDTO);
+//        }
 
 
     //uploading receipt
-    @PostMapping
+    @PostMapping("/spock")
     String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
 
-        if (file.isEmpty()){
+        if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload");
+           // return "redirect:/";
+        } else {
+            attributes.addFlashAttribute
+                    ("message", "Thanks for uploading the file " + file.getOriginalFilename());
             return "redirect:/";
+
         }
-        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        attributes.addFlashAttribute
-                ("message", "Thanks for uploading the file " + fileName);
-        return "redirect:/";
-
     }
 
 //    @GetMapping("/submitted")

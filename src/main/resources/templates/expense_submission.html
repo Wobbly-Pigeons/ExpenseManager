@@ -29,27 +29,34 @@ private String comment;
 
 <body>
 <div align="center">
-<h1>Expense Submission Form</h1>
-<h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
-<form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post">
-    <p>Receipt Image: <input type="text" th:field="*{receipt}" /></p>
-    <p>Category: <select th:field="*{category}" />
-        <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
-        </select></p>
-    <p>Local Currency: <select th:field="*{localCurrency}" />
-        <option th:each="c : ${currenciesAllowedList}" th:value="${c}" th:text="${c}"/>
-        </select></p>
-    <p>Amount: <input type="text" th:field="*{amount}" /></p>
-    <p>Used Company Credit Card?: <input type="text" th:field="*{companyCC}" />
+    <h1>Expense Submission Form</h1>
+    <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
+    <form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
+        <!--    <p>Receipt Image: <input type="text" th:field="*{receipt}" />-->
+        <!--        //EXTRA HTML-->
+        <table>
+            <tr><td>Receipt to upload:</td><td><input type="file" th:field="*{receipt} " /></td></tr>
+            <!--        name="file"-->
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
         </p>
-    <p>Item name: <input type="text" th:field="*{itemName}" /></p>
-    <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
+        <p>Category: <select th:field="*{category}" />
+            <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
+            </select></p>
+        <p>Local Currency: <select th:field="*{localCurrency}" />
+            <option th:each="c : ${currenciesAllowedList}" th:value="${c}" th:text="${c}"/>
+            </select></p>
+        <p>Amount: <input type="text" th:field="*{amount}" /></p>
+        <p>Used Company Credit Card?: <input type="text" th:field="*{companyCC}" />
+        </p>
+        <p>Item name: <input type="text" th:field="*{itemName}" /></p>
+        <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
 
-    <p><input type="submit" value="Submit" />
-        <input type="reset" value="Reset" /></p>
+        <p><input type="submit" value="Submit" />
+            <input type="reset" value="Reset" /></p>
 
 
-</form>
+    </form>
 </div>
 </body>
 </html>
