@@ -9,8 +9,11 @@ import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final EmployeeRepository employeesRepository;
     private final ConverterRestClient converterRestClient;
+    private final ManagerRepository managerRepository;
 
 
 
@@ -33,10 +37,13 @@ public class ExpenseService {
     }
 
 
-    public Expense addExpense(ExpenseDTO2 expenseDTO2) {
-        Employee employee = employeesRepository.findById(expenseDTO2.getUser_id()).orElseThrow();
+    public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
+        Employee employee = employeesRepository.findByEmail(principal.getName());
+        if(employee == null) {
+            employee = managerRepository.findByEmail(principal.getName());
+        }
 
-        Expense newExpense = new Expense(expenseDTO2.getReceipt(), expenseDTO2.getAmount(), employee);
+        Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
         newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
         newExpense.setItemName(expenseDTO2.getItemName());
         newExpense.setItemDescription(expenseDTO2.getItemDescription());
@@ -44,8 +51,8 @@ public class ExpenseService {
         newExpense.setCategory(expenseDTO2.getCategory());
         newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
         newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
-        Double convertedAmount = converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount());
-        newExpense.setConvertedAmount(convertedAmount);
+        newExpense.setDateModified(LocalDateTime.now());
+        newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
 
         return expenseRepository.save(newExpense);
     }

@@ -37,7 +37,6 @@ private String comment;
         <table>
             <tr><td>Receipt to upload:</td><td><input type="file" th:field="*{receipt} " /></td></tr>
             <!--        name="file"-->
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
         </table>
         </p>
         <p>Category: <select th:field="*{category}" />
@@ -51,6 +50,7 @@ private String comment;
         </p>
         <p>Item name: <input type="text" th:field="*{itemName}" /></p>
         <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
+
 
         <p><input type="submit" value="Submit" />
             <input type="reset" value="Reset" /></p>
