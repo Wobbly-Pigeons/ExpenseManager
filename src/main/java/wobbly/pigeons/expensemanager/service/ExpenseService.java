@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +68,11 @@ public class ExpenseService {
             employee = managerRepository.findByEmail(principal.getName());
         }
 
-        Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
+        Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(),
+                expenseDTO2.getAmount(),
+                employee,
+                expenseDTO2.getDateOfPurchase());
+
         newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
         newExpense.setItemName(expenseDTO2.getItemName());
         newExpense.setItemDescription(expenseDTO2.getItemDescription());
@@ -109,6 +114,7 @@ public class ExpenseService {
         return employee.getExpenses();
     }
 
+    //Bonus 1
     public List<Expense> getExpensesBySubmissionDate(LocalDate submissionDate) {
 
         List<Expense> all = expenseRepository.findAll();
@@ -132,7 +138,7 @@ public class ExpenseService {
         List<Expense> purchaseDateList = new ArrayList<Expense>();
 
         for (Expense expense : all) {
-            if (expense.getDateOfPurchase().toLocalDate().isEqual(purchaseDate)) {
+            if (expense.getDateOfPurchase().isEqual(purchaseDate)) {
                 purchaseDateList.add(expense);
             }
         }
@@ -250,18 +256,20 @@ public class ExpenseService {
 
 
     }
+    public Long comparePurchaseDateWithSubmissionDate(ExpenseDTO2 expenseDTO2, Principal principal){
+
+        LocalDate dateOfPurchase = expenseDTO2.getDateOfPurchase();
+        LocalDate submissionDate = LocalDate.now();
+
+        return ChronoUnit.DAYS.between(dateOfPurchase,submissionDate);
 
 
-    public Long analyzeExpense(ExpenseDTO2 expenseDTO2, Principal principal) {
 
-        Long totalAmount = totalAmountOfExpensesCurrentMonthByPrincipal(principal);
+    }
 
-//        DepartmentPolicy departmentPolicy = new DepartmentPolicy();
-        //  Long departmentPolicyBudget = departmentPolicy.getDepartmentPolicyBudget();
-        // TODO all values are good... only the division by all departments dont work
 
-        Long sumOfTotalWithExpenseAmount = totalAmount + expenseDTO2.getAmount();
+    //this method will execute a combination of different methods
+    public void analyzeExpense(ExpenseDTO2 expenseDTO2, Principal principal) {
 
-        return sumOfTotalWithExpenseAmount;
     }
 }

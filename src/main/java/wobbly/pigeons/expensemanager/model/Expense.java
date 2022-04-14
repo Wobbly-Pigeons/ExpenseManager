@@ -1,6 +1,5 @@
 package wobbly.pigeons.expensemanager.model;
 
-import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
@@ -20,9 +19,9 @@ public class Expense {
 
 
     public Expense(byte[] receipt, ExpenseCategory category,
-                String localCurrency, LocalDateTime dateOfPurchase,
-        Long amount, boolean companyCC, ReceiptStatuses currentStatus,
-                String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
+                   String localCurrency, LocalDate dateOfPurchase,
+                   Long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   String itemName, String itemDescription, String comment, boolean hasViolated, User user) {
 
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
@@ -49,7 +48,7 @@ public class Expense {
     private byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
-    private LocalDateTime dateOfPurchase;
+    private LocalDate dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
@@ -67,14 +66,16 @@ public class Expense {
 
 
     @ManyToOne(fetch = EAGER)
-    @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn (name = "user_id")
+    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, Long amount, User user) {
+    public Expense(byte[] receipt, Long amount, User user, LocalDate purchaseDate) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
+        this.dateOfPurchase = purchaseDate;
+        this.dateOfSubmission = LocalDate.now();
     }
 
     public Expense(Long amount, ReceiptStatuses status) {

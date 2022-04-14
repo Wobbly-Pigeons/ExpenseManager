@@ -67,7 +67,7 @@ public abstract class User {
     @Column(name = "expenses")
     private Set<Expense> expenses = new HashSet<>();
 
-    @Column(name = "Reputation level")
+    @Column(name = "Reputation_level")
     private int status;
 
     @Column(name="Violations")
