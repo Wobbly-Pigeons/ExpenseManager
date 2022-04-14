@@ -48,7 +48,6 @@ public class Expense {
     @Lob
     private byte[] receipt;
     //This will contain the logical path to the file in some external storage.
-    private String receiptLocation;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     private LocalDateTime dateOfPurchase;

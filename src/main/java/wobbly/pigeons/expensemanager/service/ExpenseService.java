@@ -1,18 +1,13 @@
 package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
-import wobbly.pigeons.expensemanager.repository.FileSystemRepository;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
@@ -26,11 +21,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ExpenseService {
+public final class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final EmployeeRepository employeesRepository;
-    private final FileSystemRepository fileSystemRepository;
     private final ConverterRestClient converterRestClient;
     private final ManagerRepository managerRepository;
     public List<Expense> getAllExpenses() {
@@ -57,20 +51,6 @@ public class ExpenseService {
         return expenseRepository.save(newExpense);
     }
 
-    public Long save(byte[] receipt, String receiptName) throws Exception {
-        String location = fileSystemRepository.save(receipt, receiptName);
-
-        return expenseRepository.save(new Expense(location))
-                .getId();
-    }
-
-    public FileSystemResource find(Long imageId) {
-        Expense receiptFromExpense = expenseRepository
-                .findById(imageId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return fileSystemRepository.findInFileSystem(receiptFromExpense.getReceiptLocation());
-    }
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();

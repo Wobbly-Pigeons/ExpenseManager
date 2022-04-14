@@ -67,14 +67,9 @@ public class ExpenseController {
         return "expense_submission";
     }
 
-    @GetMapping("/receipt/{Id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    //Resource is an interface in Spring used to load the resources i/e files
-    Resource dowloadReceipt(@PathVariable long receiptId){
-        byte[] receipt = expenseRepository.findById(receiptId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
-                .getReceipt();
-        // wrapping the stored file bytes in a ByteArrayResource which let us download
-        return new ByteArrayResource(receipt);
+    @GetMapping(value = "/receipt/{expenseId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable Long expenseId){
+        return expenseService.getExpenseById(expenseId).getReceipt();
     }
 
     @PostMapping ("/new_expense")
@@ -82,17 +77,6 @@ public class ExpenseController {
            expenseService.addExpense(expenseDTO2, principal);
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
-    }
-
-
-    //uploading receipt
-    @PostMapping()
-    Long uploadReceipt(@RequestParam MultipartFile file) throws Exception {
-        return expenseService.save(file.getBytes(), file.getOriginalFilename());
-    }
-    @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    FileSystemResource downloadImage(@PathVariable Long imageId) throws Exception {
-        return expenseService.find(imageId);
     }
 
 
