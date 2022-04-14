@@ -12,8 +12,12 @@ import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
+import wobbly.pigeons.expensemanager.service.ManagerService;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +30,8 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
     private final ExpenseRepository expenseRepository;
+    private final EmployeeService employeeService;
+    private final ManagerService managerService;
 
 
     @PutMapping(value = "/{id}/{status}")
@@ -48,6 +54,7 @@ public class ExpenseController {
 
     @GetMapping(value = "/new_expense")
     public String newExpenseForm(Model model) {
+
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
         model.addAttribute("expenseCategoryList", ExpenseCategory.values());
         model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
@@ -56,8 +63,9 @@ public class ExpenseController {
     }
 
     @PostMapping ("/new_expense")
-    public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2) {
-        //   expenseService.addExpense(expenseDTO2);
+    public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
+        //   expenseService.addExpense(expenseDTO2, principal);
+           expenseService.analyzeExpense(expenseDTO2,principal);
         //the above line made for a 500 error... will need to fix!
         return "thank_you_for_submitting";
     }

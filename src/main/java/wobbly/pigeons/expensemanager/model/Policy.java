@@ -18,7 +18,7 @@ public abstract class Policy {
     protected Long id;
 
 
-    protected Long budgetMonthly = 100L;
+    protected Long budgetMonthly = 1000L;
 
 
     @ManyToOne

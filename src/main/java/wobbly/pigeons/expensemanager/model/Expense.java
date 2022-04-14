@@ -21,7 +21,7 @@ public class Expense {
 
     public Expense(byte[] receipt, ExpenseCategory category,
                 String localCurrency, LocalDateTime dateOfPurchase,
-        long amount, Double convertedAmount, boolean companyCC, ReceiptStatuses currentStatus,
+        Long amount, boolean companyCC, ReceiptStatuses currentStatus,
                 String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
 
         this.receipt = receipt;
@@ -37,7 +37,6 @@ public class Expense {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.user = user;
-        this.convertedAmount = convertedAmount;
         this.comment = comment;
         this.hasViolated = hasViolated;
     }
@@ -55,8 +54,7 @@ public class Expense {
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
     private CurrenciesAllowed localCurrency;
-    private long amount;
-    private Double convertedAmount;
+    private Long amount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
@@ -73,21 +71,22 @@ public class Expense {
     @JoinColumn (name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, long amount, User user) {
+    public Expense(byte[] receipt, Long amount, User user) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
     }
 
-    public Expense(long amount, ReceiptStatuses status) {
+    public Expense(Long amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
 
     }
 
-    public Expense(long amount, User user) {
+    public Expense(Long amount, User user) {
         this.amount = amount;
         this.user = user;
+        this.dateOfSubmission = LocalDate.now();
     }
 
     public Expense(long amount, Employee employee) {
@@ -95,12 +94,17 @@ public class Expense {
         this.user = employee;
         this.amount = amount;
         this.dateOfSubmission = LocalDate.now();
-
-
-
     }
 
-    public Expense(Byte[] receiptByte, ExpenseCategory food, String usd, LocalDateTime of, long l, boolean b, ReceiptStatuses currentStatus, String american_lunch, String some_description_here, Employee newEmployee) {
-
-    }
+//    public Expense(Byte[] receiptByte,
+//                   ExpenseCategory food,
+//                   String usd,
+//                   LocalDateTime of,
+//                   long l,
+//                   boolean b,
+//                   ReceiptStatuses currentStatus,
+//                   String american_lunch,
+//                   String some_description_here,
+//                   Employee newEmployee) {
+//    }
 }

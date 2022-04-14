@@ -79,15 +79,13 @@ public class MainController {
 
         if(index.equals("index")) {
             currentUser = employeeService.findByEmail(principal.getName());
-
+            model.addAttribute("manager", false);
             page = employeeService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Employee) currentUser);
             listExpenses = page.getContent();
 
         } else if (index.equals("expense_management")) {
             currentUser = managerService.findByEmail(principal.getName());
-            model.addAttribute("manager", false);
-            model.addAttribute("typeOfDash", "expense_management");
-
+            model.addAttribute("manager", true);
             page = managerService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Manager) currentUser);
             listExpenses = page.getContent();
         }
@@ -96,17 +94,19 @@ public class MainController {
 
       assert currentUser != null;
 
-        model.addAttribute("currentUserDepartment",currentUser.getDepartment());
+        model.addAttribute("currentUserDepartment",currentUser.getDepartment().toString());
         model.addAttribute("currentUserId",currentUser.getId());
 
         model.addAttribute("currentMonthAmountExpense",
-                expenseService.totalAmountOfExpensesCurrentMonthByEmployeeId(currentUser));
+                expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
 
 //        model.addAttribute("currentBudgetLimit",
 //                expenseService.controlBudgetLimitForCurrentMonth(currentUser.getId()));
 
 
 
+
+        model.addAttribute("typeOfDash", index);
 
         model.addAttribute("currentUsername", currentUser.getName());
 
@@ -132,6 +132,12 @@ public class MainController {
     @GetMapping(value = "/expense_management")
     public String listExpensesForManager(Model model, Principal principal) {
         return findPaginatedUserIndex(1, "expense_management", "dateModified", "asc", model, principal);
+    }
+
+    @GetMapping(value = "/receipt/{id}")
+    public String showReceipt(Model model) {
+
+      return "receipt";
     }
 }
 

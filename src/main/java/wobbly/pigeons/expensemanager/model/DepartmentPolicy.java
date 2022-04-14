@@ -14,9 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentPolicy extends Policy{
 
     DepartmentRepository departmentRepository;
+
+    Long departmentBudget = getDepartmentBudget();
 
     public Long getDepartmentPolicyBudget(){
 

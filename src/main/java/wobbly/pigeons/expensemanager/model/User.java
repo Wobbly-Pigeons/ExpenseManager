@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
@@ -66,6 +67,12 @@ public abstract class User {
     @Column(name = "expenses")
     private Set<Expense> expenses = new HashSet<>();
 
+    @Column(name = "Reputation level")
+    private int status;
+
+    @Column(name="Violations")
+    private int violations;
+
     public User(String email, String password, String name, LocalDate dob) {
         this.email = email;
         this.password = password;
@@ -73,12 +80,21 @@ public abstract class User {
         this.dob = dob;
         this.roles = new HashSet<>();
         this.expenses = new HashSet<>();
+        this.department = new Department();
+        this.status = 1;
+        this.violations = 0;
+
     }
 
     public Integer getAge() {
         return Period.between(dob, LocalDate.now()).getYears();
     }
-//    @Column(name = "Reputation")
-//    private String status;  later implementation
+
+
+
+
+
+
+
 
 }
