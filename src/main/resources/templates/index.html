@@ -52,17 +52,17 @@
       <td>
 
         <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"
-                th:attr="data-target='#confirmModal', data-status='update',
+                th:attr="data-target='#confirmModal', data-status='Update',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'">Update</button>
 
         <a th:if="${manager}" data-toggle="modal"
-           th:attr="data-target='#confirmModal', data-status='approve',
+           th:attr="data-target='#confirmModal', data-status='Approve',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-success btn-sm">Approve</a>
         <a th:if="${manager}" data-toggle="modal"
-           th:attr="data-target='#confirmModal', data-status='deny',
+           th:attr="data-target='#confirmModal', data-status='Deny',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-danger btn-sm">Deny</a>
         <a th:if="${manager}" data-toggle="modal"
-           th:attr="data-target='#confirmModal', data-status='nmi',
+           th:attr="data-target='#confirmModal', data-status='Needs-Info',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-warning btn-sm">Needs Info</a>
 
       </td>
@@ -108,6 +108,9 @@
     let href = button.data('link');
     let modal = $(this);
     modal.find('a').attr('href', href + expenseId + '/' + status);
+    let text= $('#button_text').text();
+    let newText = text.replace("Yes", status)
+    $('#button_text').text(newText)
   });
 </script>
 </body>
