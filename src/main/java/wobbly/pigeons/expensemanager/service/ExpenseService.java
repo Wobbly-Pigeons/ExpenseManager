@@ -3,6 +3,8 @@ package wobbly.pigeons.expensemanager.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -47,9 +49,10 @@ public class ExpenseService {
     newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
     newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
     newExpense.setDateModified(LocalDateTime.now());
-    newExpense.setAmount(converterRestClient.getConversionAmount(
-            newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
-
+    if(expenseDTO2.getLocalCurrency() != CurrenciesAllowed.EUR) {
+        newExpense.setAmount(converterRestClient.getConversionAmount(
+                newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+    }
     return expenseRepository.save(newExpense);
     }
 
@@ -126,15 +129,23 @@ public class ExpenseService {
 
 
     public void approveExpense(Long id) {
-        expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        expense.setCurrentStatus(ReceiptStatuses.APPROVED);
+        expense.setDateModified(LocalDateTime.now());
+        expense.setDateOfStatusChange(LocalDateTime.now());
+        expenseRepository.flush();
     }
 
-    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+    public void commentAndReturnExpenseToEmployee(Long id, String status, ExpenseCommentFormDTO comment) {
         Expense expense = expenseRepository.findById(id).orElseThrow();
+        expense.setComment(comment.getComment());
+        expense.setDateModified(LocalDateTime.now());
+        expense.setDateOfStatusChange(LocalDateTime.now());
         if(status.equals("deny")) {
             expense.setCurrentStatus(ReceiptStatuses.REJECTED);
-        } else if (status.equals("nmi")) {
+        } else if (status.equals("needs-info")) {
             expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
         }
+        expenseRepository.flush();
     }
 }

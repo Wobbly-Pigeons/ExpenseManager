@@ -31,7 +31,7 @@ private String comment;
 <div align="center">
     <h1>Expense Submission Form</h1>
     <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
-    <form action="#" th:action="@{/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
+    <form action="#" th:action="@{/expenses/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
         <!--    <p>Receipt Image: <input type="text" th:field="*{receipt}" />-->
         <!--        //EXTRA HTML-->
         <table>

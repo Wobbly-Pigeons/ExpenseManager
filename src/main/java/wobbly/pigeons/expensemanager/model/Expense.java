@@ -3,6 +3,7 @@ package wobbly.pigeons.expensemanager.model;
 import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -46,6 +47,7 @@ public class Expense {
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
     private Long id;
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;

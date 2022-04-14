@@ -30,11 +30,12 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-//    @PutMapping(value = "/expenses/{id}/{status}")
-//    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
-//        expenseService.commentAndReturnExpenseToEmployee(id, status);
-//        return "redirect:/expense_management";
-//    }
+    @PutMapping(value = "/expenses/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status,
+                                             @ModelAttribute ExpenseCommentFormDTO comment) {
+        expenseService.commentAndReturnExpenseToEmployee(id, status, comment);
+        return "redirect:/expense_management";
+    }
 
     @GetMapping(value = "/expenses/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status, Model model) {
@@ -46,20 +47,16 @@ public class ExpenseController {
                 Expense expenseToBeUpdated = expenseService.getExpenseById(id);
                 model.addAttribute("Expense", expenseToBeUpdated);
                 return "expense_edit";
-            case "deny":
+            case "deny": case "needs-info":
                 Expense expenseToBeDenied = expenseService.getExpenseById(id);
-                model.addAttribute("Expense", expenseToBeDenied);
+                model.addAttribute("expense", expenseToBeDenied);
+                model.addAttribute("status", status.toLowerCase(Locale.ROOT));
                 model.addAttribute("expenseId", id);
                 model.addAttribute("expenseCommentForm", new ExpenseCommentFormDTO(id));
                 return "expense_comment_form";
-            case "needs-info":
-
             default:
                 return "malformed_url";
-
         }
-        model.addAttribute("status", status);
-        return "comment_expense_management_form";
     }
 
     @PutMapping("/expenses/{id}")
