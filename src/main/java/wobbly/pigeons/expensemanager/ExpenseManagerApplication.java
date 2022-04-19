@@ -6,10 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wobbly.pigeons.expensemanager.model.*;
-import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
-import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
-import wobbly.pigeons.expensemanager.repository.ManagerRepository;
-import wobbly.pigeons.expensemanager.repository.RoleRepository;
+import wobbly.pigeons.expensemanager.repository.*;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
@@ -35,31 +32,48 @@ public class ExpenseManagerApplication {
                                     BCryptPasswordEncoder bCryptPasswordEncoder,
                                     ManagerService managerService,
                                     EmployeeService employeeService,
-                                    ExpenseRepository expenseRepository) {
+                                    ExpenseRepository expenseRepository,
+                                    DepartmentRepository departmentRepository) {
     return (args) -> {
+
       roleRepository.save(new Role("ROLE_EMPLOYEE"));
       roleRepository.save(new Role("ROLE_MANAGER"));
       roleRepository.save(new Role("ROLE_ADMIN"));
       roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
+
+      departmentRepository.save(new Department("IT"));
+      departmentRepository.save(new Department("RH"));
+      departmentRepository.save(new Department("Research"));
+      departmentRepository.save(new Department("Law"));
+
+
       Employee e1 =
           new Employee(
               "test@gmail.com",
               bCryptPasswordEncoder.encode("hello"),
               "henry",
               LocalDate.of(1957, 2, 3));
+
       Employee e2 =
           new Employee(
               "test2@gmail.com",
               bCryptPasswordEncoder.encode("howdy"),
               "hank",
               LocalDate.of(1999, 7, 23));
+
       Employee e3 =
           new Employee(
               "test3@gmail.com",
               bCryptPasswordEncoder.encode("holler"),
               "hannibal",
               LocalDate.of(1985, 6, 8));
-      List.of(e1, e2, e3).forEach(employee -> employee.getRoles().add(roleRepository.getById(1L)));
+
+      List.of(e1, e2, e3).forEach(employee -> {
+        employee.getRoles().add(roleRepository.getById(1L));
+        employee.setDepartment(departmentRepository.getById(1L));
+        employee.setPolicy(new IndividualPolicy());
+
+      });
       employeeRepository.saveAll(List.of(e1, e2, e3));
       Manager m1 =
           new Manager(
@@ -82,12 +96,14 @@ public class ExpenseManagerApplication {
       List.of(m1, m2, m3).forEach(employee -> employee.getRoles().add(roleRepository.getById(2L)));
       managerService.addEmployee(e1, m3);
       m3.getRoles().add(roleRepository.getById(3L));
+
       Expense expense = new Expense(83.0, ReceiptStatuses.SUBMITTED);
       Expense expense2 = new Expense(34.3, ReceiptStatuses.INCOMPLETE);
       Expense expense3 = new Expense(56.5, ReceiptStatuses.SUBMITTED);
       Expense expense4 = new Expense(91.6, ReceiptStatuses.INCOMPLETE);
       Expense expense5 = new Expense(51.7, ReceiptStatuses.SUBMITTED);
       Expense expense6 = new Expense(73.8, ReceiptStatuses.INCOMPLETE);
+
 //      List.of(expense, expense2, expense3, expense4, expense5, expense6).forEach(expense1 -> employeeService.addExpenseToUser(e1, expense));
       employeeService.addExpenseToUser(e1, expense);
       employeeService.addExpenseToUser(e1, expense2);
@@ -97,7 +113,7 @@ public class ExpenseManagerApplication {
         employeeService.addExpenseToUser(e1, expense6);
       managerRepository.saveAll(List.of(m1, m2, m3));
       employeeRepository.saveAll(List.of(e1, e2, e3));
-//      expenseRepository.saveAll(List.of(expense, expense2, expense3, expense4, expense5, expense6));
+     expenseRepository.saveAll(List.of(expense, expense2, expense3, expense4, expense5, expense6));
     };
         }
 

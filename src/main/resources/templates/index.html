@@ -7,7 +7,32 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div th:replace="~{fragments/navigation :: header}"></div>
+
+<div th:replace="~{fragments/navvey5::navi}"></div>
+
+
+<div>
+  <table class="User Information">
+    <thead>
+      <th > User Information</th>
+    </thead>
+    <tbody>
+    <tr th:text="${currentUsername}"> Name: </tr>
+    <tr th:text="${currentUserDepartment}"></tr>
+    <tr th:text="${currentUserId}"></tr>
+    <tr th:text="${currentMonthAmountExpense}"></tr>
+
+<!--      <td th:number="${currentMonthAmountExpense}"></td>-->
+<!--      <td th:number="${currentBudgetLimit}"></td>-->
+    </tbody>
+  </table>
+</div>
+<div>
+  <p th:text="${currentUsername}"> Name: </p>
+  <p th:text="${currentUserDepartment}"></p>
+  <p th:text="${currentUserId}"></p>
+<!--  <p th:number="${currentMonthAmountExpense}"></p>-->
+
 
 <div class="container my-2">
 
@@ -54,6 +79,7 @@
                 th:attr="data-target='#confirmModal', data-status='Update',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'">Update</button>
 
+
         <a th:if="${manager}" data-toggle="modal"
            th:attr="data-target='#confirmModal', data-status='Approve',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-success btn-sm">Approve</a>
@@ -64,6 +90,23 @@
            th:attr="data-target='#confirmModal', data-status='Needs-Info',
                 data-expense-id=${expense.getId()}, data-link='http://localhost:8094/expenses/'" class="btn btn-warning btn-sm">Needs Info</a>
 
+
+        <div class="modal fade" id="confirmModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <a th:href="@{/}"><button
+                        type="button" class="btn btn-success">Yes</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
     </tbody>
@@ -98,6 +141,7 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 <script>
   $('#confirmModal').on('show.bs.modal', function (e) {

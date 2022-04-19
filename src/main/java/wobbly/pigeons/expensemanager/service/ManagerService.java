@@ -8,8 +8,10 @@ import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
+import wobbly.pigeons.expensemanager.model.*;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
+import wobbly.pigeons.expensemanager.repository.PolicyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class ManagerService {
 
   private final ManagerRepository managerRepository;
   private final ExpenseRepository expenseRepository;
+  private final PolicyRepository policyRepository;
 
   public List<Manager> getManagersList() {
     return managerRepository.findAll();
@@ -36,7 +39,9 @@ public class ManagerService {
 
   public Manager updateManager(Manager updatedManager, Long id) {
 
-    Manager oldDataManager = managerRepository.getById(id);
+
+        Manager oldDataManager = managerRepository.getById(id);
+
         oldDataManager.setName(updatedManager.getName());
         oldDataManager.setEmail(updatedManager.getEmail());
         oldDataManager.setManager(updatedManager.getManager());
@@ -78,5 +83,15 @@ public class ManagerService {
   public void addEmployee(Employee emp, Manager manager) {
     emp.setManager(manager);
     manager.getEmployees().add(emp);
+  }
+
+  public void changeCompanyBudget(Long newCompanyBudget){
+    Policy byId = policyRepository.getById(1L);
+    byId.setBudgetMonthly(newCompanyBudget);
+  }
+
+  public void changeNumberOfDaysToSubmitAnExpense(int newNumberOfDaysToSubmit){
+    Policy byId = policyRepository.getById(1L);
+    byId.setNumberOfDaysToSubmitAnExpense(newNumberOfDaysToSubmit);
   }
 }

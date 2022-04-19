@@ -1,6 +1,5 @@
 package wobbly.pigeons.expensemanager.model;
 
-import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
@@ -22,9 +21,10 @@ public class Expense {
 
 
     public Expense(byte[] receipt, ExpenseCategory category,
-                String localCurrency, LocalDate dateOfPurchase,
-        Double amount, boolean companyCC, ReceiptStatuses currentStatus,
-                String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
+                   String localCurrency, LocalDate dateOfPurchase,
+                   Long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   String itemName, String itemDescription, String comment, boolean hasViolated, User user) {
+
 
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
@@ -58,38 +58,56 @@ public class Expense {
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
     private CurrenciesAllowed localCurrency;
-    private Double amount;
+    private Long amount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
     private String comment;
     private Boolean hasViolated;
-    
+    private Long departmentPolicyBudget;
+    private Long individualPolicyBudget;
+
     @ManyToOne(fetch = EAGER)
-    @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn (name = "user_id")
+    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, Double amount, User user) {
+    public Expense(byte[] receipt, Long amount, User user, LocalDate purchaseDate) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
+        this.dateOfPurchase = purchaseDate;
+        this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(Double amount, ReceiptStatuses status) {
+    public Expense(Long amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
+
     }
 
-    public Expense(Double amount, User user) {
+    public Expense(Long amount, User user) {
         this.amount = amount;
         this.user = user;
+        this.dateOfSubmission = LocalDate.now();
     }
 
     public Expense(long amount, Employee employee) {
 
+        this.user = employee;
+        this.amount = amount;
+        this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(Byte[] receiptByte, ExpenseCategory food, String usd, LocalDateTime of, long l, boolean b, ReceiptStatuses currentStatus, String american_lunch, String some_description_here, Employee newEmployee) {
-    }
+//    public Expense(Byte[] receiptByte,
+//                   ExpenseCategory food,
+//                   String usd,
+//                   LocalDateTime of,
+//                   long l,
+//                   boolean b,
+//                   ReceiptStatuses currentStatus,
+//                   String american_lunch,
+//                   String some_description_here,
+//                   Employee newEmployee) {
+//    }
 }

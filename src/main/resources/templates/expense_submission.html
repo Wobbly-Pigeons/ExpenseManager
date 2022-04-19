@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+<!--    <meta charset="UTF-8">-->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Hello, Employee! Please submit your expense here.</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -9,25 +10,11 @@
 
 </head>
 
-<!--private Byte[] receipt;
-private LocalDate dateOfSubmission;
-private LocalDateTime dateOfStatusChange;
-private LocalDateTime dateOfPurchase;
-private LocalDateTime dateModified;
-private ReceiptStatuses currentStatus;
-private ExpenseCategory category;
-private String localCurrency;
-private long amount;
-private boolean companyCC;
-private String itemName;
-private String itemDescription;
-this.convertedAmount = convertedAmount;
-private String comment;
-    private Boolean hasViolated;
-    //TODO make sure the comment, hasviolated, etc are in the manager form
--->
 
 <body>
+
+
+<div th:replace="~{fragments/navvey5::navi}"></div>
 <div align="center">
     <h1>Expense Submission Form</h1>
     <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
@@ -35,6 +22,7 @@ private String comment;
         <table>
             <tr><td>Receipt to upload (Please only upload PNG):</td><td><input type="file" th:field="*{receipt} " /></td></tr>
         </table>
+        <p>Amount: <input type="text" th:field="*{dateOfPurchase}" /></p>
         </p>
         <p>Category: <select th:field="*{category}" />
             <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
@@ -51,9 +39,10 @@ private String comment;
 
         <p><input type="submit" value="Submit" />
             <input type="reset" value="Reset" /></p>
-
-
     </form>
 </div>
+</div>
+
+<footer th:replace="~{fragments/footer::footer}"></footer>
 </body>
 </html>

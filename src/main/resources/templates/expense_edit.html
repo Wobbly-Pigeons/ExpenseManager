@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<div th:replace="~{fragments/navvey5::navi}"></div>
 <div align="center">
     <h1>Expense Update Form</h1>
     <h3/>Please fill out which fields you'd like to update</h3>
@@ -30,6 +31,7 @@
         <p>Item name: <input type="text" th:field="*{itemName}" /></p>
         <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
         <p>Date of Purchase: <input type="date" th:field="*{dateOfPurchase}" /></p>
+
 
         <p><input type="submit" value="Submit" />
             <input type="reset" value="Reset" /></p>

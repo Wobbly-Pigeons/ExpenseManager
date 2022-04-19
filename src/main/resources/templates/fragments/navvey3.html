@@ -1,0 +1,38 @@
+<div th:fragment="navbar">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Expense Management</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li th:classappend="${module == 'index' ? 'active' : ''}">
+                <a href="#" th:href="@{/index}">Home</a>
+            </li>
+            <li th:classappend="${module == 'new' ? 'active' : ''}">
+                <a href="#" th:href="@{/new_expense}">New Claim</a>
+            </li>
+            <li th:classappend="${module == 'manager' ? 'active' : ''}">
+                <a href="#" th:href="@{/expense_management/page/{pageNo}}">Manager View</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a href="/login" th:href="@{/login}">
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
+                </a>
+            </li>
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a href="/logout" th:href="@{/logout}">
+                    <!-- ...onclick="$('#form').submit();">-->
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                </a>
+                <form style="visibility: hidden" id="form" method="post" action="/logout" th:action="@{/logout}">
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>

@@ -16,6 +16,7 @@ import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.model.User;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
+import wobbly.pigeons.expensemanager.service.ExpenseService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
 
 import java.security.Principal;
@@ -27,6 +28,7 @@ public class MainController {
 
     private final EmployeeService employeeService;
     private final ManagerService managerService;
+    private final ExpenseService expenseService;
 
     @GetMapping(value = "/registration")
     public String registration(Model model) {
@@ -59,6 +61,7 @@ public class MainController {
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
+        String manager = "index";
         return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
     }
 
@@ -96,8 +99,26 @@ public class MainController {
             listExpenses = page.getContent();
         }
 
+
+
+      assert currentUser != null;
+
+        model.addAttribute("currentUserDepartment",currentUser.getDepartment().toString());
+        model.addAttribute("currentUserId",currentUser.getId());
+
+        model.addAttribute("currentMonthAmountExpense",
+                expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
+
+//        model.addAttribute("currentBudgetLimit",
+//                expenseService.controlBudgetLimitForCurrentMonth(currentUser.getId()));
+
+
+
+
         model.addAttribute("typeOfDash", index);
+
         model.addAttribute("currentUsername", currentUser.getName());
+
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -106,7 +127,7 @@ public class MainController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
-        model.addAttribute("listExpenses", listExpenses);
+        model.addAttribute("listExpenses", currentUser.getExpenses());
         return "index";
     }
 
@@ -123,6 +144,11 @@ public class MainController {
     public String showReceipt(Model model) {
 
       return "receipt";
+    }
+
+    @GetMapping(value = "/error")
+    public String generalError() {
+        return "error_general";
     }
 }
 

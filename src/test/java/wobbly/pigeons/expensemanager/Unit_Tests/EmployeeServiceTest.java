@@ -1,7 +1,8 @@
-package wobbly.pigeons.expensemanager.service;
+package wobbly.pigeons.expensemanager.Unit_Tests;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import wobbly.pigeons.expensemanager.model.Employee;
@@ -25,6 +26,7 @@ class EmployeeServiceTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
 
 
     @Test
@@ -162,44 +164,9 @@ class EmployeeServiceTest {
         Employee newEmployee2 = new Employee();
 
         // 3 Expenses: 2 for employee1 and 1 for employee2 saved in a List
-        Expense exp1 = new Expense(
-                receiptByte, //Receipt
-                food,       // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 30, 10, 30), //Date of purchase
-                13L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                newEmployee // Employee
-        );
-
-        Expense exp2 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                newEmployee // Employee
-        );
-
-        Expense exp3 = new Expense(
-                receiptByte,
-                travel,     // Category
-                "USD",      // Local Currency
-                LocalDateTime.of(2022, Month.MARCH, 31, 11, 32), //Date of purchase
-                24L,        // Amount
-                true,       // CC from company
-                currentStatus, //Status of the expense
-                "American Lunch", // name of the item
-                "Some description here", //Description
-                newEmployee2 // Employee
-        );
+        Expense exp1 = new Expense(33L,newEmployee);
+        Expense exp2 = new Expense(22L,newEmployee2);
+        Expense exp3 = new Expense(11L,currentStatus);
 
 
         Set<Expense> ListOfEmployee1 = new HashSet<Expense>();
