@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Manager;
@@ -67,7 +66,7 @@ public class ManagerService {
     //the following code gets the employees for the current manager, then converts each employee's expenses into a stream
     currentUser.getEmployees().forEach(employee -> employee.getExpenses().stream()
             //then it filters each employee's expenses to only those that are submittedandpending status
-            .filter(expense -> expense.getCurrentStatus() == ReceiptStatuses.SUBMITTEDANDPENDING)
+            .filter(expense -> expense.getCurrentStatus() == ReceiptStatuses.SUBMITTED)
             //then it adds each of those filtered expenses to a list of expenses
             .forEach(expenses::add));
     // this could have all been accomplished with a sql query, but the experience with java8 was interesting

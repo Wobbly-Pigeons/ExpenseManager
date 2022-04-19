@@ -32,11 +32,8 @@ private String comment;
     <h1>Expense Submission Form</h1>
     <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
     <form action="#" th:action="@{/expenses/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
-        <!--    <p>Receipt Image: <input type="text" th:field="*{receipt}" />-->
-        <!--        //EXTRA HTML-->
         <table>
-            <tr><td>Receipt to upload:</td><td><input type="file" th:field="*{receipt} " /></td></tr>
-            <!--        name="file"-->
+            <tr><td>Receipt to upload (Please only upload PNG):</td><td><input type="file" th:field="*{receipt} " /></td></tr>
         </table>
         </p>
         <p>Category: <select th:field="*{category}" />
@@ -50,7 +47,7 @@ private String comment;
         </p>
         <p>Item name: <input type="text" th:field="*{itemName}" /></p>
         <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
-
+        <p>Date of Purchase: <input type="date" th:field="*{dateOfPurchase}" /></p>
 
         <p><input type="submit" value="Submit" />
             <input type="reset" value="Reset" /></p>

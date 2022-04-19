@@ -2,7 +2,6 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
@@ -46,7 +45,7 @@ public class ExpenseService {
     newExpense.setItemDescription(expenseDTO2.getItemDescription());
     newExpense.setComment(expenseDTO2.getComment());
     newExpense.setCategory(expenseDTO2.getCategory());
-    newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
+    newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTED);
     newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
     newExpense.setDateModified(LocalDateTime.now());
     if(expenseDTO2.getLocalCurrency() != CurrenciesAllowed.EUR) {
@@ -63,7 +62,6 @@ public class ExpenseService {
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
         oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
-        oldExpense.setCurrentStatus(newExpenseDetails.getCurrentStatus());
         oldExpense.setCategory(newExpenseDetails.getCategory());
         oldExpense.setDateModified(LocalDateTime.now());
         oldExpense.setLocalCurrency(newExpenseDetails.getLocalCurrency());
@@ -71,7 +69,7 @@ public class ExpenseService {
         oldExpense.setItemName(newExpenseDetails.getItemName());
         oldExpense.setItemDescription(newExpenseDetails.getItemDescription());
         oldExpense.setCompanyCC(newExpenseDetails.isCompanyCC());
-
+        expenseRepository.flush();
         return oldExpense;
     }
 
@@ -104,10 +102,10 @@ public class ExpenseService {
     public List<Expense> getExpensesByPurchaseDate(LocalDate purchaseDate) {
 
         List<Expense> all = expenseRepository.findAll();
-        List<Expense> purchaseDateList = new ArrayList<Expense>();
+        List<Expense> purchaseDateList = new ArrayList<>();
 
         for (Expense expense : all) {
-            if (expense.getDateOfPurchase().toLocalDate().isEqual(purchaseDate)) {
+            if (expense.getDateOfPurchase().isEqual(purchaseDate)) {
                 purchaseDateList.add(expense);
             }
         }

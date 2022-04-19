@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure (HttpSecurity http) throws Exception {
 
-        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession.htm"));
+        http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession"));
         http
             .authorizeRequests()
                 .antMatchers("/", "/registration", "/api/v1/employees/newEmployee", "api/v1/expenses").permitAll()

@@ -47,6 +47,8 @@ public class ExpenseController {
             case "update":
                 Expense expenseToBeUpdated = expenseService.getExpenseById(id);
                 model.addAttribute("Expense", expenseToBeUpdated);
+                model.addAttribute("expenseCategoryList", ExpenseCategory.values());
+                model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
                 return "expense_edit";
             case "deny": case "needs-info":
                 Expense expenseToBeDenied = expenseService.getExpenseById(id);
@@ -61,8 +63,9 @@ public class ExpenseController {
     }
 
     @PutMapping("/expenses/{id}")
-    public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
-        return expenseService.updateExpense(id, newExpense);
+    public String updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
+        expenseService.updateExpense(id, newExpense);
+        return "index";
         }
 
 
@@ -80,7 +83,7 @@ public class ExpenseController {
     public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
            expenseService.addExpense(expenseDTO2, principal);
         //the above line made for a 500 error... will need to fix!
-        return "thank_you_for_submitting";
+        return "redirect://index";
     }
 
     @DeleteMapping("/expenses/{id}")

@@ -4,6 +4,7 @@ import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ public class Expense {
 
 
     public Expense(byte[] receipt, ExpenseCategory category,
-                String localCurrency, LocalDateTime dateOfPurchase,
+                String localCurrency, LocalDate dateOfPurchase,
         Double amount, boolean companyCC, ReceiptStatuses currentStatus,
                 String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
 
@@ -51,7 +52,8 @@ public class Expense {
     private byte[] receipt;
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
-    private LocalDateTime dateOfPurchase;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
@@ -62,9 +64,7 @@ public class Expense {
     private String itemDescription;
     private String comment;
     private Boolean hasViolated;
-
-
-
+    
     @ManyToOne(fetch = EAGER)
     @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn (name = "user_id")

@@ -45,6 +45,10 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping(value="/invalidSession")
+    public String invalidSession() {
+        return "invalidSession";
+    }
 
     /**
      * This is the landing page for our users after they log in.
