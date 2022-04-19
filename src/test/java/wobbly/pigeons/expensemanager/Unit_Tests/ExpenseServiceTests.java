@@ -1,5 +1,5 @@
 
-package wobbly.pigeons.expensemanager.service;
+package wobbly.pigeons.expensemanager.Unit_Tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,8 @@ import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.service.EmployeeService;
+import wobbly.pigeons.expensemanager.service.ManagerService;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
 
 import javax.persistence.Transient;

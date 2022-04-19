@@ -83,7 +83,7 @@ public abstract class User {
         this.expenses = new HashSet<>();
         this.department = new Department();
         this.violations = 0;
-        this.policy = new IndividualPolicy();
+       // this.policy = new IndividualPolicy();
 
     }
 

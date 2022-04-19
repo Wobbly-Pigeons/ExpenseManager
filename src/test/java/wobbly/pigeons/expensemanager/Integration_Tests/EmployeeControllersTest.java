@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.controllers;
+package wobbly.pigeons.expensemanager.Integration_Tests;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -9,15 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import wobbly.pigeons.expensemanager.controller.EmployeesController;
 import wobbly.pigeons.expensemanager.model.Employee;
-import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
-import wobbly.pigeons.expensemanager.repository.RoleRepository;
+import wobbly.pigeons.expensemanager.repository.*;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
+import wobbly.pigeons.expensemanager.service.ManagerService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.csrf;
+import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockUser;
 
 
 @WebFluxTest(controllers = EmployeesController.class)
@@ -39,6 +43,18 @@ public class EmployeeControllersTest {
 
     @MockBean
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @MockBean
+    private ExpenseRepository expenseRepository;
+
+    @MockBean
+    private ManagerRepository managerRepository;
+
+    @MockBean
+    private ManagerService managerService;
+
+    @MockBean
+    private DepartmentRepository departmentRepository;
 
     @Autowired
     private WebTestClient webTestClient;
@@ -100,6 +116,8 @@ public class EmployeeControllersTest {
 
         Mockito.when(employeeRepository.findAll()).thenReturn(listOfEmployees);
 
+        // The user class have the policy dependency in the constructor...remove to run green
+
         //When
         webTestClient.get()
                 .uri("/api/v1/employees")
@@ -115,13 +133,14 @@ public class EmployeeControllersTest {
 
     // 403 forbidden status code...I need to create an Admin privileges in mockUs
     @Test  // or create our own user and use @WithCustomMockUser
-    @WithMockUser(username = "user",password = "1234")
+    @WithMockUser(username = "user",password = "1234",roles = {"ADMIN"})
     void createNewEmployee() throws Exception {
 
         Mockito.when(employeeRepository.save(Mockito.any(Employee.class)))
                 .thenAnswer(invocation -> invocation.getArguments()[0]);
 
-        webTestClient.post()
+        webTestClient.mutateWith(csrf())
+                .post()
                 .uri("/api/v1/employees/newEmployee")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(employee1)
