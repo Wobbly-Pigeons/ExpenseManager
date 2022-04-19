@@ -9,6 +9,7 @@ import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ public class ExpenseDTO2 {
     private MultipartFile receipt;
     private LocalDate dateOfSubmission = LocalDate.now();
 //    private LocalDateTime dateOfStatusChange;
-    private LocalDate dateOfPurchase = LocalDate.of(2022,4,10);
+  private LocalDate dateOfPurchase;
 //    private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;

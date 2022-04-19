@@ -87,7 +87,8 @@ public class ExpenseService {
         return expenseRepository.save(newExpense);
     }
 
-    public Expense getExpenseById(long id) {
+
+    public Expense getExpenseById (long id){
         return expenseRepository.findById(id).orElseThrow();
     }
 
@@ -204,16 +205,15 @@ public class ExpenseService {
         expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
     }
 
-    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+
+    public void commentAndReturnExpenseToEmployee(Long id, String status){
         Expense expense = expenseRepository.findById(id).orElseThrow();
         if (status.equals("deny")) {
             expense.setCurrentStatus(ReceiptStatuses.REJECTED);
         } else if (status.equals("nmi")) {
             expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
         }
-
     }
-
 
     public User findUserByPrincipal(Principal principal) {
         Employee employee = employeesRepository.findByEmail(principal.getName());
@@ -350,4 +350,6 @@ public class ExpenseService {
 
 
     }
+
+
 }
