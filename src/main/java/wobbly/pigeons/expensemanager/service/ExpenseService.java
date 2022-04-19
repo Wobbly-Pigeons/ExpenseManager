@@ -14,11 +14,12 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -159,7 +160,6 @@ public class ExpenseService {
     }
 
 
-
     public Long sumOfAmountInMonthExpensesByCategory(String categoryName) {
 
         LocalDate initial = LocalDate.now();
@@ -200,7 +200,6 @@ public class ExpenseService {
     }
 
 
-
     public void approveExpense(Long id) {
         expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
     }
@@ -216,16 +215,14 @@ public class ExpenseService {
     }
 
 
-
-
-
-    public User findUserByPrincipal(Principal principal){
+    public User findUserByPrincipal(Principal principal) {
         Employee employee = employeesRepository.findByEmail(principal.getName());
         if (employee == null) {
             employee = managerRepository.findByEmail(principal.getName());
         }
         return employee;
     }
+
     public Long totalAmountOfExpensesCurrentMonthByPrincipal(Principal principal) {
 
         LocalDate initial = LocalDate.now();
@@ -246,6 +243,7 @@ public class ExpenseService {
         }
         return totalAmountOfExpensesCurrentMonth;
     }
+
     public Long amountAvailableForCurrentMonth(Principal principal) {
 
         User userByPrincipal = findUserByPrincipal(principal);
@@ -256,44 +254,44 @@ public class ExpenseService {
 
 
     }
-    public Long comparePurchaseDateWithSubmissionDate(ExpenseDTO2 expenseDTO2){
+
+    public Long comparePurchaseDateWithSubmissionDate(ExpenseDTO2 expenseDTO2) {
 
         LocalDate dateOfPurchase = expenseDTO2.getDateOfPurchase();
         LocalDate submissionDate = LocalDate.now();
 
-        return ChronoUnit.DAYS.between(dateOfPurchase,submissionDate);
-
+        return ChronoUnit.DAYS.between(dateOfPurchase, submissionDate);
 
 
     }
 
-    public boolean purchaseTooExpensiveForCategory(ExpenseDTO2 expenseDTO2){
+    public boolean purchaseTooExpensiveForCategory(ExpenseDTO2 expenseDTO2) {
 
         ExpenseCategory category = expenseDTO2.getCategory();
 
-        switch(category){
+        switch (category) {
             case FOOD:
-                if(expenseDTO2.getAmount() > 100){
+                if (expenseDTO2.getAmount() > 100) {
                     return true;
                 }
                 break;
             case COMMODITY:
-                if (expenseDTO2.getAmount() > 500){
+                if (expenseDTO2.getAmount() > 500) {
                     return true;
                 }
                 break;
             case EVENT:
-                if (expenseDTO2.getAmount() > 2000){
+                if (expenseDTO2.getAmount() > 2000) {
                     return true;
                 }
                 break;
             case TRAVEL:
-                if (expenseDTO2.getAmount() > 1000){
+                if (expenseDTO2.getAmount() > 1000) {
                     return true;
                 }
                 break;
             case EXTRA:
-                if(expenseDTO2.getAmount() > 300){
+                if (expenseDTO2.getAmount() > 300) {
                     return true;
                 }
                 break;
@@ -305,18 +303,28 @@ public class ExpenseService {
         return false;
     }
 
+    public boolean purchaseDateAndSubmissionDateIsNotTheSameMonth(ExpenseDTO2 expenseDTO2){
+
+        LocalDate dateOfPurchase = expenseDTO2.getDateOfPurchase();
+
+        return dateOfPurchase.getMonth() != LocalDate.now().getMonth();
+    }
+
+
+
+
 
     //this method will execute a combination of different methods
     public void analyzeExpense(ExpenseDTO2 expenseDTO2, Principal principal) {
 
-        // first check: time violations TODO
-        if (comparePurchaseDateWithSubmissionDate(expenseDTO2) >= 14){
-//        findUserByPrincipal(principal).getPolicy().getNumberOfDaysToSubmitAnExpense()){
+        // first check: if the purchase date is >= 14 days; add violation TODO
+        if (comparePurchaseDateWithSubmissionDate(expenseDTO2) >= //>= 14) {
+        findUserByPrincipal(principal).getPolicy().getNumberOfDaysToSubmitAnExpense()){
             employeeService.addViolationToUser(findUserByPrincipal(principal));
         }
 
-        // second check: if the purchase overcome to amount available
-        if (expenseDTO2.getAmount() > amountAvailableForCurrentMonth(principal)){
+        // second check: if the purchase overcome the amount available for the current month
+        if (expenseDTO2.getAmount() > amountAvailableForCurrentMonth(principal)) {
 
             // send notification for manager
 
@@ -324,16 +332,21 @@ public class ExpenseService {
             employeeService.addViolationToUser(findUserByPrincipal(principal));
         }
 
-        // third check: if the current month available is negative and the user perform another expense add violation
-        if (amountAvailableForCurrentMonth(principal) <= 0 && expenseDTO2.getAmount() > 0 ){
+        // third check: if the current month available is negative and the user perform another expense; add violation
+        if (amountAvailableForCurrentMonth(principal) <= 0 && expenseDTO2.getAmount() > 0) {
             employeeService.addViolationToUser(findUserByPrincipal(principal));
         }
 
-        // forth check: if the current purchase is too expensive for specific category add violation
-        if (purchaseTooExpensiveForCategory(expenseDTO2)){
+        // forth check: if the current purchase is too expensive for specific category; add violation
+        if (purchaseTooExpensiveForCategory(expenseDTO2)) {
             employeeService.addViolationToUser(findUserByPrincipal(principal));
         }
 
+        // fifth check: if the purchase was made by CC the time
+        // limit of the submission should be in the exact current month
+        if (expenseDTO2.isCompanyCC() && purchaseDateAndSubmissionDateIsNotTheSameMonth(expenseDTO2)){
+            employeeService.addViolationToUser(findUserByPrincipal(principal));
+        }
 
 
     }

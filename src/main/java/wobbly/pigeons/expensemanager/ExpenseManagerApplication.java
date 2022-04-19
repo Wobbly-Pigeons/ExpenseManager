@@ -71,6 +71,7 @@ public class ExpenseManagerApplication {
       List.of(e1, e2, e3).forEach(employee -> {
         employee.getRoles().add(roleRepository.getById(1L));
         employee.setDepartment(departmentRepository.getById(1L));
+        employee.setPolicy(new IndividualPolicy());
 
       });
       employeeRepository.saveAll(List.of(e1, e2, e3));

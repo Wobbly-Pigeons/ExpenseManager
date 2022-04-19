@@ -17,7 +17,7 @@ public class ExpenseDTO2 {
 
     private long user_id;
     private MultipartFile receipt;
-    //    private LocalDate dateOfSubmission;
+    private LocalDate dateOfSubmission = LocalDate.now();
 //    private LocalDateTime dateOfStatusChange;
     private LocalDate dateOfPurchase = LocalDate.of(2022,4,10);
 //    private LocalDateTime dateModified;
