@@ -36,8 +36,7 @@
           Date Of Purchase</a>
       </th>
       <th>
-        <a th:href="@{http://localhost:8094/{typeOfDash}/page/{currentPage}(sortField=receipt,sortDir=${reverseSortDir},currentPage=${currentPage},typeOfDash=${typeOfDash})}">
-          Receipt</a>
+        <div>Receipt</div>
       </th>
       <th> Actions </th>
     </tr>
@@ -48,7 +47,7 @@
       <td th:text="${expense.getCurrentStatus()}"></td>
       <td th:text="${expense.getDateModified()}"></td>
       <td th:text="${expense.getDateOfPurchase()}"></td>
-      <td th:media="${expense.getReceipt()}"></td>
+      <td th:href="@{http://localhost:8094/receipt/${expense.getId()}}">View Receipt</td>
       <td>
 
         <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"

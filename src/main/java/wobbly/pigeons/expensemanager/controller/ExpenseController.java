@@ -1,6 +1,7 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,12 @@ import java.util.Locale;
 public class ExpenseController {
 
     private final ExpenseService expenseService;
+
+    @GetMapping(value="/getimage/{expenseId}",
+    produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable Long expenseId) {
+        return expenseService.getExpenseById(expenseId).getReceipt();
+    }
 
     @PutMapping(value = "/expenses/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status,
