@@ -1,8 +1,9 @@
 package wobbly.pigeons.expensemanager.model;
 
-import antlr.collections.List;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,9 +21,10 @@ public class Expense {
 
 
     public Expense(byte[] receipt, ExpenseCategory category,
-                String localCurrency, LocalDateTime dateOfPurchase,
-        Double amount, boolean companyCC, ReceiptStatuses currentStatus,
-                String itemName, String itemDescription,  String comment, boolean hasViolated, User user) {
+                   String localCurrency, LocalDate dateOfPurchase,
+                   Long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   String itemName, String itemDescription, String comment, boolean hasViolated, User user) {
+
 
         this.receipt = receipt;
         this.dateOfSubmission = LocalDate.now();
@@ -46,43 +48,49 @@ public class Expense {
     @SequenceGenerator(name = "expense_generator", sequenceName = "expense_generator", allocationSize = 1)
     private Long id;
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] receipt;
     //This will contain the logical path to the file in some external storage.
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
-    private LocalDateTime dateOfPurchase;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOfPurchase;
     private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
     private CurrenciesAllowed localCurrency;
-    private Double amount;
+    private Long amount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
     private String comment;
     private Boolean hasViolated;
-
-
+    private Long departmentPolicyBudget;
+    private Long individualPolicyBudget;
 
     @ManyToOne(fetch = EAGER)
-    @Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn (name = "user_id")
+    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, Double amount, User user) {
+    public Expense(byte[] receipt, Long amount, User user, LocalDate purchaseDate) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
+        this.dateOfPurchase = purchaseDate;
+        this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(Double amount, ReceiptStatuses status) {
+    public Expense(Long amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
+
     }
 
-    public Expense(Double amount, User user) {
+    public Expense(Long amount, User user) {
         this.amount = amount;
         this.user = user;
+        this.dateOfSubmission = LocalDate.now();
     }
 
     public Expense(String receiptLocation) {
@@ -92,8 +100,20 @@ public class Expense {
 
     public Expense(long amount, Employee employee) {
 
+        this.user = employee;
+        this.amount = amount;
+        this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(Byte[] receiptByte, ExpenseCategory food, String usd, LocalDateTime of, long l, boolean b, ReceiptStatuses currentStatus, String american_lunch, String some_description_here, Employee newEmployee) {
-    }
+//    public Expense(Byte[] receiptByte,
+//                   ExpenseCategory food,
+//                   String usd,
+//                   LocalDateTime of,
+//                   long l,
+//                   boolean b,
+//                   ReceiptStatuses currentStatus,
+//                   String american_lunch,
+//                   String some_description_here,
+//                   Employee newEmployee) {
+//    }
 }

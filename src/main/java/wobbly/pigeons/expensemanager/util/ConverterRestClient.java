@@ -1,7 +1,10 @@
 package wobbly.pigeons.expensemanager.util;
 
 
+
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
@@ -20,7 +23,7 @@ public class ConverterRestClient {
     }
 
 
-    public Double getConversionAmount (String baseCode, String targetCode, double amount){
+    public Long getConversionAmount (String baseCode, String targetCode, double amount){
 
         return (Double) webClient
                 .get()

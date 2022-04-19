@@ -1,4 +1,4 @@
-package wobbly.pigeons.expensemanager.service;
+package wobbly.pigeons.expensemanager.Unit_Tests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
