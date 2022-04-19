@@ -50,6 +50,7 @@ public class Expense {
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     private byte[] receipt;
+    //This will contain the logical path to the file in some external storage.
     private LocalDate dateOfSubmission;
     private LocalDateTime dateOfStatusChange;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -90,6 +91,11 @@ public class Expense {
         this.amount = amount;
         this.user = user;
         this.dateOfSubmission = LocalDate.now();
+    }
+
+    public Expense(String receiptLocation) {
+        this.receiptLocation = receiptLocation;
+
     }
 
     public Expense(long amount, Employee employee) {

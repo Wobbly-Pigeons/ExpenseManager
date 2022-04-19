@@ -2,8 +2,11 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+=======
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
+>>>>>>> apr12
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.*;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
@@ -25,7 +28,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class ExpenseService {
+public final class ExpenseService {
 
     private final PolicyRepository policyRepository;
     private final EmployeeService employeeService;
@@ -37,6 +40,7 @@ public class ExpenseService {
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll();
     }
+
 
   public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
     Employee employee = employeesRepository.findByEmail(principal.getName());
@@ -61,9 +65,11 @@ public class ExpenseService {
 
 
 
+
     public Expense getExpenseById (long id){
         return expenseRepository.findById(id).orElseThrow();
     }
+
 
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
@@ -181,19 +187,14 @@ public class ExpenseService {
         expenseRepository.flush();
     }
 
-<<<<<<< HEAD
+
     public void commentAndReturnExpenseToEmployee(Long id, String status, ExpenseCommentFormDTO comment) {
         Expense expense = expenseRepository.findById(id).orElseThrow();
         expense.setComment(comment.getComment());
         expense.setDateModified(LocalDateTime.now());
         expense.setDateOfStatusChange(LocalDateTime.now());
         if(status.equals("deny")) {
-=======
 
-    public void commentAndReturnExpenseToEmployee(Long id, String status){
-        Expense expense = expenseRepository.findById(id).orElseThrow();
-        if (status.equals("deny")) {
->>>>>>> AnalyseExpenseViolations
             expense.setCurrentStatus(ReceiptStatuses.REJECTED);
         } else if (status.equals("needs-info")) {
             expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);

@@ -11,8 +11,6 @@ import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
@@ -80,28 +78,22 @@ public class ExpenseController {
         return "expense_submission";
     }
 
+
+    @GetMapping(value = "/receipt/{expenseId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable Long expenseId){
+        return expenseService.getExpenseById(expenseId).getReceipt();
+    }
+
+
     @PostMapping ("/expenses/new_expense")
     public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
-        //   expenseService.addExpense(expenseDTO2, principal);
+         expenseService.addExpense(expenseDTO2, principal);
            expenseService.analyzeExpense(expenseDTO2,principal);
         //the above line made for a 500 error... will need to fix!
         return "redirect://index";
     }
 
-    //uploading receipt
-    @PostMapping("/uploadReceipt")
-    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
-        if (file.isEmpty()){
-            attributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/";
-        }
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-//        attributes.addFlashAttribute("message", "Thanks for uploading the file " + fileName);
-        return "redirect:/";
-
-
-    }
 
 //    @GetMapping("/submitted")
 //    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
