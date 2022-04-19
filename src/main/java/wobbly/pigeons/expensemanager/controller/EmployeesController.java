@@ -23,8 +23,9 @@ public class EmployeesController {
     }
 
     @PostMapping("/newEmployee")
-    public Employee addEmployee(@ModelAttribute UserDTO userDTO) {
-        return employeeService.newEmployee(userDTO);
+    public String addEmployee(@ModelAttribute UserDTO userDTO) {
+        employeeService.newEmployee(userDTO);
+        return "/login";
     }
 
     @GetMapping("/{id}")

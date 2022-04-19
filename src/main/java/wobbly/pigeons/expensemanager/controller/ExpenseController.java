@@ -1,10 +1,12 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
@@ -20,38 +22,54 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 
-@Controller(value = "/expenses")
-
+@Controller
 @RequiredArgsConstructor
 public class ExpenseController {
 
     private final ExpenseService expenseService;
-    private final ExpenseRepository expenseRepository;
-    private final EmployeeService employeeService;
-    private final ManagerService managerService;
 
-
-    @PutMapping(value = "/{id}/{status}")
-    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status) {
-        expenseService.commentAndReturnExpenseToEmployee(id, status);
+    @PutMapping(value = "/expenses/{id}/{status}")
+    public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status,
+                                             @ModelAttribute ExpenseCommentFormDTO comment) {
+        expenseService.commentAndReturnExpenseToEmployee(id, status, comment);
         return "redirect:/expense_management";
     }
 
-    @GetMapping(value = "/{id}/{status}")
+    @GetMapping(value = "/expenses/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status, Model model) {
-        model.addAttribute("status", status);
-        return "comment_expense_management_form";
+        switch(status.toLowerCase(Locale.ROOT)) {
+            case "approve":
+                expenseService.approveExpense(id);
+                return "redirect:/expense_management";
+            case "update":
+                Expense expenseToBeUpdated = expenseService.getExpenseById(id);
+                model.addAttribute("Expense", expenseToBeUpdated);
+                model.addAttribute("expenseCategoryList", ExpenseCategory.values());
+                model.addAttribute("currenciesAllowedList", CurrenciesAllowed.values());
+                return "expense_edit";
+            case "deny": case "needs-info":
+                Expense expenseToBeDenied = expenseService.getExpenseById(id);
+                model.addAttribute("expense", expenseToBeDenied);
+                model.addAttribute("status", status.toLowerCase(Locale.ROOT));
+                model.addAttribute("expenseId", id);
+                model.addAttribute("expenseCommentForm", new ExpenseCommentFormDTO(id));
+                return "expense_comment_form";
+            default:
+                return "malformed_url";
+        }
     }
 
-    @PutMapping("/{id}")
-    public Expense updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
-        return expenseService.updateExpense(id, newExpense);
+    @PutMapping("/expenses/{id}")
+    public String updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
+        expenseService.updateExpense(id, newExpense);
+        return "index";
         }
 
 
-    @GetMapping(value = "/new_expense")
+    @GetMapping(value = "/expenses/new_expense")
     public String newExpenseForm(Model model) {
 
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
@@ -61,66 +79,44 @@ public class ExpenseController {
         return "expense_submission";
     }
 
-    @PostMapping ("/new_expense")
+    @PostMapping ("/expenses/new_expense")
     public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
            expenseService.addExpense(expenseDTO2, principal);
         //the above line made for a 500 error... will need to fix!
-        return "thank_you_for_submitting";
+        return "redirect://index";
     }
-    //uploading receipt
-//    @PostMapping("/spock")
-//    String uploadReceipt(@RequestParam("receipt") MultipartFile file, RedirectAttributes attributes) {
-//
-//        if (file.isEmpty()) {
-//            attributes.addFlashAttribute("message", "Please select a file to upload");
-//           // return "redirect:/";
-//        } else {
-//            attributes.addFlashAttribute
-//                    ("message", "Thanks for uploading the file " + file.getOriginalFilename());
-//            return "redirect:/";
-//
-//        }
-//    }
 
-
-//    @GetMapping("/submitted")
-//    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
-//        return "thank_you_for_submitting";
-//    }
-    // ______________________________________________________________________________
-
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/expenses/{id}")
     public void deleteExpenseById(@PathVariable long id){
         expenseService.deleteExpense(id);
         }
 
-    @GetMapping()
+    @GetMapping("/expenses")
     public List<Expense> getAllExpenses(){
         return expenseService.getAllExpenses();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/expenses/{id}")
         public Expense getExpensesById (@PathVariable long id){
         return expenseService.getExpenseById(id);
     }
 
-    @GetMapping("/{purchaseDate}")
+    @GetMapping("/expenses/{purchaseDate}")
         public List<Expense> getExpensesByPurchaseDate (@PathVariable LocalDate purchaseDate){
         return expenseService.getExpensesByPurchaseDate(purchaseDate);
     }
 
-    @GetMapping("/{submissionDate}")
+    @GetMapping("/expenses/{submissionDate}")
         public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDate submissionDate){
         return expenseService.getExpensesBySubmissionDate(submissionDate);
     }
 
-    @GetMapping("/{employeeId}")
+    @GetMapping("/expenses/{employeeId}")
         public Collection<Expense> getExpensesByEmployeeId (@PathVariable long employeeId){
         return expenseService.getExpensesByEmployeeId(employeeId);
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/expenses/{category}")
     public Collection<Expense> getExpensesByCategory (@PathVariable String category){
         return expenseService.getExpensesByCategory(category);
     }

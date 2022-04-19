@@ -2,7 +2,8 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
+import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
@@ -32,22 +33,27 @@ public class ExpenseService {
         return expenseRepository.findAll();
     }
 
-    public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
-        Employee employee = employeesRepository.findByEmail(principal.getName());
-        if(employee == null) {
-            employee = managerRepository.findByEmail(principal.getName());
-        }
+  public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
+    Employee employee = employeesRepository.findByEmail(principal.getName());
+    if (employee == null) {
+      employee = managerRepository.findByEmail(principal.getName());
+    }
 
-        Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
-        newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
-        newExpense.setItemName(expenseDTO2.getItemName());
-        newExpense.setItemDescription(expenseDTO2.getItemDescription());
-        newExpense.setComment(expenseDTO2.getComment());
-        newExpense.setCategory(expenseDTO2.getCategory());
-        newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTEDANDPENDING);
-        newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
-        newExpense.setDateModified(LocalDateTime.now());
-        newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+    Expense newExpense = new Expense(expenseDTO2.getReceipt().getBytes(), expenseDTO2.getAmount(), employee);
+    newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
+    newExpense.setItemName(expenseDTO2.getItemName());
+    newExpense.setItemDescription(expenseDTO2.getItemDescription());
+    newExpense.setComment(expenseDTO2.getComment());
+    newExpense.setCategory(expenseDTO2.getCategory());
+    newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTED);
+    newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
+    newExpense.setDateModified(LocalDateTime.now());
+    if(expenseDTO2.getLocalCurrency() != CurrenciesAllowed.EUR) {
+        newExpense.setAmount(converterRestClient.getConversionAmount(
+                newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+    }
+    return expenseRepository.save(newExpense);
+    }
 
     public Expense getExpenseById(long id) {
         return expenseRepository.findById(id).orElseThrow();
@@ -56,7 +62,6 @@ public class ExpenseService {
     public Expense updateExpense(Long id, Expense newExpenseDetails) {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
         oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
-        oldExpense.setCurrentStatus(newExpenseDetails.getCurrentStatus());
         oldExpense.setCategory(newExpenseDetails.getCategory());
         oldExpense.setDateModified(LocalDateTime.now());
         oldExpense.setLocalCurrency(newExpenseDetails.getLocalCurrency());
@@ -64,7 +69,7 @@ public class ExpenseService {
         oldExpense.setItemName(newExpenseDetails.getItemName());
         oldExpense.setItemDescription(newExpenseDetails.getItemDescription());
         oldExpense.setCompanyCC(newExpenseDetails.isCompanyCC());
-
+        expenseRepository.flush();
         return oldExpense;
     }
 
@@ -97,10 +102,10 @@ public class ExpenseService {
     public List<Expense> getExpensesByPurchaseDate(LocalDate purchaseDate) {
 
         List<Expense> all = expenseRepository.findAll();
-        List<Expense> purchaseDateList = new ArrayList<Expense>();
+        List<Expense> purchaseDateList = new ArrayList<>();
 
         for (Expense expense : all) {
-            if (expense.getDateOfPurchase().toLocalDate().isEqual(purchaseDate)) {
+            if (expense.getDateOfPurchase().isEqual(purchaseDate)) {
                 purchaseDateList.add(expense);
             }
         }
@@ -122,15 +127,23 @@ public class ExpenseService {
 
 
     public void approveExpense(Long id) {
-        expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
+        Expense expense = expenseRepository.findById(id).orElseThrow();
+        expense.setCurrentStatus(ReceiptStatuses.APPROVED);
+        expense.setDateModified(LocalDateTime.now());
+        expense.setDateOfStatusChange(LocalDateTime.now());
+        expenseRepository.flush();
     }
 
-    public void commentAndReturnExpenseToEmployee(Long id, String status) {
+    public void commentAndReturnExpenseToEmployee(Long id, String status, ExpenseCommentFormDTO comment) {
         Expense expense = expenseRepository.findById(id).orElseThrow();
+        expense.setComment(comment.getComment());
+        expense.setDateModified(LocalDateTime.now());
+        expense.setDateOfStatusChange(LocalDateTime.now());
         if(status.equals("deny")) {
             expense.setCurrentStatus(ReceiptStatuses.REJECTED);
-        } else if (status.equals("nmi")) {
+        } else if (status.equals("needs-info")) {
             expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
         }
+        expenseRepository.flush();
     }
 }
