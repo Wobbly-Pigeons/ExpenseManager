@@ -1,29 +1,38 @@
 package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
+import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Role;
+import wobbly.pigeons.expensemanager.model.User;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
+import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
+import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 import wobbly.pigeons.expensemanager.repository.RoleRepository;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeesRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
+    private final ExpenseRepository expenseRepository;
+    private final ManagerRepository managerRepository;
 
     public List<Employee> getEmployeesList() {
-        return employeeRepository.findAll();
+        return employeesRepository.findAll();
     }
 
     public Employee newEmployee(UserDTO userDTO) {
@@ -36,37 +45,85 @@ public class EmployeeService {
                 LocalDate.parse(userDTO.getDob(), formatter)
         );
         newEmployee.getRoles().add(initialRole);
-        return employeeRepository.save(newEmployee);
+        return employeesRepository.save(newEmployee);
     }
 
     public Employee addEmployee(Employee newEmployee) {
-        return employeeRepository.save(newEmployee);
+        return employeesRepository.save(newEmployee);
     }
 
     public Employee getEmployee(Long id) {
 
-        return employeeRepository.getById(id);
+        return employeesRepository.getById(id);
     }
 
     public Employee updateEmployee(Employee updatedEmployee, Long id) {
 
-        Employee oldDataEmployee = employeeRepository.getById(id);
+        Employee oldDataEmployee = employeesRepository.getById(id);
 
-        //oldDataEmployee.setName(updatedEmployee.getName());
+        oldDataEmployee.setName(updatedEmployee.getName());
         oldDataEmployee.setEmail(updatedEmployee.getEmail());
         oldDataEmployee.setManager(updatedEmployee.getManager());
         oldDataEmployee.setDob(updatedEmployee.getDob());
         oldDataEmployee.setPassword(updatedEmployee.getPassword());
         oldDataEmployee.setExpenses(updatedEmployee.getExpenses());
 
-        return employeeRepository.save(oldDataEmployee);
+        return employeesRepository.save(oldDataEmployee);
     }
 
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        employeesRepository.deleteById(id);
     }
 
     public Employee findByEmail(String email) {
-        return employeeRepository.findByEmail(email);
+        return employeesRepository.findByEmail(email);
+    }
+
+
+    public Page<Expense> findPaginatedExpensesByUser(int pageNo, int pageSize,
+                                                     String sortField, String sortDir,
+                                                     Employee currentUser) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return expenseRepository.findExpensesByUser(currentUser, pageable);
+
+    }
+
+    public void addExpenseToUser(Employee emp, Expense expense) {
+        emp.getExpenses().add(expense);
+        expense.setUser(emp);
+    }
+
+
+    public User findUserByPrincipal(Principal principal) {
+        Employee employee = employeesRepository.findByEmail(principal.getName());
+        if (employee == null) {
+            employee = managerRepository.findByEmail(principal.getName());
+        }
+        return employee;
+    }
+    public int getUserViolations(Principal principal) {
+
+        User userByPrincipal = findUserByPrincipal(principal);
+
+        return userByPrincipal.getViolations();
+
+
+    }
+    public void addViolationToUser(User user) {
+
+        int violations = user.getViolations();
+        user.setViolations(violations + 1);
+
+        Employee employee = employeesRepository.findByEmail(user.getEmail());
+
+        if (employee == null) {
+            employee = managerRepository.findByEmail(user.getEmail());
+            managerRepository.flush();
+        } else {
+            employeesRepository.flush();
+
+        }
     }
 }

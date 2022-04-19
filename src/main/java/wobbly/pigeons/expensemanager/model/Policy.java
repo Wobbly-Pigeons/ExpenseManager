@@ -1,11 +1,10 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,5 +18,20 @@ public abstract class Policy {
     @SequenceGenerator(name = "policy_generator", sequenceName = "policy_generator", allocationSize = 1)
     protected Long id;
 
-    protected Long budgetMonthly;
+
+    protected Long budgetMonthly = 1000L;
+    protected int numberOfDaysToSubmitAnExpense = 14;
+
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    protected Department department;
+
+    @ManyToMany
+    @JoinColumn(name = "user_id")
+    protected List<User> user;
+
+
+
+
 }

@@ -3,7 +3,7 @@ package wobbly.pigeons.expensemanager.model;
 public enum ReceiptStatuses {
 
     INCOMPLETE,
-    SUBMITTEDANDPENDING,
+    SUBMITTED,
     APPROVED,
     REJECTED,
     NEEDSFURTHERINFO,

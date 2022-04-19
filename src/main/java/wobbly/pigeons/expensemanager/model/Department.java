@@ -18,15 +18,22 @@ public class Department {
     @SequenceGenerator(name = "department_generator", sequenceName = "department_generator", allocationSize = 1)
     private long id;
     private String name;
+
     @OneToMany
     private Collection<Employee> employee;
-    @OneToOne
-    private DepartmentPolicy policy;
 
-    public Department(String name, List<Employee> employeesList, DepartmentPolicy departmentPolicy){
+    private Long departmentBudget;
+
+    public Department(String name){
         this.name = name;
-        this.employee = employeesList;
-        this.policy = departmentPolicy;
+        this.departmentBudget = getBudgetFromPolicy();
+    }
+
+    public Long getBudgetFromPolicy(){
+
+        DepartmentPolicy departmentPolicy = new DepartmentPolicy();
+
+        return departmentPolicy.getBudgetMonthly();
     }
 
 }
