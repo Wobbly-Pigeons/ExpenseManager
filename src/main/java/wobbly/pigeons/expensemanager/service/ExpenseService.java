@@ -25,7 +25,7 @@ import java.time.temporal.ChronoUnit;
 public class ExpenseService {
 
     private final PolicyRepository policyRepository;
-
+    private final EmployeeService employeeService;
     private final ExpenseRepository expenseRepository;
     private final EmployeeRepository employeesRepository;
     private final ConverterRestClient converterRestClient;
@@ -256,7 +256,7 @@ public class ExpenseService {
 
 
     }
-    public Long comparePurchaseDateWithSubmissionDate(ExpenseDTO2 expenseDTO2, Principal principal){
+    public Long comparePurchaseDateWithSubmissionDate(ExpenseDTO2 expenseDTO2){
 
         LocalDate dateOfPurchase = expenseDTO2.getDateOfPurchase();
         LocalDate submissionDate = LocalDate.now();
@@ -267,9 +267,74 @@ public class ExpenseService {
 
     }
 
+    public boolean purchaseTooExpensiveForCategory(ExpenseDTO2 expenseDTO2){
+
+        ExpenseCategory category = expenseDTO2.getCategory();
+
+        switch(category){
+            case FOOD:
+                if(expenseDTO2.getAmount() > 100){
+                    return true;
+                }
+                break;
+            case COMMODITY:
+                if (expenseDTO2.getAmount() > 500){
+                    return true;
+                }
+                break;
+            case EVENT:
+                if (expenseDTO2.getAmount() > 2000){
+                    return true;
+                }
+                break;
+            case TRAVEL:
+                if (expenseDTO2.getAmount() > 1000){
+                    return true;
+                }
+                break;
+            case EXTRA:
+                if(expenseDTO2.getAmount() > 300){
+                    return true;
+                }
+                break;
+            default:
+                System.out.println("Category not found!!");
+
+        }
+
+        return false;
+    }
+
 
     //this method will execute a combination of different methods
     public void analyzeExpense(ExpenseDTO2 expenseDTO2, Principal principal) {
+
+        // first check: time violations TODO
+        if (comparePurchaseDateWithSubmissionDate(expenseDTO2) >= 14){
+//        findUserByPrincipal(principal).getPolicy().getNumberOfDaysToSubmitAnExpense()){
+            employeeService.addViolationToUser(findUserByPrincipal(principal));
+        }
+
+        // second check: if the purchase overcome to amount available
+        if (expenseDTO2.getAmount() > amountAvailableForCurrentMonth(principal)){
+
+            // send notification for manager
+
+            //testing
+            employeeService.addViolationToUser(findUserByPrincipal(principal));
+        }
+
+        // third check: if the current month available is negative and the user perform another expense add violation
+        if (amountAvailableForCurrentMonth(principal) <= 0 && expenseDTO2.getAmount() > 0 ){
+            employeeService.addViolationToUser(findUserByPrincipal(principal));
+        }
+
+        // forth check: if the current purchase is too expensive for specific category add violation
+        if (purchaseTooExpensiveForCategory(expenseDTO2)){
+            employeeService.addViolationToUser(findUserByPrincipal(principal));
+        }
+
+
 
     }
 }

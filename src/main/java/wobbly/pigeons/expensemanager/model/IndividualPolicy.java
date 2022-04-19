@@ -2,6 +2,7 @@ package wobbly.pigeons.expensemanager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class IndividualPolicy extends DepartmentPolicy {
 
     EmployeeRepository employeeRepository;
@@ -31,6 +33,10 @@ public class IndividualPolicy extends DepartmentPolicy {
         long departmentPolicyBudget = getDepartmentPolicyBudget();
 
         return Long.valueOf(Math.round(departmentPolicyBudget / allEmployeesOfMyDepartment.size()));
+    }
+
+    public int getNumberOfDaysToSubmitAnExpense(){
+        return numberOfDaysToSubmitAnExpense;
     }
 
 }

@@ -1,16 +1,14 @@
 package wobbly.pigeons.expensemanager.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -67,11 +65,14 @@ public abstract class User {
     @Column(name = "expenses")
     private Set<Expense> expenses = new HashSet<>();
 
-    @Column(name = "Reputation_level")
-    private int status;
-
     @Column(name="Violations")
     private int violations;
+
+
+    @ManyToOne(fetch = EAGER)@Cascade(value= org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinColumn(name = "policy_id")
+    @Transient
+    private Policy policy;
 
     public User(String email, String password, String name, LocalDate dob) {
         this.email = email;
@@ -81,8 +82,8 @@ public abstract class User {
         this.roles = new HashSet<>();
         this.expenses = new HashSet<>();
         this.department = new Department();
-        this.status = 1;
         this.violations = 0;
+        this.policy = new IndividualPolicy();
 
     }
 

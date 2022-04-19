@@ -145,12 +145,12 @@ class ExpenseServiceTests {
 
         LocalDate thisDate = LocalDate.of(2022, 3, 30);
 
-        for (Expense expense : all) {
-            if (expense.getDateOfPurchase().toLocalDate().isEqual(thisDate)) {
-                purchaseDateList.add(expense);
-                System.out.println(expense.getDateOfPurchase());
-            }
-        }
+//        for (Expense expense : all) {
+//            if (expense.getDateOfPurchase().toLocalDate().isEqual(thisDate)) {
+//                purchaseDateList.add(expense);
+//                System.out.println(expense.getDateOfPurchase());
+//            }
+//        }
         // Then
         assertThat(purchaseDateList.size()).isEqualTo(2);
 

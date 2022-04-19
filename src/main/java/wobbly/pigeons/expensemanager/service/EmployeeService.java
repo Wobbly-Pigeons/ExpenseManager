@@ -89,16 +89,14 @@ public class EmployeeService {
         return expenseRepository.findExpensesByUser(currentUser, pageable);
 
     }
-  
+
     public void addExpenseToUser(Employee emp, Expense expense) {
         emp.getExpenses().add(expense);
         expense.setUser(emp);
     }
 
 
-
-
-    public User findUserByPrincipal(Principal principal){
+    public User findUserByPrincipal(Principal principal) {
         Employee employee = employeesRepository.findByEmail(principal.getName());
         if (employee == null) {
             employee = managerRepository.findByEmail(principal.getName());
@@ -113,8 +111,19 @@ public class EmployeeService {
 
 
     }
-    public void addViolationToUser(User user){
+    public void addViolationToUser(User user) {
+
         int violations = user.getViolations();
-        user.setViolations(violations+1);
+        user.setViolations(violations + 1);
+
+        Employee employee = employeesRepository.findByEmail(user.getEmail());
+
+        if (employee == null) {
+            employee = managerRepository.findByEmail(user.getEmail());
+            managerRepository.flush();
+        } else {
+            employeesRepository.flush();
+
+        }
     }
 }

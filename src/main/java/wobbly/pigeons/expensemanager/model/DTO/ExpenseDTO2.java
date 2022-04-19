@@ -19,7 +19,7 @@ public class ExpenseDTO2 {
     private MultipartFile receipt;
     //    private LocalDate dateOfSubmission;
 //    private LocalDateTime dateOfStatusChange;
-    private LocalDate dateOfPurchase;
+    private LocalDate dateOfPurchase = LocalDate.of(2022,4,10);
 //    private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
