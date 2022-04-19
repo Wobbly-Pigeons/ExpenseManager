@@ -118,5 +118,10 @@ public class MainController {
 
       return "receipt";
     }
+
+    @GetMapping(value = "/error")
+    public String generalError() {
+        return "error_general";
+    }
 }
 

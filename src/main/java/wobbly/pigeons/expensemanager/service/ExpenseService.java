@@ -34,7 +34,7 @@ public class ExpenseService {
 
     public Expense addExpense(ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
         Employee employee = employeesRepository.findByEmail(principal.getName());
-        if(employee == null) {
+        if (employee == null) {
             employee = managerRepository.findByEmail(principal.getName());
         }
 
@@ -48,8 +48,11 @@ public class ExpenseService {
         newExpense.setLocalCurrency(expenseDTO2.getLocalCurrency());
         newExpense.setDateModified(LocalDateTime.now());
         newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
+        return expenseRepository.save(newExpense);
+    }
 
-    public Expense getExpenseById(long id) {
+
+    public Expense getExpenseById (long id){
         return expenseRepository.findById(id).orElseThrow();
     }
 
@@ -125,12 +128,12 @@ public class ExpenseService {
         expenseRepository.findById(id).orElseThrow().setCurrentStatus(ReceiptStatuses.APPROVED);
     }
 
-    public void commentAndReturnExpenseToEmployee(Long id, String status) {
-        Expense expense = expenseRepository.findById(id).orElseThrow();
-        if(status.equals("deny")) {
-            expense.setCurrentStatus(ReceiptStatuses.REJECTED);
-        } else if (status.equals("nmi")) {
-            expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
+    public void commentAndReturnExpenseToEmployee(Long id, String status){
+            Expense expense = expenseRepository.findById(id).orElseThrow();
+            if (status.equals("deny")) {
+                expense.setCurrentStatus(ReceiptStatuses.REJECTED);
+            } else if (status.equals("nmi")) {
+                expense.setCurrentStatus(ReceiptStatuses.NEEDSFURTHERINFO);
+            }
         }
-    }
 }
