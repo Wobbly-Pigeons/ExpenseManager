@@ -16,6 +16,7 @@ import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Manager;
 import wobbly.pigeons.expensemanager.model.User;
+import wobbly.pigeons.expensemanager.service.DepartmentService;
 import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
 import wobbly.pigeons.expensemanager.service.ManagerService;
@@ -30,6 +31,7 @@ public class MainController {
     private final EmployeeService employeeService;
     private final ManagerService managerService;
     private final ExpenseService expenseService;
+    private final DepartmentService departmentService;
 
     @GetMapping(value = "/receipt/{expenseId}", produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable Long expenseId){
@@ -40,6 +42,7 @@ public class MainController {
     @GetMapping(value = "/registration")
     public String registration(Model model) {
         model.addAttribute("UserDTO", new UserDTO());
+        model.addAttribute("departmentList", departmentService.getDepartmentsListbyNames());
         return "registration";
     }
 
@@ -114,13 +117,17 @@ public class MainController {
         //User Information Display
       List<Expense> expensesByUser = expenseService.findExpensesByUser(principal);
 
-      model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
-        model.addAttribute("currentUserId",currentUser.getId());
-        model.addAttribute("currentMonthAmountExpense",
-                expenseService.totalAmountOfExpensesCurrentMonthByListExpenses(expensesByUser));
-        model.addAttribute("currentBudgetLimit",
-                expenseService.amountAvailableForCurrentMonthByListExpenses(expensesByUser, principal));
-
+      if(currentUser.getDepartment() != null) {
+          model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
+      }
+    if (expensesByUser != null) {
+      model.addAttribute(
+          "currentMonthAmountExpense",
+          expenseService.totalAmountOfExpensesCurrentMonthByListExpenses(expensesByUser));
+      model.addAttribute(
+          "currentBudgetLimit",
+          expenseService.amountAvailableForCurrentMonthByListExpenses(expensesByUser, principal));
+          }
 
         model.addAttribute("typeOfDash", index);
 

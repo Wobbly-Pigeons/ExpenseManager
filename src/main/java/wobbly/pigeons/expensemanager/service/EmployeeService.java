@@ -9,10 +9,7 @@ import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.Role;
 import wobbly.pigeons.expensemanager.model.User;
-import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
-import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
-import wobbly.pigeons.expensemanager.repository.ManagerRepository;
-import wobbly.pigeons.expensemanager.repository.RoleRepository;
+import wobbly.pigeons.expensemanager.repository.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -27,6 +24,7 @@ public class EmployeeService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
     private final ExpenseRepository expenseRepository;
+    private final DepartmentRepository departmentRepository;
     private final ManagerRepository managerRepository;
 
     public List<Employee> getEmployeesList() {
@@ -42,6 +40,7 @@ public class EmployeeService {
                 userDTO.getFirstName() + " " + userDTO.getLastName(),
                 LocalDate.parse(userDTO.getDob(), formatter)
         );
+    newEmployee.setDepartment(departmentRepository.findByName(userDTO.getDepartment()).orElseThrow());
         newEmployee.getRoles().add(initialRole);
         return employeesRepository.save(newEmployee);
     }

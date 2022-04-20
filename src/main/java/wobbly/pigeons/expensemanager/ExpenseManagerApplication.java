@@ -102,6 +102,8 @@ public class ExpenseManagerApplication {
                 employee.setPolicy(new IndividualPolicy());
               });
       managerService.addEmployee(e1, m3);
+      managerService.addEmployee(e2, m3);
+      managerService.addEmployee(e3, m3);
       m3.getRoles().add(roleRepository.getById(3L));
 
       Expense expense = new Expense(83.0, ReceiptStatuses.SUBMITTED);
