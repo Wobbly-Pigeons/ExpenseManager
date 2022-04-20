@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;

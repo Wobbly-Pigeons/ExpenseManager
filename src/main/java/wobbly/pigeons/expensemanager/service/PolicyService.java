@@ -2,9 +2,6 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import wobbly.pigeons.expensemanager.model.DepartmentPolicy;
-import wobbly.pigeons.expensemanager.model.Expense;
-import wobbly.pigeons.expensemanager.model.IndividualPolicy;
 import wobbly.pigeons.expensemanager.model.Policy;
 import wobbly.pigeons.expensemanager.repository.PolicyRepository;
 

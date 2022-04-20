@@ -1,20 +1,15 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
-import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
-import wobbly.pigeons.expensemanager.service.EmployeeService;
 import wobbly.pigeons.expensemanager.service.ExpenseService;
-import wobbly.pigeons.expensemanager.service.ManagerService;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -87,14 +82,6 @@ public class ExpenseController {
 
         return "thank_you_for_submitting";
     }
-
-
-
-//    @GetMapping("/submitted")
-//    public String thankYouForSubmitting(@ModelAttribute ExpenseDTO2 expenseDTO2, Model model) {
-//        return "thank_you_for_submitting";
-//    }
-    // ______________________________________________________________________________
 
 
     @DeleteMapping("/{id}")

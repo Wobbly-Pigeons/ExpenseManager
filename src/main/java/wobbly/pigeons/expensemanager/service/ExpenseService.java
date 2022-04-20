@@ -2,18 +2,8 @@ package wobbly.pigeons.expensemanager.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
-
-
-
-
-import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
-import wobbly.pigeons.expensemanager.model.DTO.ExpenseCommentFormDTO;
-
-
-
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.*;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
@@ -21,18 +11,10 @@ import wobbly.pigeons.expensemanager.repository.ExpenseRepository;
 import wobbly.pigeons.expensemanager.repository.ManagerRepository;
 import wobbly.pigeons.expensemanager.repository.PolicyRepository;
 import wobbly.pigeons.expensemanager.util.ConverterRestClient;
-
-
-
-
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-
-import java.time.Month;
-
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;

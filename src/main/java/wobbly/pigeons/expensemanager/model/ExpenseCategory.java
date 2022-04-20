@@ -1,8 +1,5 @@
 package wobbly.pigeons.expensemanager.model;
 
-import lombok.ToString;
-
-
 public enum ExpenseCategory {
 
     FOOD,

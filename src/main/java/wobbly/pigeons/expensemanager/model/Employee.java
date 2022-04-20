@@ -2,12 +2,8 @@ package wobbly.pigeons.expensemanager.model;
 
 import lombok.*;
 import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Set;
-
 import static javax.persistence.FetchType.EAGER;
 
 @Getter

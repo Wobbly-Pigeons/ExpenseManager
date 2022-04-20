@@ -1,12 +1,7 @@
 package wobbly.pigeons.expensemanager.util;
 
-
-
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.util.Map;
 
 @Service
@@ -21,7 +16,6 @@ public class ConverterRestClient {
                 .baseUrl("https://v6.exchangerate-api.com/v6/" + myAPIkey)
                 .build();
     }
-
 
     public Double getConversionAmount (String baseCode, String targetCode, double amount){
 
@@ -40,14 +34,4 @@ public class ConverterRestClient {
                 .map(map -> map.get("conversion_result"))
                 .block();
     }
-//LEARNING NOTES
-    //        Function<Map, Object> function = new Function<>() {
-    //
-    //            @Override
-    //            public Object apply(Map map) {
-    //                return map.get("conversion_result");
-    //            }
-    //        };
-
-
 }

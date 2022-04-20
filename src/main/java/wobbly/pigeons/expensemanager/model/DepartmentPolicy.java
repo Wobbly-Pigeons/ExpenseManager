@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import wobbly.pigeons.expensemanager.repository.DepartmentRepository;
-import wobbly.pigeons.expensemanager.service.DepartmentService;
-
-import javax.persistence.*;
 import java.util.List;
 
 

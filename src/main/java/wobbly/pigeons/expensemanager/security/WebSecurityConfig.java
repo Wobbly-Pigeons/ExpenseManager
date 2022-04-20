@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -31,12 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession"));
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee", "api/v1/expenses").permitAll()
-//                .antMatchers("/api/**").hasRole("//TODO")
+                .antMatchers("/", "/registration", "/api/v1/employees/newEmployee").permitAll()
                 .anyRequest()
                 .permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -52,19 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login");
-//        http.csrf().disable()
-//                .authorizeRequests().antMatchers("/**").permitAll();
-
     }
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-//        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
-
-//    public void configure2(AuthenticationManagerBuilder auth2) throws Exception {
-//        auth2.inMemoryAuthentication().withUser("SAdmin").password("123ABC").roles("ADMIN");
-//    }
 
     @Bean
     @Override

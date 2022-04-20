@@ -36,11 +36,6 @@ public class MainController {
         return expenseService.getExpenseById(expenseId).getReceipt();
     }
 
-//    @GetMapping(value = "/receipt/{expenseId}")
-//    public String test(@PathVariable Long expenseId){
-//        return "hello";
-//    }
-
 
     @GetMapping(value = "/registration")
     public String registration(Model model) {
@@ -125,11 +120,6 @@ public class MainController {
                 expenseService.totalAmountOfExpensesCurrentMonthByListExpenses(expensesByUser));
         model.addAttribute("currentBudgetLimit",
                 expenseService.amountAvailableForCurrentMonthByListExpenses(expensesByUser, principal));
-
-
-
-
-
 
 
         model.addAttribute("typeOfDash", index);

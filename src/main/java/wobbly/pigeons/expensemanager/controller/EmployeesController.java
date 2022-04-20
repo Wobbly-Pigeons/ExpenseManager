@@ -1,7 +1,6 @@
 package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
@@ -10,7 +9,7 @@ import wobbly.pigeons.expensemanager.service.EmployeeService;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(value = "/api/v1/employees")
 @RequiredArgsConstructor
 public class EmployeesController {

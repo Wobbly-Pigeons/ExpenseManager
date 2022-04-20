@@ -1,7 +1,6 @@
 package wobbly.pigeons.expensemanager.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
