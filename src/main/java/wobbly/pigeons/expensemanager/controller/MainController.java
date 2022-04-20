@@ -2,6 +2,7 @@ package wobbly.pigeons.expensemanager.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -29,6 +30,17 @@ public class MainController {
     private final EmployeeService employeeService;
     private final ManagerService managerService;
     private final ExpenseService expenseService;
+
+    @GetMapping(value = "/receipt/{expenseId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable Long expenseId){
+        return expenseService.getExpenseById(expenseId).getReceipt();
+    }
+
+//    @GetMapping(value = "/receipt/{expenseId}")
+//    public String test(@PathVariable Long expenseId){
+//        return "hello";
+//    }
+
 
     @GetMapping(value = "/registration")
     public String registration(Model model) {
@@ -103,14 +115,14 @@ public class MainController {
 
       assert currentUser != null;
 
-        model.addAttribute("currentUserDepartment",currentUser.getDepartment().toString());
+//        model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
         model.addAttribute("currentUserId",currentUser.getId());
 
-        model.addAttribute("currentMonthAmountExpense",
-                expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
-
+//        model.addAttribute("currentMonthAmountExpense",
+//                expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
+//
 //        model.addAttribute("currentBudgetLimit",
-//                expenseService.controlBudgetLimitForCurrentMonth(currentUser.getId()));
+//                expenseService.amountAvailableForCurrentMonth(principal));
 
 
 
@@ -127,7 +139,7 @@ public class MainController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
-        model.addAttribute("listExpenses", currentUser.getExpenses());
+        model.addAttribute("listExpenses", listExpenses);
         return "index";
     }
 
@@ -137,14 +149,6 @@ public class MainController {
         model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
         return "expense_edit";
 }
-
-
-
-    @GetMapping(value = "/receipt/{id}")
-    public String showReceipt(Model model) {
-
-      return "receipt";
-    }
 
     @GetMapping(value = "/error")
     public String generalError() {

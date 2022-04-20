@@ -1,15 +1,20 @@
 package wobbly.pigeons.expensemanager.Unit_Tests;
 
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import wobbly.pigeons.expensemanager.model.Employee;
 import wobbly.pigeons.expensemanager.model.Expense;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 import wobbly.pigeons.expensemanager.repository.EmployeeRepository;
+import wobbly.pigeons.expensemanager.service.EmployeeService;
+import wobbly.pigeons.expensemanager.service.ManagerService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,7 +32,21 @@ class EmployeeServiceTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @MockBean
+    private ManagerService managerService;
 
+    @MockBean
+    private EmployeeService employeeService;
+
+    @BeforeEach
+    void setUp() {
+        employeeRepository.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void getEmployeesList() {
@@ -48,24 +67,23 @@ class EmployeeServiceTest {
 
     @Test
     void addEmployee() {
-        //Given
-        LocalDate dob1 = LocalDate.of(1987, 2, 11);
 
+        //Given
         Employee otherEmployee = new Employee(
                 "bob@gmail.com",
                 "1234",
                 "Bob",
                 LocalDate.of(1987, 2, 11));
 
-        Employee save = employeeRepository.save(otherEmployee);
+        employeeRepository.save(otherEmployee);
 
-        List<Employee> all = employeeRepository.findAll();
+//        Employee byId = employeeRepository.getById(1L);
 
-        for (Employee employee : all) {
-            System.out.println(employee.getName() + " "+ employee.getId());
-        }
-
-        System.out.println( save.getId());
+//        for (Employee employee : all) {
+//            System.out.println(employee.getName() + " "+ employee.getId());
+//        }
+//
+//        System.out.println( save.getId());
 
         assertThat(employeeRepository.getById(1L).getPassword()).isEqualTo("1234");
 
@@ -164,9 +182,9 @@ class EmployeeServiceTest {
         Employee newEmployee2 = new Employee();
 
         // 3 Expenses: 2 for employee1 and 1 for employee2 saved in a List
-        Expense exp1 = new Expense(33L,newEmployee);
-        Expense exp2 = new Expense(22L,newEmployee2);
-        Expense exp3 = new Expense(11L,currentStatus);
+        Expense exp1 = new Expense(33.,newEmployee);
+        Expense exp2 = new Expense(22.,newEmployee2);
+        Expense exp3 = new Expense(11.,currentStatus);
 
 
         Set<Expense> ListOfEmployee1 = new HashSet<Expense>();
