@@ -56,11 +56,11 @@ class ExpenseServiceTests {
 
     // 4 expenses
     @Transient
-    Expense exp1 = new Expense(11,employee1);
+    Expense exp1 = new Expense(11.,employee1);
     @Transient
-    Expense exp2 = new Expense(22,employee2);
-    Expense exp3 = new Expense(33,employee3);
-    Expense exp4 = new Expense(44,employee4);
+    Expense exp2 = new Expense(22.,employee2);
+    Expense exp3 = new Expense(33.,employee3);
+    Expense exp4 = new Expense(44.,employee4);
 
 
     @Test

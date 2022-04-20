@@ -72,7 +72,7 @@
       <td th:text="${expense.getCurrentStatus()}"></td>
       <td th:text="${expense.getDateModified()}"></td>
       <td th:text="${expense.getDateOfPurchase()}"></td>
-      <td th:href="@{http://localhost:8094/receipt/${expense.getId()}}">View Receipt</td>
+      <td><a th:if="${expense.getReceipt()} != null" th:href="@{http://localhost:8094/receipt/{id}(id=${expense.getId()})}">View Receipt</a></td>
       <td>
 
         <button th:if="!${manager}" class="btn btn-primary btn-sm" data-toggle="modal"

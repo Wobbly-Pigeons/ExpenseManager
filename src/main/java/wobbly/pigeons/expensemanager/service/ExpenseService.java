@@ -65,6 +65,7 @@ public final class ExpenseService {
     newExpense.setCompanyCC(expenseDTO2.isCompanyCC());
     newExpense.setItemName(expenseDTO2.getItemName());
     newExpense.setItemDescription(expenseDTO2.getItemDescription());
+    newExpense.setDateOfPurchase(expenseDTO2.getDateOfPurchase());
     newExpense.setComment(expenseDTO2.getComment());
     newExpense.setCategory(expenseDTO2.getCategory());
     newExpense.setCurrentStatus(ReceiptStatuses.SUBMITTED);

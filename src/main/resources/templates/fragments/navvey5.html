@@ -22,14 +22,13 @@
             </li>
             </button>
             <button type="button" class="btn btn-dark position-relative" data-toggle="collapse" data-target=".nav-collapse">
-            <li th:classappend="${module == 'new' ? 'active' : ''}">
-                <a href="#" th:href="@{/new_expense}">New Claim</a>
+            <li class="nav navbar-nav position-relative" data-toggle="collapse" data-target=".nav-collapse" th:classappend="${module == 'new' ? 'active' : ''}">
+                <a href="#" th:href="@{/expenses/new_expense}">New Claim</a>
             </li> </button>
 
-            <button type="button" class="btn btn-dark position-relative" data-toggle="collapse" data-target=".nav-collapse">
-            <li th:classappend="${module == 'manager' ? 'active' : ''}">
+            <li class="nav navbar-nav position-relative" data-toggle="collapse" data-target=".nav-collapse" th:classappend="${module == 'manager' ? 'active' : ''}">
                 <a th:if="${manager}" href="#" th:href="@{/expense_management}">Manager View</a>
-            </li></button>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
 

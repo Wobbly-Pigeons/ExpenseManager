@@ -79,12 +79,6 @@ public class ExpenseController {
     }
 
 
-    @GetMapping(value = "/receipt/{expenseId}", produces = MediaType.IMAGE_PNG_VALUE)
-    public @ResponseBody byte[] getImage(@PathVariable Long expenseId){
-        return expenseService.getExpenseById(expenseId).getReceipt();
-    }
-
-
     @PostMapping ("/expenses/new_expense")
     public String addExpense (@ModelAttribute ExpenseDTO2 expenseDTO2, Principal principal) throws IOException {
          expenseService.addExpense(expenseDTO2, principal);

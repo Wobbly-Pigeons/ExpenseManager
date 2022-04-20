@@ -182,9 +182,9 @@ class EmployeeServiceTest {
         Employee newEmployee2 = new Employee();
 
         // 3 Expenses: 2 for employee1 and 1 for employee2 saved in a List
-        Expense exp1 = new Expense(33L,newEmployee);
-        Expense exp2 = new Expense(22L,newEmployee2);
-        Expense exp3 = new Expense(11L,currentStatus);
+        Expense exp1 = new Expense(33.,newEmployee);
+        Expense exp2 = new Expense(22.,newEmployee2);
+        Expense exp3 = new Expense(11.,currentStatus);
 
 
         Set<Expense> ListOfEmployee1 = new HashSet<Expense>();

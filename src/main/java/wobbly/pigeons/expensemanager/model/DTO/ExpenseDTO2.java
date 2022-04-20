@@ -34,15 +34,11 @@ public class ExpenseDTO2 {
     //    private LocalDateTime dateOfStatusChange;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfPurchase;
-
     //    private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
-
     //    private CurrenciesAllowed localCurrency;
-    private long amount;
-    private long convertedAmount;
-
+    private Double amount;
     private CurrenciesAllowed localCurrency;
     private boolean companyCC;
     private String itemName;

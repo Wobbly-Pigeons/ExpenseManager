@@ -22,7 +22,7 @@ public class Expense {
 
     public Expense(byte[] receipt, ExpenseCategory category,
                    String localCurrency, LocalDate dateOfPurchase,
-                   Long amount, boolean companyCC, ReceiptStatuses currentStatus,
+                   Double amount, boolean companyCC, ReceiptStatuses currentStatus,
                    String itemName, String itemDescription, String comment, boolean hasViolated, User user) {
 
 
@@ -59,7 +59,7 @@ public class Expense {
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
     private CurrenciesAllowed localCurrency;
-    private Long amount;
+    private Double amount;
     private boolean companyCC;
     private String itemName;
     private String itemDescription;
@@ -68,17 +68,12 @@ public class Expense {
     private Long departmentPolicyBudget;
     private Long individualPolicyBudget;
 
-
- 
-
-
-
     @ManyToOne(fetch = EAGER)
     @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, Long amount, User user) {
+    public Expense(byte[] receipt, Double amount, User user) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
@@ -86,21 +81,21 @@ public class Expense {
         this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(Long amount, ReceiptStatuses status) {
+    public Expense(Double amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
         this.dateOfSubmission = LocalDate.now();
 
     }
 
-    public Expense(Long amount, User user) {
+    public Expense(Double amount, User user) {
         this.amount = amount;
         this.user = user;
         this.dateOfSubmission = LocalDate.now();
     }
 
 
-    public Expense(long amount, Employee employee) {
+    public Expense(Double amount, Employee employee) {
 
         this.user = employee;
         this.amount = amount;
