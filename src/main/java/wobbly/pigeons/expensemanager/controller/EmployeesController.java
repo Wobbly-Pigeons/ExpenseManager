@@ -10,35 +10,14 @@ import wobbly.pigeons.expensemanager.service.EmployeeService;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/api/v1/employees")
 @RequiredArgsConstructor
 public class EmployeesController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping
-    public List<Employee> getEmployeesList() {
-        return employeeService.getEmployeesList();
-    }
-
     @PostMapping("/newEmployee")
     public String addEmployee(@ModelAttribute UserDTO userDTO) {
         employeeService.newEmployee(userDTO);
         return "/login";
-    }
-
-    @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable Long id) {
-        return employeeService.getEmployee(id);
-    }
-
-    @PutMapping("/{id}")
-    public Employee updateEmployee(@RequestBody Employee updatedEmployee, @PathVariable Long id) {
-        return employeeService.updateEmployee(updatedEmployee, id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
     }
 }

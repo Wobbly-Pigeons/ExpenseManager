@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import wobbly.pigeons.expensemanager.model.Department;
 import wobbly.pigeons.expensemanager.repository.DepartmentRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +36,14 @@ public class DepartmentService {
     public Department geDepartmentByName(String name) {
         return departmentRepository.findByName(name).orElseThrow();
 
+    }
+
+    public List<String> getDepartmentsListbyNames() {
+        List<String> departmentNames = new ArrayList<>();
+        for (Department x : getDepartmentsList()) {
+            departmentNames.add(x.getName());
+        }
+        return departmentNames;
     }
 
     public List<Department> getDepartmentsList() {
