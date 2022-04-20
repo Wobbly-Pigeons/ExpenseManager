@@ -26,7 +26,7 @@ class ConverterRestClientTest {
         double amount = 100;
 
         //when
-        Double convertedAmount = client.getConversionAmount(baseCode, targetCode, amount);
+        Long convertedAmount = client.getConversionAmount(baseCode, targetCode, amount);
 
         //then
         Assertions.assertNotNull(convertedAmount);

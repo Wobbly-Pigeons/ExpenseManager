@@ -97,12 +97,12 @@ public class ExpenseManagerApplication {
       managerService.addEmployee(e1, m3);
       m3.getRoles().add(roleRepository.getById(3L));
 
-      Expense expense = new Expense(83.0, ReceiptStatuses.SUBMITTED);
-      Expense expense2 = new Expense(34.3, ReceiptStatuses.INCOMPLETE);
-      Expense expense3 = new Expense(56.5, ReceiptStatuses.SUBMITTED);
-      Expense expense4 = new Expense(91.6, ReceiptStatuses.INCOMPLETE);
-      Expense expense5 = new Expense(51.7, ReceiptStatuses.SUBMITTED);
-      Expense expense6 = new Expense(73.8, ReceiptStatuses.INCOMPLETE);
+      Expense expense = new Expense((long) 83.0, ReceiptStatuses.SUBMITTED);
+      Expense expense2 = new Expense((long) 34.3, ReceiptStatuses.INCOMPLETE);
+      Expense expense3 = new Expense((long) 56.5, ReceiptStatuses.SUBMITTED);
+      Expense expense4 = new Expense((long) 91.6, ReceiptStatuses.INCOMPLETE);
+      Expense expense5 = new Expense((long) 51.7, ReceiptStatuses.SUBMITTED);
+      Expense expense6 = new Expense((long) 73.8, ReceiptStatuses.INCOMPLETE);
 
 //      List.of(expense, expense2, expense3, expense4, expense5, expense6).forEach(expense1 -> employeeService.addExpenseToUser(e1, expense));
       employeeService.addExpenseToUser(e1, expense);

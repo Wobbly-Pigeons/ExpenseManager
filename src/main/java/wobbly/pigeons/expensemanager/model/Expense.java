@@ -68,6 +68,8 @@ public class Expense {
     private Long departmentPolicyBudget;
     private Long individualPolicyBudget;
 
+    //TODO where is variable recieptlocation from line 97?
+
     @ManyToOne(fetch = EAGER)
     @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "user_id")
@@ -93,16 +95,19 @@ public class Expense {
         this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(String receiptLocation) {
-        this.receiptLocation = receiptLocation;
+//    public Expense(String receiptLocation) {
+//        this.receiptLocation = receiptLocation;
 
-    }
+//    }
 
     public Expense(long amount, Employee employee) {
 
         this.user = employee;
         this.amount = amount;
         this.dateOfSubmission = LocalDate.now();
+    }
+
+    public Expense(byte[] bytes, long amount, Employee employee) {
     }
 
 //    public Expense(Byte[] receiptByte,
