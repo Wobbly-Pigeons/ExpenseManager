@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement(session -> session.invalidSessionUrl("/invalidSession"));
         http
                 .authorizeRequests()
-                .antMatchers("/registration", "/newEmployee").permitAll()
+                .antMatchers("/registration", "/newEmployee", "/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

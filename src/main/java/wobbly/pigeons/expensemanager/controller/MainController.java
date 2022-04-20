@@ -6,10 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import wobbly.pigeons.expensemanager.model.DTO.ExpenseDTO2;
 import wobbly.pigeons.expensemanager.model.DTO.UserDTO;
 import wobbly.pigeons.expensemanager.model.Employee;
@@ -44,6 +41,12 @@ public class MainController {
         model.addAttribute("UserDTO", new UserDTO());
         model.addAttribute("departmentList", departmentService.getDepartmentsListbyNames());
         return "registration";
+    }
+
+    @PostMapping("/newEmployee")
+    public String addEmployee(@ModelAttribute UserDTO userDTO) {
+        employeeService.newEmployee(userDTO);
+        return login();
     }
 
     @GetMapping(value = "/username")

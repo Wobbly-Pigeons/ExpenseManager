@@ -42,6 +42,7 @@ public class EmployeeService {
         );
     newEmployee.setDepartment(departmentRepository.findByName(userDTO.getDepartment()).orElseThrow());
         newEmployee.getRoles().add(initialRole);
+        newEmployee.setManager(managerRepository.findByEmail("ILoveManaging@gmail.com"));
         return employeesRepository.save(newEmployee);
     }
 
