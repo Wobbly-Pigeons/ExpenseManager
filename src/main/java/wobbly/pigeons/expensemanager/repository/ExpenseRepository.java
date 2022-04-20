@@ -18,4 +18,5 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     Page<Expense> findExpensesByUser(User user, Pageable pageable);
+    List<Expense> findExpensesByUser(User user);
 }
