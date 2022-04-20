@@ -51,7 +51,7 @@ public class Expense {
     @Type(type = "org.hibernate.type.ImageType")
     private byte[] receipt;
     //This will contain the logical path to the file in some external storage.
-    private LocalDate dateOfSubmission;
+    private LocalDate dateOfSubmission = LocalDate.now();
     private LocalDateTime dateOfStatusChange;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfPurchase;
@@ -78,17 +78,18 @@ public class Expense {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Expense(byte[] receipt, Long amount, User user, LocalDate purchaseDate) {
+    public Expense(byte[] receipt, Long amount, User user) {
         this.receipt = receipt;
         this.amount = amount;
         this.user = user;
-        this.dateOfPurchase = purchaseDate;
+//        this.dateOfPurchase = purchaseDate;
         this.dateOfSubmission = LocalDate.now();
     }
 
     public Expense(Long amount, ReceiptStatuses status) {
         this.amount = amount;
         this.currentStatus = status;
+        this.dateOfSubmission = LocalDate.now();
 
     }
 
@@ -97,6 +98,7 @@ public class Expense {
         this.user = user;
         this.dateOfSubmission = LocalDate.now();
     }
+
 
     public Expense(long amount, Employee employee) {
 

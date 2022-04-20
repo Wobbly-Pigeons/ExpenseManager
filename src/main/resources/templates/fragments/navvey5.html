@@ -28,7 +28,7 @@
 
             <button type="button" class="btn btn-dark position-relative" data-toggle="collapse" data-target=".nav-collapse">
             <li th:classappend="${module == 'manager' ? 'active' : ''}">
-                <a href="#" th:href="@{/expense_management}">Manager View</a>
+                <a th:if="${manager}" href="#" th:href="@{/expense_management}">Manager View</a>
             </li></button>
         </ul>
         <ul class="nav navbar-nav navbar-right">

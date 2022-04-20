@@ -20,6 +20,7 @@ class DepartmentServiceTest {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+
     List<Employee> listOfEmployees = new ArrayList<Employee>();
     List<Department> listOfDepartments = new ArrayList<Department>();
     Employee employee1 = new Employee();

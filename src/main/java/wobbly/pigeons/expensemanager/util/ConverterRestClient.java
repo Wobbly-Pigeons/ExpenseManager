@@ -25,7 +25,6 @@ public class ConverterRestClient {
 
     public Long getConversionAmount (String baseCode, String targetCode, double amount){
 
-     //   return (Double) webClient
         return (Long) webClient
                 .get()
                 // .uri("/pair/{base_code}/target_code/{amount}")

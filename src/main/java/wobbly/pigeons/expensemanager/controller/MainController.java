@@ -103,14 +103,14 @@ public class MainController {
 
       assert currentUser != null;
 
-        model.addAttribute("currentUserDepartment",currentUser.getDepartment().toString());
+        model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
         model.addAttribute("currentUserId",currentUser.getId());
 
         model.addAttribute("currentMonthAmountExpense",
                 expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
 
-//        model.addAttribute("currentBudgetLimit",
-//                expenseService.controlBudgetLimitForCurrentMonth(currentUser.getId()));
+        model.addAttribute("currentBudgetLimit",
+                expenseService.amountAvailableForCurrentMonth(principal));
 
 
 

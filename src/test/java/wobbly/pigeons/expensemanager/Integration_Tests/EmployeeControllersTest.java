@@ -193,7 +193,8 @@ public class EmployeeControllersTest {
         Mockito.when(employeeRepository.save(Mockito.any(Employee.class))).thenAnswer(invocation ->
                 invocation.getArguments()[0]);
 
-        webTestClient.put()
+        webTestClient.mutateWith(csrf())
+                .put()
                 .uri("/api/v1/employees/{id},",3L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(newDataEmployee)

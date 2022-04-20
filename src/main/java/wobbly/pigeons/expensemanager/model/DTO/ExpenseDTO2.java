@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 
-
 import org.springframework.web.multipart.MultipartFile;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
@@ -26,22 +25,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
-
 @Data
 public class ExpenseDTO2 {
 
     private long user_id;
     private MultipartFile receipt;
     private LocalDate dateOfSubmission = LocalDate.now();
-//    private LocalDateTime dateOfStatusChange;
+    //    private LocalDateTime dateOfStatusChange;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfPurchase;
 
-//    private LocalDateTime dateModified;
+    //    private LocalDateTime dateModified;
     private ReceiptStatuses currentStatus;
     private ExpenseCategory category;
 
-//    private CurrenciesAllowed localCurrency;
+    //    private CurrenciesAllowed localCurrency;
     private long amount;
     private long convertedAmount;
 
