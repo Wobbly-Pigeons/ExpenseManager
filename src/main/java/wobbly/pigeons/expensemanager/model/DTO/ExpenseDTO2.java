@@ -2,24 +2,30 @@ package wobbly.pigeons.expensemanager.model.DTO;
 
 import lombok.Data;
 
-<<<<<<< HEAD
+
 import org.springframework.format.annotation.DateTimeFormat;
-=======
 
 
->>>>>>> AnalyseExpenseViolations
+
+
 import org.springframework.web.multipart.MultipartFile;
 import wobbly.pigeons.expensemanager.model.CurrenciesAllowed;
 import wobbly.pigeons.expensemanager.model.ExpenseCategory;
 import wobbly.pigeons.expensemanager.model.ReceiptStatuses;
 
-<<<<<<< HEAD
 import java.time.LocalDate;
-=======
+import java.time.LocalDateTime;
+
+
+
+
+
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
->>>>>>> AnalyseExpenseViolations
+
+
 
 @Data
 public class ExpenseDTO2 {

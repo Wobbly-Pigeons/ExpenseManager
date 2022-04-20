@@ -68,6 +68,11 @@ public class Expense {
     private Long departmentPolicyBudget;
     private Long individualPolicyBudget;
 
+
+ 
+
+
+
     @ManyToOne(fetch = EAGER)
     @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "user_id")
@@ -93,11 +98,6 @@ public class Expense {
         this.dateOfSubmission = LocalDate.now();
     }
 
-    public Expense(String receiptLocation) {
-        this.receiptLocation = receiptLocation;
-
-    }
-
     public Expense(long amount, Employee employee) {
 
         this.user = employee;
@@ -105,15 +105,10 @@ public class Expense {
         this.dateOfSubmission = LocalDate.now();
     }
 
-//    public Expense(Byte[] receiptByte,
-//                   ExpenseCategory food,
-//                   String usd,
-//                   LocalDateTime of,
-//                   long l,
-//                   boolean b,
-//                   ReceiptStatuses currentStatus,
-//                   String american_lunch,
-//                   String some_description_here,
-//                   Employee newEmployee) {
-//    }
+
+    public Expense(byte[] bytes, long amount, Employee employee) {
+    }
+
+
+
 }

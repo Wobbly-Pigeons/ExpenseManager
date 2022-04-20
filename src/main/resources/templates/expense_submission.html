@@ -22,8 +22,6 @@
         <table>
             <tr><td>Receipt to upload (Please only upload PNG):</td><td><input type="file" th:field="*{receipt} " /></td></tr>
         </table>
-        <p>Amount: <input type="text" th:field="*{dateOfPurchase}" /></p>
-        </p>
         <p>Category: <select th:field="*{category}" />
             <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
             </select></p>
@@ -31,7 +29,7 @@
             <option th:each="c : ${currenciesAllowedList}" th:value="${c}" th:text="${c}"/>
             </select></p>
         <p>Amount: <input type="text" th:field="*{amount}" /></p>
-        <p>Used Company Credit Card?: <input type="text" th:field="*{companyCC}" />
+        <p>Used Company Credit Card?: <input type="checkbox" th:field="*{companyCC}" />
         </p>
         <p>Item name: <input type="text" th:field="*{itemName}" /></p>
         <p>Description of Item Purchased: <input type="text" th:field="*{itemDescription}" /></p>
@@ -41,8 +39,6 @@
             <input type="reset" value="Reset" /></p>
     </form>
 </div>
-</div>
-
 <footer th:replace="~{fragments/footer::footer}"></footer>
 </body>
 </html>
