@@ -115,14 +115,19 @@ public class MainController {
 
       assert currentUser != null;
 
-//        model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
-        model.addAttribute("currentUserId",currentUser.getId());
 
-//        model.addAttribute("currentMonthAmountExpense",
-//                expenseService.totalAmountOfExpensesCurrentMonthByPrincipal(principal));
-//
-//        model.addAttribute("currentBudgetLimit",
-//                expenseService.amountAvailableForCurrentMonth(principal));
+        //User Information Display
+      List<Expense> expensesByUser = expenseService.findExpensesByUser(principal);
+
+      model.addAttribute("currentUserDepartment",currentUser.getDepartment().getName());
+        model.addAttribute("currentUserId",currentUser.getId());
+        model.addAttribute("currentMonthAmountExpense",
+                expenseService.totalAmountOfExpensesCurrentMonthByListExpenses(expensesByUser));
+        model.addAttribute("currentBudgetLimit",
+                expenseService.amountAvailableForCurrentMonthByListExpenses(expensesByUser, principal));
+
+
+
 
 
 

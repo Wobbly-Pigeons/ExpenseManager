@@ -17,21 +17,28 @@
       <th > User Information</th>
     </thead>
     <tbody>
-    <tr th:text="${currentUsername}"> Name: </tr>
-    <tr th:text="${currentUserDepartment}"></tr>
-    <tr th:text="${currentUserId}"></tr>
-    <tr th:text="${currentMonthAmountExpense}"></tr>
+    <tr>
+    <td>Name: <a  th:text="${currentUsername}"></a> </td>
+    </tr>
+    <tr>
+      <td>Department: <a th:text="${currentUserDepartment}"></a> </td>
+    </tr>
+    <tr>
+      <td>ID: <a th:text="${currentUserId}"></a></td>
+    </tr>
+    <tr>
+      <td>Total Amount: <a th:text="${#numbers.formatDecimal(currentMonthAmountExpense,1,2)}"></a>€</td>
+    </tr>
+    <tr>
+      <td>Amount Available: <a th:text="${#numbers.formatDecimal(currentBudgetLimit,1,2)}"></a>€</td>
+    </tr>
 
 <!--      <td th:number="${currentMonthAmountExpense}"></td>-->
 <!--      <td th:number="${currentBudgetLimit}"></td>-->
     </tbody>
   </table>
 </div>
-<div>
-  <p th:text="${currentUsername}"> Name: </p>
-  <p th:text="${currentUserDepartment}"></p>
-  <p th:text="${currentUserId}"></p>
-<!--  <p th:number="${currentMonthAmountExpense}"></p>-->
+
 
 
 <div class="container my-2">
@@ -68,7 +75,7 @@
     </thead>
     <tbody>
     <tr th:each="expense : ${listExpenses}">
-      <td th:text="${expense.getAmount()}"></td>
+      <td th:text="${expense.getAmount()}">€</td>
       <td th:text="${expense.getCurrentStatus()}"></td>
       <td th:text="${expense.getDateModified()}"></td>
       <td th:text="${expense.getDateOfPurchase()}"></td>

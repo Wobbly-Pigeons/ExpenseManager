@@ -25,6 +25,7 @@ public class ExpenseManagerApplication {
         SpringApplication.run(ExpenseManagerApplication.class, args);
     }
 
+
   @Bean
   public CommandLineRunner loadData(RoleRepository roleRepository,
                                     EmployeeRepository employeeRepository,
@@ -107,16 +108,16 @@ public class ExpenseManagerApplication {
 
 
 //      List.of(expense, expense2, expense3, expense4, expense5, expense6).forEach(expense1 -> employeeService.addExpenseToUser(e1, expense));
-      employeeService.addExpenseToUser(e1, expense);
-      employeeService.addExpenseToUser(e1, expense2);
-        employeeService.addExpenseToUser(e1, expense3);
-        employeeService.addExpenseToUser(e1, expense4);
-        employeeService.addExpenseToUser(e1, expense5);
-        employeeService.addExpenseToUser(e1, expense6);
-      managerRepository.saveAll(List.of(m1, m2, m3));
-      employeeRepository.saveAll(List.of(e1, e2, e3));
-     expenseRepository.saveAll(List.of(expense, expense2, expense3, expense4, expense5, expense6));
-    };
-        }
+            employeeService.addExpenseToUser(e1, expense);
+            employeeService.addExpenseToUser(e1, expense2);
+            employeeService.addExpenseToUser(e1, expense3);
+            employeeService.addExpenseToUser(e1, expense4);
+            employeeService.addExpenseToUser(e1, expense5);
+            employeeService.addExpenseToUser(e1, expense6);
+            managerRepository.saveAll(List.of(m1, m2, m3));
+            employeeRepository.saveAll(List.of(e1, e2, e3));
+            expenseRepository.saveAll(List.of(expense, expense2, expense3, expense4, expense5, expense6));
+        };
+    }
 
 }

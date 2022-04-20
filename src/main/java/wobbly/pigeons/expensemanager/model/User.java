@@ -63,7 +63,7 @@ public abstract class User {
 
     @OneToMany(fetch = EAGER, cascade = CascadeType.MERGE)
     @Column(name = "expenses")
-    private Set<Expense> expenses = new HashSet<>();
+    private Set<Expense> expenses;
 
     @Column(name="Violations")
     private int violations;

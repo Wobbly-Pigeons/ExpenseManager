@@ -74,7 +74,7 @@ public final class ExpenseService {
     if(expenseDTO2.getLocalCurrency() != CurrenciesAllowed.EUR) {
         newExpense.setAmount(converterRestClient.getConversionAmount(newExpense.getLocalCurrency().toString(), "EUR", newExpense.getAmount()));
     }
-    return expenseRepository.save(newExpense);
+    return expenseRepository.saveAndFlush(newExpense);
     }
 
 
@@ -353,4 +353,35 @@ public final class ExpenseService {
     }
 
 
+
+    public Double totalAmountOfExpensesCurrentMonthByListExpenses(List<Expense> listExpenses) {
+
+        LocalDate initial = LocalDate.now();
+        LocalDate start = initial.withDayOfMonth(1);
+        LocalDate end = initial.withDayOfMonth(initial.getMonth().length(initial.isLeapYear()));
+
+        Double amount = 0.;
+
+        for(Expense expense : listExpenses){
+            if (expense.getDateOfSubmission().isBefore(end) &&
+                    expense.getDateOfSubmission().isAfter(start)) {
+                amount += expense.getAmount();
+            }
+        }
+        return  amount;
+    }
+
+    public Double amountAvailableForCurrentMonthByListExpenses(List<Expense> listExpenses, Principal currentUser) {
+
+        User userByPrincipal = findUserByPrincipal(currentUser);
+
+        Long departmentBudget = userByPrincipal.getDepartment().getDepartmentBudget();
+
+        return departmentBudget - totalAmountOfExpensesCurrentMonthByListExpenses(listExpenses);
+    }
+
+    public List<Expense> findExpensesByUser(Principal principal) {
+
+        return expenseRepository.findExpensesByUser(findUserByPrincipal(principal));
+    }
 }
