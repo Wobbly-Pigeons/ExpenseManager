@@ -2,7 +2,7 @@
 
 
 Simple app to manage the expenses of the employees. 
-Companies can easily keep track of the current spendings. Every employee is able to see his current budget, add and update his/her expenses. Managers are allowed to allow or deny the expense submitted by an employee.
+Companies can easily keep track of the current spendings. Every employee is able to see his current budget, add and update his/her expenses. Managers are allowed to approve or deny the expense submitted by an employee.
 
 <img width="1426" alt="Screenshot 2022-04-21 at 10 44 58" src="https://user-images.githubusercontent.com/67691914/164416803-1e51f74a-2503-4be1-88e3-400c3d994b8f.png">
 
