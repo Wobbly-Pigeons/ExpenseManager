@@ -23,9 +23,12 @@ The current live demo you can find under this [link](http://ec2-18-157-178-145.e
 
 ## Features
 
-Few things that you can do with Wobbly's EXMS
+**Few things that you can do with Wobbly's EXMS**
 
 * register and log in as an employee
+<img width="470" alt="Screenshot 2022-04-21 at 15 18 21" src="https://user-images.githubusercontent.com/67691914/164466588-c358aefd-7316-463e-b155-e97ba2f75bdf.png">
+
+
 * add new expense
 <img width="470" alt="Screenshot 2022-04-21 at 15 13 02" src="https://user-images.githubusercontent.com/67691914/164465608-f57e5aa3-22b2-49ca-8158-12596f8e8f29.png">
 
@@ -39,7 +42,11 @@ Few things that you can do with Wobbly's EXMS
 
 
 * see your last expenses on a dashboard
+<img width="550" alt="Screenshot 2022-04-21 at 15 37 01" src="https://user-images.githubusercontent.com/67691914/164470341-26ca947a-b547-419e-82b1-6e2000e4172a.png">
+
 * see your current budget and spending
+<img width="187" alt="Screenshot 2022-04-21 at 15 30 36" src="https://user-images.githubusercontent.com/67691914/164470542-d3ac64a9-9cd1-4d0c-ac2b-f8582e7cb43d.png">
+
 
 with extra authorities
 * manage the approvals from your team
