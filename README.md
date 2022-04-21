@@ -13,6 +13,7 @@ The current live demo you can find under this [link](http://ec2-18-157-178-145.e
 ## Technologies
 
 * Java 11
+* IntelliJ IDEA 2021.3
 * Maven
 * Spring 2.6.6
 * HTML 5
