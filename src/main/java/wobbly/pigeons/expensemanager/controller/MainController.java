@@ -74,7 +74,6 @@ public class MainController {
      */
     @GetMapping(path = "/index")
     public String listExpensesForUser(Model model, Principal principal){
-        String manager = "index";
         return findPaginatedUserIndex(1, "index", "dateModified", "asc", model, principal);
     }
 
@@ -111,12 +110,7 @@ public class MainController {
             page = managerService.findPaginatedExpensesByUser(pageNo, pageSize, sortField, sortDir, (Manager) currentUser);
             listExpenses = page.getContent();
         }
-
-
-
       assert currentUser != null;
-
-
         //User Information Display
       List<Expense> expensesByUser = expenseService.findExpensesByUser(principal);
 
@@ -147,13 +141,6 @@ public class MainController {
         model.addAttribute("listExpenses", listExpenses);
         return "index";
     }
-
-//rename this path because it should not contain verb
-    @GetMapping(value = "/edit_expense")
-    public String editExpenseForm(Model model) {
-        model.addAttribute("ExpenseDTO2", new ExpenseDTO2());
-        return "expense_edit";
-}
 
     @GetMapping(value = "/error")
     public String generalError() {

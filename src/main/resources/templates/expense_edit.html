@@ -12,13 +12,12 @@
 <div th:replace="~{fragments/navvey5::navi}"></div>
 <div align="center">
     <h1>Expense Update Form</h1>
-    <h3/>Please fill out which fields you'd like to update</h3>
-    <form action="#" th:action="@{/expenses/{id}(id=${Expense.getId()})}" th:object="${Expense}" method="put" enctype="multipart/form-data">
-
+    <h3>Please fill out which fields you'd like to update</h3>
+    <form action="#" th:action="@{/expenses/{id}(id=${Expense.getId()})}" th:object="${Expense}" method="post" enctype="multipart/form-data">
         <table>
-            <tr><td>Receipt to upload:</td><td><input type="file" th:field="*{receipt} " /></td></tr>
+            <tr><td>Receipt to upload (Please only upload PNG):</td><td><input type="file" th:field="*{receiptTemp} " /></td></tr>
         </table>
-        </p>
+
         <p>Category: <select th:field="*{category}" />
             <option th:each="e : ${expenseCategoryList}" th:value="${e}" th:text="${e}"/>
             </select></p>

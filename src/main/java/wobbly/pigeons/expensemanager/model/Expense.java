@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -50,6 +51,8 @@ public class Expense {
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     private byte[] receipt;
+    @Transient
+    private MultipartFile receiptTemp;
     private LocalDate dateOfSubmission = LocalDate.now();
     private LocalDateTime dateOfStatusChange;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

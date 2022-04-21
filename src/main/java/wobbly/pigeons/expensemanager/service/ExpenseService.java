@@ -59,16 +59,16 @@ public final class ExpenseService {
     return expenseRepository.saveAndFlush(newExpense);
     }
 
-
-
-
     public Expense getExpenseById (long id){
         return expenseRepository.findById(id).orElseThrow();
     }
 
 
-    public Expense updateExpense(Long id, Expense newExpenseDetails) {
+    public Expense updateExpense(Long id, Expense newExpenseDetails) throws IOException {
         Expense oldExpense = expenseRepository.findById(id).orElseThrow();
+        if(!newExpenseDetails.getReceiptTemp().isEmpty()) {
+            oldExpense.setReceipt(newExpenseDetails.getReceiptTemp().getBytes());
+        }
         oldExpense.setDateOfPurchase(newExpenseDetails.getDateOfPurchase());
         oldExpense.setCategory(newExpenseDetails.getCategory());
         oldExpense.setDateModified(LocalDateTime.now());

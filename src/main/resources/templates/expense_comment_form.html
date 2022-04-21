@@ -12,7 +12,7 @@
 
 <h4>Give your employee a reason for denying or requesting more information about their expense:</h4>
 
-<form action="#" th:action="@{/expenses/{id}/{status}(id=${expenseId},status=${status})}" method="PUT" th:object="${expenseCommentForm}">
+<form action="#" th:action="@{/expenses/{id}/{status}(id=${expenseId},status=${status})}" method="post" th:object="${expenseCommentForm}">
     <div class="form-group">
         <label class="control-label" for="comment"> Comment </label>
         <input id="comment" class="form-control" type="text" th:field="*{comment}"

@@ -13,9 +13,6 @@ import wobbly.pigeons.expensemanager.service.ExpenseService;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -25,7 +22,7 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    @PutMapping(value = "/expenses/{id}/{status}")
+    @PostMapping(value = "/expenses/{id}/{status}")
     public String managerUpdateExpenseStatus(@PathVariable("id") Long id, @PathVariable("status") String status,
                                              @ModelAttribute ExpenseCommentFormDTO comment) {
         expenseService.commentAndReturnExpenseToEmployee(id, status, comment);
@@ -56,10 +53,10 @@ public class ExpenseController {
         }
     }
 
-    @PutMapping("/expenses/{id}")
-    public String updateExpenseById (@PathVariable long id, @RequestBody Expense newExpense){
+    @PostMapping(value = "/expenses/{id}")
+    public String updateExpenseById (@PathVariable long id, @ModelAttribute Expense newExpense) throws IOException {
         expenseService.updateExpense(id, newExpense);
-        return "index";
+        return "redirect:/index";
         }
 
 
@@ -79,44 +76,7 @@ public class ExpenseController {
          expenseService.addExpense(expenseDTO2, principal);
          //expenseService.updateExpenseAmounts(principal, expenseDTO2);
          //  expenseService.analyzeExpense(expenseDTO2,principal);
-
         return "thank_you_for_submitting";
-    }
-
-
-    @DeleteMapping("/{id}")
-    public void deleteExpenseById(@PathVariable long id){
-        expenseService.deleteExpense(id);
-        }
-
-    @GetMapping("/expenses")
-    public List<Expense> getAllExpenses(){
-        return expenseService.getAllExpenses();
-    }
-
-    @GetMapping("/expenses/{id}")
-        public Expense getExpensesById (@PathVariable long id){
-        return expenseService.getExpenseById(id);
-    }
-
-    @GetMapping("/expenses/{purchaseDate}")
-        public List<Expense> getExpensesByPurchaseDate (@PathVariable LocalDate purchaseDate){
-        return expenseService.getExpensesByPurchaseDate(purchaseDate);
-    }
-
-    @GetMapping("/expenses/{submissionDate}")
-        public List<Expense> getExpensesBySubmissionDate (@PathVariable LocalDate submissionDate){
-        return expenseService.getExpensesBySubmissionDate(submissionDate);
-    }
-
-    @GetMapping("/expenses/{employeeId}")
-        public Collection<Expense> getExpensesByEmployeeId (@PathVariable long employeeId){
-        return expenseService.getExpensesByEmployeeId(employeeId);
-    }
-
-    @GetMapping("/expenses/{category}")
-    public Collection<Expense> getExpensesByCategory (@PathVariable String category){
-        return expenseService.getExpensesByCategory(category);
     }
 
         }

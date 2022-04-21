@@ -17,7 +17,7 @@
 <div th:replace="~{fragments/navvey5::navi}"></div>
 <div align="center">
     <h1>Expense Submission Form</h1>
-    <h3/>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
+    <h3>Please fill out ALL of the fields to submit your claim. Thank you!</h3>
     <form action="#" th:action="@{/expenses/new_expense}" th:object="${ExpenseDTO2}" method="post" enctype="multipart/form-data">
         <table>
             <tr><td>Receipt to upload (Please only upload PNG):</td><td><input type="file" th:field="*{receipt} " /></td></tr>
